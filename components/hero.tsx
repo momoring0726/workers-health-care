@@ -21,7 +21,7 @@ export function Hero() {
                 asChild
                 className="bg-blue-600 hover:bg-blue-700 text-white"
               >
-                <a href="/programs">View Programs</a>
+                <a href="/programs">View Plans</a>
               </Button>
             </div>
             <div className="mt-3 sm:mt-0 sm:ml-3">

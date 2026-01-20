@@ -27,6 +27,12 @@ export function Navbar() {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-8">
+            <Link
+              href="/"
+              className="text-lg font-semibold text-gray-700 hover:text-blue-600 transition-colors"
+            >
+              Home
+            </Link>
             <a
               href="/#about"
               className="text-lg font-semibold text-gray-700 hover:text-blue-600 transition-colors"
@@ -37,8 +43,9 @@ export function Navbar() {
               href="/programs"
               className="text-lg font-semibold text-gray-700 hover:text-blue-600 transition-colors"
             >
-              Programs
+              Plans
             </Link>
+
             <Link
               href="/hospitals"
               className="text-lg font-semibold text-gray-700 hover:text-blue-600 transition-colors"
@@ -67,6 +74,13 @@ export function Navbar() {
         {isOpen && (
           <div className="md:hidden border-t border-gray-200 bg-white">
             <div className="flex flex-col gap-4 px-4 py-4">
+              <Link
+                href="/"
+                onClick={() => setIsOpen(false)}
+                className="text-lg font-semibold text-gray-700 hover:text-blue-600 transition-colors py-2"
+              >
+                Home
+              </Link>
               <a
                 href="/#about"
                 onClick={() => setIsOpen(false)}
