@@ -71,7 +71,7 @@ export function ProgramsSection() {
               asChild
               className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-6 text-lg font-semibold"
             >
-              <a href="/programs">View All Programs →</a>
+              <a href="/programs">View All Plans →</a>
             </Button>
           </div>
         </div>

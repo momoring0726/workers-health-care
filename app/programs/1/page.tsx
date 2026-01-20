@@ -120,8 +120,37 @@ export default function Plan300Details() {
 
       {/* Content */}
       <div className="container mx-auto px-4 py-12">
+        {/* Quick-jump bar */}
+        <div className="mb-6">
+          <nav className="flex gap-3 overflow-x-auto py-2">
+            <a
+              href="#pricing"
+              className="whitespace-nowrap rounded-full bg-blue-50 px-3 py-1 text-sm font-semibold text-blue-700"
+            >
+              Pricing
+            </a>
+            <a
+              href="#benefits"
+              className="whitespace-nowrap rounded-full bg-blue-50 px-3 py-1 text-sm font-semibold text-blue-700"
+            >
+              Benefits
+            </a>
+            <a
+              href="#eligibility"
+              className="whitespace-nowrap rounded-full bg-blue-50 px-3 py-1 text-sm font-semibold text-blue-700"
+            >
+              Eligibility
+            </a>
+            <a
+              href="#hospitals"
+              className="whitespace-nowrap rounded-full bg-blue-50 px-3 py-1 text-sm font-semibold text-blue-700"
+            >
+              Hospitals
+            </a>
+          </nav>
+        </div>
         {/* Pricing Section */}
-        <section className="mb-12 grid gap-8 md:grid-cols-2">
+        <section id="pricing" className="mb-12 grid gap-8 md:grid-cols-2">
           <div className="rounded-lg bg-white p-8 shadow-md">
             <h2 className="mb-6 text-2xl font-bold text-gray-900">
               Membership Rates
@@ -208,27 +237,31 @@ export default function Plan300Details() {
         </section>
 
         {/* Benefits Section */}
-        <section className="mb-12">
-          <h2 className="mb-8 text-3xl font-bold text-gray-900">
-            Detailed Benefits
-          </h2>
-          <div className="grid gap-6 md:grid-cols-2">
-            {benefits.map((benefit, index) => (
-              <div
-                key={index}
-                className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm"
-              >
-                <h3 className="mb-2 text-lg font-semibold text-gray-900">
-                  {benefit.title}
-                </h3>
-                <p className="text-gray-600">{benefit.description}</p>
+        <section id="benefits" className="mb-12">
+          <details className="group rounded-lg border border-gray-200 bg-white p-0 shadow-sm overflow-hidden">
+            <summary className="px-6 py-4 cursor-pointer text-3xl font-bold text-gray-900">
+              Detailed Benefits
+            </summary>
+            <div className="px-6 pb-6 pt-0">
+              <div className="grid gap-6 md:grid-cols-2">
+                {benefits.map((benefit, index) => (
+                  <div
+                    key={index}
+                    className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm"
+                  >
+                    <h3 className="mb-2 text-lg font-semibold text-gray-900">
+                      {benefit.title}
+                    </h3>
+                    <p className="text-gray-600">{benefit.description}</p>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
+            </div>
+          </details>
         </section>
 
         {/* Eligibility Schedule */}
-        <section className="mb-12">
+        <section id="eligibility" className="mb-12">
           <h2 className="mb-8 text-3xl font-bold text-gray-900">
             Eligibility Schedule & Benefit Build-up
           </h2>
@@ -266,89 +299,19 @@ export default function Plan300Details() {
           </p>
         </section>
 
-        {/* Accredited Hospitals Section */}
-        <section className="mb-12">
-          <h2 className="mb-8 text-3xl font-bold text-gray-900">
-            Accredited Hospitals & Clinics
-          </h2>
-          <div className="grid gap-8 md:grid-cols-2">
-            {/* South Cotabato & Sultan Kudarat */}
-            <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
-              <h3 className="mb-4 text-xl font-bold">
-                South Cotabato & Sultan Kudarat
-              </h3>
-              <ul className="space-y-2 text-sm text-gray-700">
-                <li>• Allah Valley Medical Specialists Center, Inc.</li>
-                <li>• Dr. Arturo P. Pingoy Medical Center</li>
-                <li>• SOCOMEDICS Medical Center</li>
-                <li>• Tapakan General Hospital</li>
-                <li>• Heramil Hospital</li>
-                <li>• St. Louise Hospital</li>
-                <li>• Tomboc-Salayog Hospital</li>
-                <li>• Moorehouse Mission Hospital</li>
-                <li>• Lariosa Clinic and Hospital</li>
-                <li>• Landero Clinic and Hospital</li>
-                <li>• Surallah Community Hospital</li>
-                <li>• Surallah Diagnostic Center</li>
-                <li>• Koronadal Diagnostic Center</li>
-                <li>• St. John Paul Diagnostic and Laboratory</li>
-                <li>
-                  • Exalt Emmanuel Medical Clinic, Pharmacy and Laboratory
-                </li>
-                <li>• Health Hub Laboratory and Medical Center</li>
-                <li>• Quality Health Diagnostic Laboratory</li>
-                <li>• Smile and Shine Dental Clinic</li>
-                <li className="font-semibold mt-4">
-                  Physicians & Specialists:
-                </li>
-                <li>• Dr. Vivian C. Suarez, DDM</li>
-                <li>• Dr. Virgilio H. Adalin, DDM</li>
-                <li>• Dr. Leo Bumatay, DDM</li>
-                <li>• Dr. Zenaida Sandig, MD</li>
-                <li>• Dr. Elna E. Martinez, MD</li>
-                <li>• Dr. Nesie Hope Alim-Romero, MD</li>
-                <li>• Dr. Gaudioso I. Amoroso II, MD</li>
-                <li>• Dr. Allan D. Dideles, MD</li>
-                <li>• Dr. Jesson G. Bendita, MD</li>
-                <li>• Dr. Kay Kashmyra T. Chio-Buenaflor, M.D</li>
-                <li>• Dr. John Reuel F. Magan, MD</li>
-              </ul>
-            </div>
-
-            {/* General Santos City */}
-            <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
-              <h3 className="mb-4 text-xl font-bold">General Santos City</h3>
-              <ul className="space-y-2 text-sm text-gray-700">
-                <li>• General Santos City Doctors' Hospital</li>
-                <li>• St. Elizabeth Hospital</li>
-                <li>• SOCSARGEN County Hospital</li>
-                <li>• Mindanao Medical Center</li>
-                <li>• GSC Medical Specialists Center Corporation</li>
-                <li>• Sarangani Bay Specialists Medical Center</li>
-                <li>• Dr. Jorge P. Royeca City Hospital</li>
-                <li>• R.O. Diagan Cooperative</li>
-                <li>• Auguis Clinic</li>
-                <li>• Human Index Diagnostics and Wellness Solutions</li>
-                <li>• Medzone Diagnostic Center</li>
-                <li>• Smile and Shine Dental Clinic</li>
-                <li className="font-semibold mt-4">
-                  Physicians & Specialists:
-                </li>
-                <li>• Dr. Fidel P. Peñamante, MD</li>
-                <li>• Dr. Darwisa N. Guiomala, MD</li>
-                <li>• Dr. Amor Rosete, MD</li>
-                <li>• Dr. Analyza M. Galia, MD</li>
-                <li>• Dr. Emmanuel Leyva, MD</li>
-                <li>• Dr. Ruth Peňaflorida, MD</li>
-                <li>• Dr. Rocky Flores Undangan, MD</li>
-                <li>• Dr. Norman D. Babar, MD</li>
-                <li>• Dr. Krystle Marie Niñora, MD</li>
-                <li>• Dr. Mayella Mae L. Japsay, MD</li>
-                <li>• Dr. Lovebella B. Culanag, DDM</li>
-                <li>• Dr. Charles Brent M. Buendicho, DDM</li>
-                <li>• Dr. Lady Joane O. Nacional, DDM</li>
-              </ul>
-            </div>
+        {/* Accredited Hospitals Section (replaced with CTA) */}
+        <section id="hospitals" className="mb-12">
+          <div className="rounded-lg bg-white p-8 shadow-md text-center">
+            <h2 className="mb-2 text-3xl font-bold text-gray-900">
+              Accredited Hospitals & Clinics
+            </h2>
+            <p className="mb-6 text-gray-600">
+              We maintain a full directory of accredited hospitals, clinics, and
+              doctors. View the complete list to find providers in your area.
+            </p>
+            <Button asChild className="bg-blue-600 hover:bg-blue-700">
+              <a href="/hospitals">View all our accredited hospitals/clinics</a>
+            </Button>
           </div>
         </section>
 
