@@ -9,57 +9,58 @@ export default function Plan7000Details() {
     {
       title: "Annual Maximum Benefit (AMB)",
       description:
-        "Seventy Thousand Pesos (₱70,000.00) - accumulated cost of availment for one year",
+        "Total or accumulated cost of availment by a member for a period of one (1) year in the amount of SEVENTY THOUSAND PESOS (₱70,000.00), to include the cost for the basic hospital benefits such as Room and Board, Professional Fee, Drugs and Medicines, Other Hospital Services; Preventive Healthcare Benefits; and Other Benefits and Assistance.",
     },
     {
       title: "Room & Board",
       description:
-        "Maximum of ₱1,000.00 per day of confinement in a Private Room, includes Emergency Room Fee",
+        "Maximum of ₱1,000.00 per day of confinement in a Private Room on top of PhilHealth coverage up to AMB limit. The coverage includes Emergency Room Fee while awaiting for room confinement.",
     },
     {
       title: "Professional Fee",
       description:
-        "Maximum of ₱1,000.00 per day of confinement on top of PhilHealth",
+        "Maximum of ₱1,000.00 per day of confinement on top of PhilHealth coverage up to AMB limit.",
     },
     {
-      title: "Drugs and Medicines",
+      title: "Drugs & Medicines",
       description:
-        "Maximum coverage of ₱12,000.00 for every single period of confinement",
+        "Maximum coverage of ₱12,000.00 for every single period of confinement up to AMB limit.",
     },
     {
       title: "Other Hospital Services",
       description:
-        "Maximum coverage of ₱8,000.00 for every single period of confinement including in-patient laboratory procedures and medically necessary services",
+        "Maximum coverage of ₱8,000.00 for every single period of confinement up to AMB limit. The services include in-patient laboratory procedures, tests, and examinations; and such other hospital charges and fees which are medically necessary.",
     },
     {
-      title: "Out-Patient Consultation",
+      title: "Out-Patient Consultation and/or Referral to Medical Specialist",
       description:
-        "Unlimited out-of-hospital consultation services including medical check-up, laboratory, minor surgery, vaccination, and referral to accredited medical specialists",
+        "Unlimited out-of-hospital consultation services to members which includes medical check-up, laboratory, minor surgery, treatment of minor illness or injury, vaccination but excluding the prescribed vaccines, referral to accredited medical specialists, health education or counseling on diet, exercise, and family planning.",
     },
     {
-      title: "Annual Physical Examination",
+      title: "Annual Physical Examination / Laboratory",
       description:
-        "Blood chemistry (Fasting Blood Sugar, Creatinine, SGPT, Uric Acid), Electrocardiogram, Chest X-Ray, and complete medical history - EXCLUSIVE on top of AMB",
+        "Blood chemistry for Fasting Blood Sugar, Creatinine, SGPT, and Uric Acid; Electrocardiogram (ECG), Chest X-Ray, and taking of complete medical history. These clinical procedures are exclusive, or on top, of the AMB of a member.",
     },
     {
       title: "Maternity Services",
       description:
-        "₱10,000.00 for Caesarean Section delivery; ₱5,000.00 for miscarriage; five (5) pre-natal and one (1) post-natal examination",
+        "Financial assistance of ₱10,000.00 for Caesarean Section delivery; ₱5,000.00 for miscarriage case; five (5) pre-natal examinations, and one (1) post-natal examination for any type of delivery.",
     },
     {
-      title: "Out-Patient Dental Care",
+      title: "Out-Patient Dental Care Services",
       description:
-        "Four (4) dental extractions per year, one (1) annual prophylaxis, two (2) temporary fillings, and treatment of oral pain",
+        "Includes four (4) dental extractions per year, one (1) simple annual prophylaxis, two (2) temporary fillings, and treatment of oral pain, lesion and burn.",
     },
     {
-      title: "Emergency Care Services",
+      title:
+        "Emergency Care Services in Non-Accredited Hospitals and/or Physicians",
       description:
-        "80% reimbursement of hospital bills in non-accredited hospitals, subject to AMB limit",
+        "Reimbursement or immediate cash settlement to health facility of eighty percent (80%) of the total hospital bills, to include room and board, professional fee, drugs and medicines, and other hospital services, subject to AMB limit and Program Description.",
     },
     {
       title: "Mortuary Assistance",
       description:
-        "Death benefit of ₱5,000.00 for natural cause or ₱10,000.00 for accident - EXCLUSIVE on top of AMB",
+        "Death benefit of ₱5,000.00 in case death is due to natural cause or ₱10,000.00 if death is due to accident. This benefit is exclusive, or on top, of the AMB of a member.",
     },
   ];
 
@@ -71,22 +72,52 @@ export default function Plan7000Details() {
           <Link href="/programs">
             <Button
               variant="ghost"
-              className="mb-4 text-white hover:bg-green-700"
+              className="mb-4 text-white hover:bg-blue-700"
             >
               ← Back to Programs
             </Button>
           </Link>
           <h1 className="text-4xl font-bold mb-2">Plan 7000</h1>
-          <p className="text-xl text-green-100">
-            Comprehensive coverage for extended benefits and family protection
+          <p className="text-xl text-blue-100">
+            Comprehensive coverage for broader protection
           </p>
         </div>
       </div>
 
       {/* Content */}
       <div className="container mx-auto px-4 py-12">
+        {/* Quick-jump bar */}
+        <div className="mb-6">
+          <nav className="flex gap-3 overflow-x-auto py-2">
+            <a
+              href="#pricing"
+              className="whitespace-nowrap rounded-full bg-blue-50 px-3 py-1 text-sm font-semibold text-blue-700"
+            >
+              Pricing
+            </a>
+            <a
+              href="#benefits"
+              className="whitespace-nowrap rounded-full bg-blue-50 px-3 py-1 text-sm font-semibold text-blue-700"
+            >
+              Benefits
+            </a>
+            <a
+              href="#eligibility"
+              className="whitespace-nowrap rounded-full bg-blue-50 px-3 py-1 text-sm font-semibold text-blue-700"
+            >
+              Eligibility
+            </a>
+            <a
+              href="#hospitals"
+              className="whitespace-nowrap rounded-full bg-blue-50 px-3 py-1 text-sm font-semibold text-blue-700"
+            >
+              Hospitals
+            </a>
+          </nav>
+        </div>
+
         {/* Pricing Section */}
-        <section className="mb-12 grid gap-8 md:grid-cols-2">
+        <section id="pricing" className="mb-12 grid gap-8 md:grid-cols-2">
           <div className="rounded-lg bg-white p-8 shadow-md">
             <h2 className="mb-6 text-2xl font-bold text-gray-900">
               Annual Rate
@@ -146,23 +177,27 @@ export default function Plan7000Details() {
         </section>
 
         {/* Benefits Section */}
-        <section className="mb-12">
-          <h2 className="mb-8 text-3xl font-bold text-gray-900">
-            Comprehensive Benefits
-          </h2>
-          <div className="grid gap-6 md:grid-cols-2">
-            {benefits.map((benefit, index) => (
-              <div
-                key={index}
-                className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm hover:shadow-md transition-shadow"
-              >
-                <h3 className="mb-2 text-lg font-semibold text-gray-900">
-                  {benefit.title}
-                </h3>
-                <p className="text-gray-600">{benefit.description}</p>
+        <section id="benefits" className="mb-12">
+          <details className="group rounded-lg border border-gray-200 bg-white p-0 shadow-sm overflow-hidden">
+            <summary className="px-6 py-4 cursor-pointer text-3xl font-bold text-gray-900">
+              Comprehensive Benefits
+            </summary>
+            <div className="px-6 pb-6 pt-0">
+              <div className="grid gap-6 md:grid-cols-2">
+                {benefits.map((benefit, index) => (
+                  <div
+                    key={index}
+                    className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm"
+                  >
+                    <h3 className="mb-2 text-lg font-semibold text-gray-900">
+                      {benefit.title}
+                    </h3>
+                    <p className="text-gray-600">{benefit.description}</p>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
+            </div>
+          </details>
         </section>
 
         {/* Comparison Highlight */}
@@ -197,7 +232,7 @@ export default function Plan7000Details() {
         </section>
 
         {/* Network Section */}
-        <section className="mb-12">
+        <section id="network" className="mb-12">
           <h2 className="mb-8 text-3xl font-bold text-gray-900">
             Accredited Healthcare Network
           </h2>
@@ -227,91 +262,19 @@ export default function Plan7000Details() {
           </div>
         </section>
 
-        {/* Accredited Hospitals Section */}
-        <section className="mb-12">
-          <h2 className="mb-8 text-3xl font-bold text-gray-900">
-            Accredited Hospitals & Clinics
-          </h2>
-          <div className="grid gap-8 md:grid-cols-2">
-            {/* General Santos City */}
-            <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
-              <h3 className="mb-4 text-xl font-bold text-black-600">
-                General Santos City
-              </h3>
-              <ul className="space-y-2 text-sm text-gray-700">
-                <li>• General Santos City Doctors' Hospital</li>
-                <li>• St. Elizabeth Hospital</li>
-                <li>• SOCSARGEN County Hospital</li>
-                <li>• Mindanao Medical Center</li>
-                <li>• GSC Medical Specialists Center Corporation</li>
-                <li>• Sarangani Bay Specialists Medical Center</li>
-                <li>• Dr. Jorge P. Royeca City Hospital</li>
-                <li>• R.O. Diagan Cooperative</li>
-                <li>• Auguis Clinic</li>
-                <li>• Human Index Diagnostics and Wellness Solutions</li>
-                <li>• Medzone Diagnostic Center</li>
-                <li>• Smile and Shine Dental Clinic</li>
-                <li className="font-semibold mt-4">
-                  Physicians & Specialists:
-                </li>
-                <li>• Dr. Fidel P. Peñamante, MD</li>
-                <li>• Dr. Darwisa N. Guiomala, MD</li>
-                <li>• Dr. Amor Rosete, MD</li>
-                <li>• Dr. Analyza M. Galia, MD</li>
-                <li>• Dr. Emmanuel Leyva, MD</li>
-                <li>• Dr. Ruth Peňaflorida, MD</li>
-                <li>• Dr. Rocky Flores Undangan, MD</li>
-                <li>• Dr. Norman D. Babar, MD</li>
-                <li>• Dr. Krystle Marie Niñora, MD</li>
-                <li>• Dr. Mayella Mae L. Japsay, MD</li>
-                <li>• Dr. Lovebella B. Culanag, DDM</li>
-                <li>• Dr. Charles Brent M. Buendicho, DDM</li>
-                <li>• Dr. Lady Joane O. Nacional, DDM</li>
-              </ul>
-            </div>
-
-            {/* South Cotabato & Sultan Kudarat */}
-            <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
-              <h3 className="mb-4 text-xl font-bold text-black-600">
-                South Cotabato & Sultan Kudarat
-              </h3>
-              <ul className="space-y-2 text-sm text-gray-700">
-                <li>• Allah Valley Medical Specialists Center, Inc.</li>
-                <li>• Dr. Arturo P. Pingoy Medical Center</li>
-                <li>• SOCOMEDICS Medical Center</li>
-                <li>• Tapakan General Hospital</li>
-                <li>• Heramil Hospital</li>
-                <li>• St. Louise Hospital</li>
-                <li>• Tomboc-Salayog Hospital</li>
-                <li>• Moorehouse Mission Hospital</li>
-                <li>• Lariosa Clinic and Hospital</li>
-                <li>• Landero Clinic and Hospital</li>
-                <li>• Surallah Community Hospital</li>
-                <li>• Surallah Diagnostic Center</li>
-                <li>• Koronadal Diagnostic Center</li>
-                <li>• St. John Paul Diagnostic and Laboratory</li>
-                <li>
-                  • Exalt Emmanuel Medical Clinic, Pharmacy and Laboratory
-                </li>
-                <li>• Health Hub Laboratory and Medical Center</li>
-                <li>• Quality Health Diagnostic Laboratory</li>
-                <li>• Smile and Shine Dental Clinic</li>
-                <li className="font-semibold mt-4">
-                  Physicians & Specialists:
-                </li>
-                <li>• Dr. Vivian C. Suarez, DDM</li>
-                <li>• Dr. Virgilio H. Adalin, DDM</li>
-                <li>• Dr. Leo Bumatay, DDM</li>
-                <li>• Dr. Zenaida Sandig, MD</li>
-                <li>• Dr. Elna E. Martinez, MD</li>
-                <li>• Dr. Nesie Hope Alim-Romero, MD</li>
-                <li>• Dr. Gaudioso I. Amoroso II, MD</li>
-                <li>• Dr. Allan D. Dideles, MD</li>
-                <li>• Dr. Jesson G. Bendita, MD</li>
-                <li>• Dr. Kay Kashmyra T. Chio-Buenaflor, M.D</li>
-                <li>• Dr. John Reuel F. Magan, MD</li>
-              </ul>
-            </div>
+        {/* Accredited Hospitals Section (CTA) */}
+        <section id="hospitals" className="mb-12">
+          <div className="rounded-lg bg-white p-8 shadow-md text-center">
+            <h2 className="mb-2 text-3xl font-bold text-gray-900">
+              Accredited Hospitals & Clinics
+            </h2>
+            <p className="mb-6 text-gray-600">
+              We maintain a full directory of accredited hospitals, clinics, and
+              doctors. View the complete list to find providers in your area.
+            </p>
+            <Button asChild className="bg-blue-600 hover:bg-blue-700">
+              <a href="/hospitals">View all our accredited hospitals/clinics</a>
+            </Button>
           </div>
         </section>
 

@@ -12,11 +12,17 @@ export function Navbar() {
     <nav className="sticky top-0 z-50 bg-white shadow-md border-b border-gray-200">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between py-6">
-          <Link
-            href="/"
-            className="text-2xl md:text-3xl font-bold text-gray-900 hover:text-blue-600 transition-colors"
-          >
-            Workers Health Care
+          <Link href="/" className="hover:text-blue-600 transition-colors">
+            <div className="flex items-center">
+              <img
+                src="/WHC%20LOGO.png"
+                alt="WHC Logo"
+                className="h-8 md:h-10 w-auto mr-3"
+              />
+              <span className="text-2xl md:text-3xl font-bold text-gray-900">
+                Workers Health Care
+              </span>
+            </div>
           </Link>
 
           {/* Desktop Navigation */}
@@ -32,6 +38,12 @@ export function Navbar() {
               className="text-lg font-semibold text-gray-700 hover:text-blue-600 transition-colors"
             >
               Programs
+            </Link>
+            <Link
+              href="/hospitals"
+              className="text-lg font-semibold text-gray-700 hover:text-blue-600 transition-colors"
+            >
+              Hospitals/Clinics
             </Link>
             <Button
               asChild
@@ -68,6 +80,13 @@ export function Navbar() {
                 className="text-lg font-semibold text-gray-700 hover:text-blue-600 transition-colors py-2"
               >
                 Programs
+              </Link>
+              <Link
+                href="/hospitals"
+                onClick={() => setIsOpen(false)}
+                className="text-lg font-semibold text-gray-700 hover:text-blue-600 transition-colors py-2"
+              >
+                Hospitals
               </Link>
               <Button
                 asChild

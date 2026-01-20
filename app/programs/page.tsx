@@ -124,6 +124,22 @@ export default function ProgramsPage() {
           ))}
         </div>
       </div>
+
+      {/* Hospitals Directory CTA */}
+      <div className="container mx-auto px-4 pb-16">
+        <div className="rounded-lg bg-white p-8 shadow-md flex flex-col items-center text-center">
+          <h2 className="mb-2 text-2xl font-bold text-gray-900">
+            Looking for accredited hospitals or clinics?
+          </h2>
+          <p className="mb-6 text-gray-600">
+            View the full directory of our accredited hospitals, clinics, and
+            doctors for your area.
+          </p>
+          <Button asChild className="bg-blue-600 text-white hover:bg-blue-700">
+            <a href="/hospitals">View all our accredited hospitals/clinics</a>
+          </Button>
+        </div>
+      </div>
     </main>
   );
 }
