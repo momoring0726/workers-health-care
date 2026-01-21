@@ -103,11 +103,14 @@ export default function ProgramsPage() {
                 <h3 className="mb-4 font-semibold text-gray-900">
                   What's Included:
                 </h3>
-                <ul className="space-y-2">
+                <ul className="space-y-2 pl-0 list-none">
                   {program.features.map((feature, index) => (
-                    <li key={index} className="flex items-start text-gray-700">
-                      <span className="mr-3 mt-1 inline-block h-2 w-2 rounded-full bg-blue-600"></span>
-                      {feature}
+                    <li
+                      key={index}
+                      className="flex items-start gap-3 text-gray-700 leading-6"
+                    >
+                      <span className="flex-shrink-0 mt-2 h-2 w-2 rounded-full bg-blue-600"></span>
+                      <span className="flex-1">{feature}</span>
                     </li>
                   ))}
                 </ul>
