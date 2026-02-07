@@ -111,7 +111,7 @@ export function NewsFeed() {
         {/* View All Button */}
         <div className="text-center mt-12">
           <a
-            href="/about"
+            href="/news"
             className="inline-flex items-center gap-2 px-8 py-3 bg-blue-600 text-white font-semibold rounded-full hover:bg-blue-700 transition-all duration-300 hover:shadow-lg hover:scale-105"
           >
             <span>View All News</span>
