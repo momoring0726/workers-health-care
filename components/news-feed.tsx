@@ -10,7 +10,7 @@ export function NewsFeed() {
       date: "Feb 1, 2026",
       excerpt:
         "A new program to improve workplace health awareness launches this spring. Learn how employers can enroll.",
-      href: "/programs/1",
+      href: "/news/1",
       category: "Program Launch",
       featured: true,
     },
@@ -20,7 +20,7 @@ export function NewsFeed() {
       date: "Jan 20, 2026",
       excerpt:
         "Mobile clinics will visit partnering hospitals to offer free screenings to eligible workers.",
-      href: "/hospitals",
+      href: "/news/2",
       category: "Healthcare",
       featured: false,
     },
@@ -30,7 +30,7 @@ export function NewsFeed() {
       date: "Dec 15, 2025",
       excerpt:
         "We're expanding telehealth coverage so workers can access care from home or on-site.",
-      href: "/programs/2",
+      href: "/news/3",
       category: "Technology",
       featured: false,
     },

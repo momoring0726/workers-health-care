@@ -16,7 +16,7 @@ export default function NewsPage() {
         "A new program to improve workplace health awareness launches this spring. Learn how employers can enroll.",
       content:
         "This groundbreaking initiative aims to revolutionize workplace health by providing comprehensive resources and support to both employers and workers. The program includes training, wellness workshops, and direct access to healthcare professionals.",
-      href: "/programs/1",
+      href: "/news/1",
       category: "Program Launch",
       featured: true,
       image: "🏥",
@@ -29,7 +29,7 @@ export default function NewsPage() {
         "Mobile clinics will visit partnering hospitals to offer free screenings to eligible workers.",
       content:
         "Starting next month, our mobile health clinics will visit major workplaces and partner hospitals across the region. These free clinics offer comprehensive health screenings including blood pressure checks, cholesterol testing, and general wellness assessments.",
-      href: "/hospitals",
+      href: "/news/2",
       category: "Healthcare",
       featured: false,
       image: "🩺",
@@ -42,7 +42,7 @@ export default function NewsPage() {
         "We're expanding telehealth coverage so workers can access care from home or on-site.",
       content:
         "Workers can now access telehealth services 24/7 through our expanded platform. This includes virtual consultations with licensed physicians, mental health support, and prescription management services.",
-      href: "/programs/2",
+      href: "/news/3",
       category: "Technology",
       featured: false,
       image: "📱",
@@ -55,7 +55,7 @@ export default function NewsPage() {
         "Additional mental health resources and counseling services now available to all participants.",
       content:
         "In response to growing demand, we've expanded our mental health support services to include 24/7 crisis support, peer support groups, and specialized counseling for workplace stress and burnout.",
-      href: "/programs/1",
+      href: "/news/4",
       category: "Mental Health",
       featured: true,
       image: "🧠",
@@ -68,7 +68,7 @@ export default function NewsPage() {
         "We're partnering with leading hospitals to provide comprehensive care networks for workers.",
       content:
         "This partnership strengthens our commitment to providing quality healthcare. Workers gain access to specialty care, emergency services, and coordinated treatment at partner facilities.",
-      href: "/hospitals",
+      href: "/news/5",
       category: "Partnerships",
       featured: false,
       image: "🤝",
@@ -81,7 +81,7 @@ export default function NewsPage() {
         "Learn about our ambitious goals for the first quarter and how we plan to achieve them.",
       content:
         "Our Q1 objectives focus on increasing participation rates, improving health outcomes, and expanding our geographic reach. We're committed to reaching 50,000 new workers by the end of the quarter.",
-      href: "/programs",
+      href: "/news/6",
       category: "Updates",
       featured: false,
       image: "🎯",
