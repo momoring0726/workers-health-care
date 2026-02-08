@@ -238,7 +238,6 @@ export const newsItems = [
     href: "/news/1",
     category: "Program Launch",
     featured: true,
-    image: "🏥",
   },
   {
     id: 2,
@@ -254,7 +253,6 @@ export const newsItems = [
     href: "/news/2",
     category: "Healthcare",
     featured: false,
-    image: "🩺",
   },
   {
     id: 3,
@@ -270,7 +268,6 @@ export const newsItems = [
     href: "/news/3",
     category: "Technology",
     featured: false,
-    image: "📱",
   },
   {
     id: 4,
@@ -286,7 +283,6 @@ export const newsItems = [
     href: "/news/4",
     category: "Mental Health",
     featured: true,
-    image: "🧠",
   },
   {
     id: 5,
@@ -302,7 +298,6 @@ export const newsItems = [
     href: "/news/5",
     category: "Partnerships",
     featured: false,
-    image: "🤝",
   },
   {
     id: 6,
@@ -318,7 +313,6 @@ export const newsItems = [
     href: "/news/6",
     category: "Updates",
     featured: false,
-    image: "🎯",
   },
 ];
 

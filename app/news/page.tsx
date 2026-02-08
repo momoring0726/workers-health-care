@@ -21,9 +21,9 @@ export default function NewsPage() {
   const regularNews = filteredNews.filter((item) => !item.featured);
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+    <main className="min-h-screen bg-linear-to-b from-gray-50 to-white">
       {/* Hero Section */}
-      <section className="py-16 bg-gradient-to-r from-blue-600 to-blue-800 text-white">
+      <section className="py-16 bg-linear-to-r from-blue-600 to-blue-800 text-white">
         <div className="container mx-auto px-4 max-w-7xl">
           <div className="text-center">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-500/30 rounded-full text-sm font-medium mb-4">
@@ -99,12 +99,11 @@ export default function NewsPage() {
                   className="group relative overflow-hidden rounded-2xl bg-white border-2 border-blue-200 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2"
                 >
                   {/* Gradient Overlay */}
-                  <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500"></div>
+                  <div className="absolute top-0 left-0 right-0 h-2 bg-linear-to-r from-blue-500 via-purple-500 to-pink-500"></div>
 
                   <div className="p-8 flex flex-col h-full">
                     {/* Icon and Category */}
                     <div className="flex items-center justify-between mb-4">
-                      <span className="text-3xl">{item.image}</span>
                       <span className="inline-block px-3 py-1 bg-blue-100 text-blue-700 text-xs font-semibold rounded-lg">
                         {item.category}
                       </span>
@@ -122,7 +121,7 @@ export default function NewsPage() {
                     </h3>
 
                     {/* Content */}
-                    <p className="text-gray-600 leading-relaxed mb-6 flex-grow">
+                    <p className="text-gray-600 leading-relaxed mb-6 grow">
                       {Array.isArray(item.content)
                         ? item.content[0]
                         : item.content}
@@ -158,12 +157,11 @@ export default function NewsPage() {
                   className="group relative overflow-hidden rounded-2xl bg-white border-2 border-gray-100 transition-all duration-300 hover:border-blue-500 hover:shadow-2xl hover:-translate-y-2 flex flex-col"
                 >
                   {/* Gradient Overlay Top */}
-                  <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="absolute top-0 left-0 right-0 h-2 bg-linear-to-r from-blue-500 via-purple-500 to-pink-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
-                  <div className="p-6 flex-grow">
+                  <div className="p-6 grow">
                     {/* Icon and Category */}
                     <div className="flex items-center justify-between mb-4">
-                      <span className="text-2xl">{item.image}</span>
                       <span className="inline-block px-3 py-1 bg-blue-50 text-blue-700 text-xs font-semibold rounded-lg">
                         {item.category}
                       </span>
