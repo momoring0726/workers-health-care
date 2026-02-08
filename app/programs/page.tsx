@@ -2,58 +2,9 @@
 
 import React from "react";
 import { Button } from "@/components/ui/button";
+import { programs } from "@/lib/content";
 
 export default function ProgramsPage() {
-  const programs = [
-    {
-      id: 1,
-      title: "Plan 300",
-      description:
-        "Basic coverage plan designed for essential health protection with affordable premiums.",
-      features: [
-        "Annual Maximum Benefit (AMB): ₱60,000.00",
-        "Room & Board: ₱600/day",
-        "Professional Fee: ₱600/day",
-        "Drugs and Medicines: ₱6,000/confinement",
-        "Out-Patient Consultation & Specialist Referral",
-        "Annual Physical Examination",
-        "Maternity Services",
-        "Out-Patient Dental Care",
-        "Emergency Care Services",
-        "Mortuary Assistance",
-      ],
-      pricing: {
-        principal: "₱300/month",
-        spouse: "₱290/month",
-        child: "₱240/month",
-        parent: "₱350/month",
-        sibling: "₱290/month",
-      },
-    },
-    {
-      id: 2,
-      title: "Plan 7000",
-      description:
-        "Comprehensive coverage plan offering extended benefits and enhanced protection for you and your family.",
-      features: [
-        "Annual Maximum Benefit (AMB): ₱70,000.00",
-        "Room & Board: ₱1,000/day (Private Room)",
-        "Professional Fee: ₱1,000/day",
-        "Drugs and Medicines: ₱12,000/confinement",
-        "Other Hospital Services: ₱8,000/confinement",
-        "Unlimited Out-Patient Consultation & Specialist Referral",
-        "Compulsory Annual Physical Examination",
-        "Maternity Services",
-        "Out-Patient Dental Care",
-        "Emergency Care Services",
-        "Mortuary Assistance",
-      ],
-      pricing: {
-        annual: "₱7,000/year",
-      },
-    },
-  ];
-
   return (
     <main className="min-h-screen bg-gray-50">
       {/* Header */}

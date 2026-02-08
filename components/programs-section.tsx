@@ -2,23 +2,9 @@
 
 import React from "react";
 import { Button } from "@/components/ui/button";
+import { programs } from "@/lib/content";
 
 export function ProgramsSection() {
-  const programs = [
-    {
-      title: "Plan 300",
-      description:
-        "Basic coverage plan designed for essential health protection with affordable monthly premiums.",
-      link: "/programs/1",
-    },
-    {
-      title: "Plan 7000",
-      description:
-        "Comprehensive coverage plan offering extended benefits and enhanced protection for you and your family.",
-      link: "/programs/2",
-    },
-  ];
-
   return (
     <section className="bg-white py-20">
       <div className="container mx-auto px-4">
@@ -50,7 +36,7 @@ export function ProgramsSection() {
                 asChild
                 className="bg-blue-600 hover:bg-blue-700 text-white"
               >
-                <a href={program.link}>View Full Plan</a>
+                <a href={`/programs/${program.id}`}>View Full Plan</a>
               </Button>
             </div>
           ))}

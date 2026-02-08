@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
+import { metadata as siteMetadata } from "@/lib/content";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -14,10 +15,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "Workers Health Care",
-  description: "Workers Health Care Insurance Plans",
-};
+export const metadata: Metadata = siteMetadata;
 
 export default function RootLayout({
   children,

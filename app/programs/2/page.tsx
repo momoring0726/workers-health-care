@@ -3,66 +3,10 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { programDetails } from "@/lib/content";
 
 export default function Plan7000Details() {
-  const benefits = [
-    {
-      title: "Annual Maximum Benefit (AMB)",
-      description:
-        "Total or accumulated cost of availment by a member for a period of one (1) year in the amount of SEVENTY THOUSAND PESOS (₱70,000.00), to include the cost for the basic hospital benefits such as Room and Board, Professional Fee, Drugs and Medicines, Other Hospital Services; Preventive Healthcare Benefits; and Other Benefits and Assistance.",
-    },
-    {
-      title: "Room & Board",
-      description:
-        "Maximum of ₱1,000.00 per day of confinement in a Private Room on top of PhilHealth coverage up to AMB limit. The coverage includes Emergency Room Fee while awaiting for room confinement.",
-    },
-    {
-      title: "Professional Fee",
-      description:
-        "Maximum of ₱1,000.00 per day of confinement on top of PhilHealth coverage up to AMB limit.",
-    },
-    {
-      title: "Drugs & Medicines",
-      description:
-        "Maximum coverage of ₱12,000.00 for every single period of confinement up to AMB limit.",
-    },
-    {
-      title: "Other Hospital Services",
-      description:
-        "Maximum coverage of ₱8,000.00 for every single period of confinement up to AMB limit. The services include in-patient laboratory procedures, tests, and examinations; and such other hospital charges and fees which are medically necessary.",
-    },
-    {
-      title: "Out-Patient Consultation and/or Referral to Medical Specialist",
-      description:
-        "Unlimited out-of-hospital consultation services to members which includes medical check-up, laboratory, minor surgery, treatment of minor illness or injury, vaccination but excluding the prescribed vaccines, referral to accredited medical specialists, health education or counseling on diet, exercise, and family planning.",
-    },
-    {
-      title: "Annual Physical Examination / Laboratory",
-      description:
-        "Blood chemistry for Fasting Blood Sugar, Creatinine, SGPT, and Uric Acid; Electrocardiogram (ECG), Chest X-Ray, and taking of complete medical history. These clinical procedures are exclusive, or on top, of the AMB of a member.",
-    },
-    {
-      title: "Maternity Services",
-      description:
-        "Financial assistance of ₱10,000.00 for Caesarean Section delivery; ₱5,000.00 for miscarriage case; five (5) pre-natal examinations, and one (1) post-natal examination for any type of delivery.",
-    },
-    {
-      title: "Out-Patient Dental Care Services",
-      description:
-        "Includes four (4) dental extractions per year, one (1) simple annual prophylaxis, two (2) temporary fillings, and treatment of oral pain, lesion and burn.",
-    },
-    {
-      title:
-        "Emergency Care Services in Non-Accredited Hospitals and/or Physicians",
-      description:
-        "Reimbursement or immediate cash settlement to health facility of eighty percent (80%) of the total hospital bills, to include room and board, professional fee, drugs and medicines, and other hospital services, subject to AMB limit and Program Description.",
-    },
-    {
-      title: "Mortuary Assistance",
-      description:
-        "Death benefit of ₱5,000.00 in case death is due to natural cause or ₱10,000.00 if death is due to accident. This benefit is exclusive, or on top, of the AMB of a member.",
-    },
-  ];
+  const { benefits } = programDetails[2];
 
   return (
     <main className="min-h-screen bg-gray-50">
@@ -184,7 +128,7 @@ export default function Plan7000Details() {
             </summary>
             <div className="px-6 pb-6 pt-0">
               <div className="grid gap-6 md:grid-cols-2">
-                {benefits.map((benefit, index) => (
+                {benefits.map((benefit: any, index: number) => (
                   <div
                     key={index}
                     className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm"

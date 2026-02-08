@@ -3,100 +3,10 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { programDetails } from "@/lib/content";
 
 export default function Plan300Details() {
-  const hospitalRates = {
-    principal: { monthly: "₱300.00", annual: "₱3,600.00" },
-    spouse: { monthly: "₱290.00", annual: "₱3,480.00" },
-    child: { monthly: "₱240.00", annual: "₱2,880.00" },
-    parent: { monthly: "₱350.00", annual: "₱4,200.00" },
-    sibling: { monthly: "₱290.00", annual: "₱3,480.00" },
-  };
-
-  const benefits = [
-    {
-      title: "Annual Maximum Benefit (AMB)",
-      description:
-        "Sixty Thousand Pesos (₱60,000.00) - accumulated cost of availment for one year",
-    },
-    {
-      title: "Room & Board",
-      description:
-        "Maximum of ₱600.00 per day of confinement on top of PhilHealth",
-    },
-    {
-      title: "Professional Fee",
-      description:
-        "Maximum of ₱600.00 per day of confinement on top of PhilHealth",
-    },
-    {
-      title: "Drugs and Medicines",
-      description:
-        "Maximum coverage of ₱6,000.00 for every single period of confinement",
-    },
-    {
-      title: "Other Hospital Services",
-      description:
-        "Maximum coverage of ₱4,000.00 for every single period of confinement",
-    },
-    {
-      title: "Out-Patient Consultation",
-      description:
-        "Unlimited out-of-hospital consultation services including medical check-up, laboratory, minor surgery, vaccination, and referral to accredited medical specialists",
-    },
-    {
-      title: "Physical Examination/Laboratory",
-      description:
-        "Chest X-Ray, Complete Blood Count, Urinalysis, Fecalysis, Electrocardiogram, Uric Acid, Fasting Blood Sugar, Pap Smear (35+), and complete medical history",
-    },
-    {
-      title: "Maternity Services",
-      description:
-        "₱10,000.00 for caesarian section; ₱5,000.00 for miscarriage; five (5) pre-natal and one (1) post-natal examination",
-    },
-    {
-      title: "Out-Patient Dental Care",
-      description:
-        "Four (4) dental extractions per year, one (1) annual prophylaxis, two (2) temporary fillings, and treatment of oral pain",
-    },
-    {
-      title: "Emergency Care Services",
-      description:
-        "80% reimbursement of hospital bills in non-accredited hospitals, subject to AMB limit",
-    },
-    {
-      title: "Mortuary Assistance",
-      description:
-        "Death benefit of ₱5,000.00 for natural cause or ₱10,000.00 for accident",
-    },
-  ];
-
-  const eligibilitySchedule = [
-    {
-      period: "Start of effectivity to 3rd month",
-      benefit: "₱0.00 (Waiting period)",
-    },
-    {
-      period: "4th to 6th month",
-      benefit: "₱6,000.00",
-    },
-    {
-      period: "7th to 9th month",
-      benefit: "₱9,000.00",
-    },
-    {
-      period: "10th to 11th month",
-      benefit: "₱12,000.00",
-    },
-    {
-      period: "12th month",
-      benefit: "₱15,000.00",
-    },
-    {
-      period: "First year and continuous",
-      benefit: "₱60,000.00 (Full AMB)",
-    },
-  ];
+  const { hospitalRates, benefits, eligibilitySchedule } = programDetails[1];
 
   return (
     <main className="min-h-screen bg-gray-50">
@@ -244,7 +154,7 @@ export default function Plan300Details() {
             </summary>
             <div className="px-6 pb-6 pt-0">
               <div className="grid gap-6 md:grid-cols-2">
-                {benefits.map((benefit, index) => (
+                {benefits.map((benefit: any, index: number) => (
                   <div
                     key={index}
                     className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm"
@@ -279,7 +189,7 @@ export default function Plan300Details() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200">
-                  {eligibilitySchedule.map((row, index) => (
+                  {eligibilitySchedule.map((row: any, index: number) => (
                     <tr
                       key={index}
                       className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}

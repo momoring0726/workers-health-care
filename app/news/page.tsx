@@ -2,100 +2,11 @@
 
 import { Calendar, ArrowRight, TrendingUp, Search, Filter } from "lucide-react";
 import { useState } from "react";
+import { newsItems, categories } from "@/lib/content";
 
 export default function NewsPage() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
-
-  const newsItems = [
-    {
-      id: 1,
-      title: "Workers' Health Initiative Launches",
-      date: "Feb 1, 2026",
-      excerpt:
-        "A new program to improve workplace health awareness launches this spring. Learn how employers can enroll.",
-      content:
-        "This groundbreaking initiative aims to revolutionize workplace health by providing comprehensive resources and support to both employers and workers. The program includes training, wellness workshops, and direct access to healthcare professionals.",
-      href: "/news/1",
-      category: "Program Launch",
-      featured: true,
-      image: "🏥",
-    },
-    {
-      id: 2,
-      title: "Free Screening Clinics Announced",
-      date: "Jan 20, 2026",
-      excerpt:
-        "Mobile clinics will visit partnering hospitals to offer free screenings to eligible workers.",
-      content:
-        "Starting next month, our mobile health clinics will visit major workplaces and partner hospitals across the region. These free clinics offer comprehensive health screenings including blood pressure checks, cholesterol testing, and general wellness assessments.",
-      href: "/news/2",
-      category: "Healthcare",
-      featured: false,
-      image: "🩺",
-    },
-    {
-      id: 3,
-      title: "New Telehealth Options Available",
-      date: "Dec 15, 2025",
-      excerpt:
-        "We're expanding telehealth coverage so workers can access care from home or on-site.",
-      content:
-        "Workers can now access telehealth services 24/7 through our expanded platform. This includes virtual consultations with licensed physicians, mental health support, and prescription management services.",
-      href: "/news/3",
-      category: "Technology",
-      featured: false,
-      image: "📱",
-    },
-    {
-      id: 4,
-      title: "Mental Health Support Program Expansion",
-      date: "Dec 1, 2025",
-      excerpt:
-        "Additional mental health resources and counseling services now available to all participants.",
-      content:
-        "In response to growing demand, we've expanded our mental health support services to include 24/7 crisis support, peer support groups, and specialized counseling for workplace stress and burnout.",
-      href: "/news/4",
-      category: "Mental Health",
-      featured: true,
-      image: "🧠",
-    },
-    {
-      id: 5,
-      title: "Partnership with Major Hospitals",
-      date: "Nov 10, 2025",
-      excerpt:
-        "We're partnering with leading hospitals to provide comprehensive care networks for workers.",
-      content:
-        "This partnership strengthens our commitment to providing quality healthcare. Workers gain access to specialty care, emergency services, and coordinated treatment at partner facilities.",
-      href: "/news/5",
-      category: "Partnerships",
-      featured: false,
-      image: "🤝",
-    },
-    {
-      id: 6,
-      title: "Q1 2026 Health Goals and Updates",
-      date: "Oct 30, 2025",
-      excerpt:
-        "Learn about our ambitious goals for the first quarter and how we plan to achieve them.",
-      content:
-        "Our Q1 objectives focus on increasing participation rates, improving health outcomes, and expanding our geographic reach. We're committed to reaching 50,000 new workers by the end of the quarter.",
-      href: "/news/6",
-      category: "Updates",
-      featured: false,
-      image: "🎯",
-    },
-  ];
-
-  const categories = [
-    "Program Launch",
-    "Healthcare",
-    "Technology",
-    "Mental Health",
-    "Partnerships",
-    "Updates",
-  ];
 
   const filteredNews = newsItems.filter((item) => {
     const matchesCategory =
@@ -212,7 +123,9 @@ export default function NewsPage() {
 
                     {/* Content */}
                     <p className="text-gray-600 leading-relaxed mb-6 flex-grow">
-                      {item.content}
+                      {Array.isArray(item.content)
+                        ? item.content[0]
+                        : item.content}
                     </p>
 
                     {/* Read More Link */}

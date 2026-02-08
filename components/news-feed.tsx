@@ -1,40 +1,10 @@
 "use client";
 
 import { Calendar, ArrowRight, TrendingUp } from "lucide-react";
+import { newsItems } from "@/lib/content";
 
 export function NewsFeed() {
-  const items = [
-    {
-      id: 1,
-      title: "Workers' Health Initiative Launches",
-      date: "Feb 1, 2026",
-      excerpt:
-        "A new program to improve workplace health awareness launches this spring. Learn how employers can enroll.",
-      href: "/news/1",
-      category: "Program Launch",
-      featured: true,
-    },
-    {
-      id: 2,
-      title: "Free Screening Clinics Announced",
-      date: "Jan 20, 2026",
-      excerpt:
-        "Mobile clinics will visit partnering hospitals to offer free screenings to eligible workers.",
-      href: "/news/2",
-      category: "Healthcare",
-      featured: false,
-    },
-    {
-      id: 3,
-      title: "New Telehealth Options",
-      date: "Dec 15, 2025",
-      excerpt:
-        "We're expanding telehealth coverage so workers can access care from home or on-site.",
-      href: "/news/3",
-      category: "Technology",
-      featured: false,
-    },
-  ];
+  const items = newsItems.slice(0, 3);
 
   return (
     <section className="news-section py-16 bg-gradient-to-b from-gray-50 to-white">
