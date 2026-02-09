@@ -71,7 +71,15 @@ export async function FooterContent() {
                   href="/programs"
                   className="text-gray-600 hover:text-blue-600"
                 >
-                  Programs
+                  Plans
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/news"
+                  className="text-gray-600 hover:text-blue-600"
+                >
+                  News
                 </Link>
               </li>
               <li>

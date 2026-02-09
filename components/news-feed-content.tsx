@@ -49,7 +49,7 @@ export async function NewsFeedContent() {
         <div className="text-center mb-12">
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 text-blue-700 rounded-full text-sm font-medium mb-4">
             <TrendingUp className="w-4 h-4" />
-            <span>Latest Updates</span>
+            <span>Featured News</span>
           </div>
           <h2 className="text-4xl font-bold text-gray-900 mb-3">
             News & Announcements
