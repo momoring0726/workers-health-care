@@ -25,7 +25,14 @@ export async function GET(request: Request) {
         title
       },
       publishedAt,
-      featured
+      featured,
+      featuredImage {
+        asset->{
+          _id,
+          url
+        },
+        alt
+      }
     }`;
 
     const data = await client.fetch(query);

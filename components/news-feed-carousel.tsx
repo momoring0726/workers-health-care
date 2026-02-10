@@ -2,7 +2,9 @@
 
 import { Calendar, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { useEffect, useState } from "react";
+import { urlFor } from "@/sanity/lib/image";
 
 interface NewsItem {
   _id: string;
@@ -11,6 +13,12 @@ interface NewsItem {
   excerpt: string;
   category: { title: string };
   publishedAt: string;
+  featuredImage?: {
+    asset: {
+      _ref: string;
+    };
+    alt?: string;
+  };
 }
 
 const ITEMS_PER_PAGE = 3;
@@ -57,6 +65,21 @@ export function NewsFeedCarousel({ items }: { items: NewsItem[] }) {
               <article className="relative overflow-hidden rounded-xl bg-white shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-2 flex flex-col h-full border border-blue-100 hover:border-blue-400 bg-gradient-to-br from-white via-white to-blue-50">
                 {/* Gradient Border Top */}
                 <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500"></div>
+
+                {/* Featured Image */}
+                {item.featuredImage && (
+                  <div className="relative w-full h-48 overflow-hidden">
+                    <Image
+                      src={urlFor(item.featuredImage)
+                        .width(600)
+                        .height(400)
+                        .url()}
+                      alt={item.featuredImage.alt || item.title}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                  </div>
+                )}
 
                 <div className="p-4 flex-grow flex flex-col gap-2.5">
                   {/* Header: Category, Date & Badge */}

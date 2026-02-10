@@ -27,6 +27,24 @@ export const news = defineType({
       validation: (Rule) => Rule.required().max(200),
     }),
     defineField({
+      name: "featuredImage",
+      title: "Featured Image",
+      type: "image",
+      options: {
+        hotspot: true,
+      },
+      validation: (Rule) => Rule.required(),
+      fields: [
+        {
+          name: "alt",
+          title: "Alt Text",
+          type: "string",
+          description: "Alternative text for accessibility",
+          validation: (Rule) => Rule.required(),
+        },
+      ],
+    }),
+    defineField({
       name: "category",
       title: "Category",
       type: "reference",
@@ -50,7 +68,28 @@ export const news = defineType({
       name: "content",
       title: "Content",
       type: "array",
-      of: [{ type: "block" }],
+      of: [
+        { type: "block" },
+        {
+          type: "image",
+          options: {
+            hotspot: true,
+          },
+          fields: [
+            {
+              name: "alt",
+              title: "Alt Text",
+              type: "string",
+              description: "Alternative text for accessibility",
+            },
+            {
+              name: "caption",
+              title: "Caption",
+              type: "string",
+            },
+          ],
+        },
+      ],
       validation: (Rule) => Rule.required(),
     }),
   ],

@@ -11,6 +11,8 @@ import {
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
+import { urlFor } from "@/sanity/lib/image";
 
 interface NewsItem {
   _id: string;
@@ -20,6 +22,12 @@ interface NewsItem {
   category: { title: string };
   publishedAt: string;
   featured: boolean;
+  featuredImage?: {
+    asset: {
+      _ref: string;
+    };
+    alt?: string;
+  };
 }
 
 interface Category {
@@ -181,6 +189,21 @@ export default function NewsPage() {
                       {/* Gradient Border Top */}
                       <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500"></div>
 
+                      {/* Featured Image */}
+                      {item.featuredImage && (
+                        <div className="relative w-full h-48 overflow-hidden">
+                          <Image
+                            src={urlFor(item.featuredImage)
+                              .width(600)
+                              .height(400)
+                              .url()}
+                            alt={item.featuredImage.alt || item.title}
+                            fill
+                            className="object-cover group-hover:scale-105 transition-transform duration-300"
+                          />
+                        </div>
+                      )}
+
                       <div className="p-4 flex-grow flex flex-col gap-2.5">
                         {/* Header: Category, Date & Badge */}
                         <div className="flex items-center justify-between gap-2">
@@ -287,6 +310,21 @@ export default function NewsPage() {
                   <article className="relative overflow-hidden rounded-2xl bg-white border-2 border-gray-100 transition-all duration-300 hover:border-blue-500 hover:shadow-2xl hover:-translate-y-2 flex flex-col h-full">
                     {/* Gradient Overlay Top */}
                     <div className="h-2 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
+                    {/* Featured Image */}
+                    {item.featuredImage && (
+                      <div className="relative w-full h-48 overflow-hidden">
+                        <Image
+                          src={urlFor(item.featuredImage)
+                            .width(600)
+                            .height(400)
+                            .url()}
+                          alt={item.featuredImage.alt || item.title}
+                          fill
+                          className="object-cover group-hover:scale-105 transition-transform duration-300"
+                        />
+                      </div>
+                    )}
 
                     <div className="p-6 flex flex-col flex-grow">
                       {/* Category */}

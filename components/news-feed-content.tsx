@@ -9,6 +9,12 @@ interface NewsItem {
   excerpt: string;
   category: { title: string };
   publishedAt: string;
+  featuredImage?: {
+    asset: {
+      _ref: string;
+    };
+    alt?: string;
+  };
 }
 
 async function getNews(): Promise<NewsItem[]> {
@@ -22,7 +28,14 @@ async function getNews(): Promise<NewsItem[]> {
         category->{
           title
         },
-        publishedAt
+        publishedAt,
+        featuredImage {
+          asset->{
+            _id,
+            url
+          },
+          alt
+        }
       }`,
       {},
       {
