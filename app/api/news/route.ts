@@ -1,4 +1,4 @@
-import { client } from "@/sanity/lib/client";
+import { publicClient } from "@/sanity/lib/client-public";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -7,35 +7,42 @@ export async function GET(request: Request) {
 
   try {
     let query = `*[_type == "news"`;
+    const params: Record<string, string | undefined> = {};
 
     if (category) {
-      query += ` && category->title == "${category}"`;
+      query += ` && category->title == $category`;
+      params.category = category;
     }
 
     if (search) {
-      query += ` && (title match "${search}*" || excerpt match "${search}*")`;
+      query += ` && (title match $search || shortDescription match $search)`;
+      params.search = `${search}*`;
     }
 
-    query += `] | order(publishedAt desc) {
+    query += `] | order(date desc) {
       _id,
       title,
       slug,
-      excerpt,
+      shortDescription,
       category->{
         title
       },
-      publishedAt,
+      date,
       featured,
-      featuredImage {
+      "cardImage": content[_type == "image"][0] {
         asset->{
           _id,
-          url
+          url,
+          metadata {
+            lqip,
+            dimensions { width, height }
+          }
         },
         alt
       }
     }`;
 
-    const data = await client.fetch(query);
+    const data = await publicClient.fetch(query, params);
     return Response.json(data);
   } catch (error) {
     console.error("Error fetching news:", error);

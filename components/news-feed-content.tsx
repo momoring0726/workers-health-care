@@ -1,17 +1,23 @@
 import { Calendar, TrendingUp } from "lucide-react";
-import { client } from "@/sanity/lib/client";
+import { publicClient } from "@/sanity/lib/client-public";
+import { FEATURED_NEWS_QUERY } from "@/sanity/lib/queries";
 import { NewsFeedCarousel } from "./news-feed-carousel";
 
 interface NewsItem {
   _id: string;
   title: string;
   slug: { current: string };
-  excerpt: string;
+  shortDescription: string;
   category: { title: string };
-  publishedAt: string;
-  featuredImage?: {
+  date: string;
+  cardImage?: {
     asset: {
-      _ref: string;
+      _id: string;
+      url: string;
+      metadata?: {
+        lqip?: string;
+        dimensions?: { width: number; height: number };
+      };
     };
     alt?: string;
   };
@@ -19,28 +25,11 @@ interface NewsItem {
 
 async function getNews(): Promise<NewsItem[]> {
   try {
-    const data = await client.fetch(
-      `*[_type == "news" && featured == true] | order(publishedAt desc) {
-        _id,
-        title,
-        slug,
-        excerpt,
-        category->{
-          title
-        },
-        publishedAt,
-        featuredImage {
-          asset->{
-            _id,
-            url
-          },
-          alt
-        }
-      }`,
+    const data = await publicClient.fetch(
+      FEATURED_NEWS_QUERY,
       {},
       {
         next: {
-          revalidate: 0,
           tags: ["news"],
         },
       },

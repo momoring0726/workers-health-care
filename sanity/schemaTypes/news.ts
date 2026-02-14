@@ -21,28 +21,10 @@ export const news = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: "excerpt",
-      title: "Excerpt",
+      name: "shortDescription",
+      title: "Short Description",
       type: "string",
       validation: (Rule) => Rule.required().max(200),
-    }),
-    defineField({
-      name: "featuredImage",
-      title: "Featured Image",
-      type: "image",
-      options: {
-        hotspot: true,
-      },
-      validation: (Rule) => Rule.required(),
-      fields: [
-        {
-          name: "alt",
-          title: "Alt Text",
-          type: "string",
-          description: "Alternative text for accessibility",
-          validation: (Rule) => Rule.required(),
-        },
-      ],
     }),
     defineField({
       name: "category",
@@ -50,6 +32,9 @@ export const news = defineType({
       type: "reference",
       to: [{ type: "newsCategory" }],
       validation: (Rule) => Rule.required(),
+      options: {
+        disableNew: false,
+      },
     }),
     defineField({
       name: "featured",
@@ -59,7 +44,7 @@ export const news = defineType({
       description: "Show this news item prominently on the news page",
     }),
     defineField({
-      name: "publishedAt",
+      name: "date",
       title: "Published Date",
       type: "datetime",
       validation: (Rule) => Rule.required(),
@@ -97,7 +82,7 @@ export const news = defineType({
     select: {
       title: "title",
       category: "category.title",
-      date: "publishedAt",
+      date: "date",
     },
     prepare({ title, category, date }) {
       return {

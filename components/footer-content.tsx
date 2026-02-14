@@ -1,6 +1,6 @@
 import Link from "next/link";
 import React from "react";
-import { client } from "@/sanity/lib/client";
+import { publicClient } from "@/sanity/lib/client-public";
 
 interface ContactData {
   _id: string;
@@ -11,12 +11,12 @@ interface ContactData {
 
 async function getContactData(): Promise<ContactData | null> {
   try {
-    const data = await client.fetch(
+    const data = await publicClient.fetch(
       `*[_id == "d74f0679-a2c2-454f-b4f5-e1ad553393a2"][0]`,
       {},
       {
         next: {
-          revalidate: 0, // Revalidate instantly
+          revalidate: 60, // Revalidate every 60 seconds
           tags: ["contact"],
         },
       },

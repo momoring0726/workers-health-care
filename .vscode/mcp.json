@@ -1,20 +1,9 @@
 {
-	"inputs": [
-		{
-			"id": "CONTEXT7_API_KEY",
-			"type": "promptString",
-			"description": "API key for authentication",
-			"password": true
-		}
-	],
-	"servers": {
-		"next-devtools": {
-			"command": "npx",
-			"args": [
-				"-y",
-				"next-devtools-mcp@latest"
-			],
-			"type": "stdio"
-		}
-	}
+  "servers": {
+    "next-devtools": {
+      "command": "npx",
+      "args": ["-y", "next-devtools-mcp@latest"],
+      "type": "stdio"
+    }
+  }
 }

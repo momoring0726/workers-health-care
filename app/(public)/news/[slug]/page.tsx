@@ -13,7 +13,7 @@ import {
   ZoomIn,
 } from "lucide-react";
 import { urlFor } from "@/sanity/lib/image";
-import { client } from "@/sanity/lib/client";
+import { publicClient } from "@/sanity/lib/client-public";
 
 interface ImageAsset {
   asset: {
@@ -49,10 +49,9 @@ interface NewsArticle {
   _id: string;
   title: string;
   slug: { current: string };
-  excerpt: string;
+  shortDescription: string;
   category: { title: string; slug: { current: string } };
-  publishedAt: string;
-  featuredImage: ImageAsset;
+  date: string;
   content: ContentBlock[];
 }
 
@@ -77,17 +76,13 @@ export default function NewsDetailPage({
           _id,
           title,
           slug,
-          excerpt,
+          shortDescription,
           category->{title, slug},
-          publishedAt,
-          featuredImage{
-            asset,
-            alt
-          },
+          date,
           content
         }`;
 
-        const data = await client.fetch(query, { slug });
+        const data = await publicClient.fetch(query, { slug });
 
         if (!data) {
           notFound();
@@ -95,11 +90,18 @@ export default function NewsDetailPage({
 
         setArticle(data);
 
-        // Extract all images from content
+        // Extract images: featured image first (if present), then content images
         const images: Array<{ url: string; alt?: string; caption?: string }> =
           [];
 
-        // Add content images (do not include featured image here)
+        if (data.featuredImage?.asset) {
+          images.push({
+            url: urlFor(data.featuredImage.asset._ref).url(),
+            alt: data.featuredImage.alt || data.title || "",
+            caption: data.featuredImage.caption || "",
+          });
+        }
+
         data.content?.forEach((block: ContentBlock) => {
           if (block._type === "image" && block.asset) {
             images.push({
@@ -232,33 +234,9 @@ export default function NewsDetailPage({
         }
       }
 
-      if (block._type === "image" && block.asset) {
-        const imageUrl = urlFor(block.asset._ref).url();
-        return (
-          <figure key={block._key} className="my-12 group">
-            <div
-              className="relative overflow-hidden rounded-2xl shadow-2xl cursor-zoom-in transition-all duration-500 hover:shadow-3xl"
-              onClick={() => openLightbox(imageUrl)}
-            >
-              <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10" />
-              <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-full p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
-                <ZoomIn className="w-5 h-5 text-slate-700" />
-              </div>
-              <Image
-                src={imageUrl}
-                alt={block.alt || "Article image"}
-                width={1200}
-                height={800}
-                className="w-full h-auto transform group-hover:scale-105 transition-transform duration-700"
-              />
-            </div>
-            {block.caption && (
-              <figcaption className="mt-4 text-center text-sm text-slate-600 italic">
-                {block.caption}
-              </figcaption>
-            )}
-          </figure>
-        );
+      // Skip inline image blocks — images are displayed in the carousel above content
+      if (block._type === "image") {
+        return null;
       }
 
       return null;
@@ -276,37 +254,20 @@ export default function NewsDetailPage({
     );
   }
 
-  if (!article) {
-    notFound();
-  }
-
-  const featuredImageUrl = article.featuredImage?.asset
-    ? urlFor(article.featuredImage.asset._ref).url()
-    : null;
+  if (!article) notFound();
 
   return (
     <>
       <article className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-emerald-50">
         {/* Hero Section */}
-        <div className="relative h-[70vh] overflow-hidden">
-          {/* Background Image with Parallax Effect */}
-          {featuredImageUrl && (
-            <div className="absolute inset-0">
-              <Image
-                src={featuredImageUrl}
-                alt={article.featuredImage.alt || article.title}
-                fill
-                className="object-cover"
-                priority
-              />
-              <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/80" />
-            </div>
-          )}
+        <div className="relative h-[30vh] md:h-[40vh] overflow-hidden">
+          {/* Static hero background (no images even if content contains them) */}
+          <div className="absolute inset-0 bg-gradient-to-b from-emerald-700 via-emerald-600 to-slate-900" />
 
           {/* Back Button */}
           <Link
             href="/news"
-            className="absolute top-8 left-8 flex items-center gap-2 px-6 py-3 bg-white/10 backdrop-blur-md hover:bg-white/20 text-white rounded-full transition-all duration-300 hover:gap-3 group z-10"
+            className="absolute top-8 left-8 flex items-center gap-2 px-6 py-3 bg-white/95 text-emerald-700 rounded-full shadow-md hover:shadow-lg transition-all duration-300 hover:gap-3 group z-10"
           >
             <ArrowLeft className="w-5 h-5 transition-transform group-hover:-translate-x-1" />
             <span className="font-medium">Back to News</span>
@@ -314,7 +275,7 @@ export default function NewsDetailPage({
 
           {/* Hero Content */}
           <div className="absolute inset-0 flex items-end">
-            <div className="container mx-auto px-6 pb-16 max-w-5xl">
+            <div className="container mx-auto px-6 pb-20 max-w-5xl">
               <div className="space-y-6 animate-fade-in">
                 {/* Category Badge */}
                 <div className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-500/90 backdrop-blur-sm text-white rounded-full text-sm font-semibold">
@@ -322,7 +283,7 @@ export default function NewsDetailPage({
                 </div>
 
                 {/* Title */}
-                <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-tight drop-shadow-2xl">
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight drop-shadow-2xl">
                   {article.title}
                 </h1>
 
@@ -331,21 +292,18 @@ export default function NewsDetailPage({
                   <div className="flex items-center gap-2">
                     <Calendar className="w-5 h-5" />
                     <time className="text-sm font-medium">
-                      {new Date(article.publishedAt).toLocaleDateString(
-                        "en-US",
-                        {
-                          year: "numeric",
-                          month: "long",
-                          day: "numeric",
-                        },
-                      )}
+                      {new Date(article.date).toLocaleDateString("en-US", {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      })}
                     </time>
                   </div>
                 </div>
 
                 {/* Excerpt */}
-                <p className="text-xl text-white/95 max-w-3xl leading-relaxed drop-shadow-lg">
-                  {article.excerpt}
+                <p className="text-lg text-white/95 max-w-3xl leading-relaxed drop-shadow-lg">
+                  {article.shortDescription}
                 </p>
               </div>
             </div>
@@ -354,6 +312,77 @@ export default function NewsDetailPage({
 
         {/* Article Content */}
         <div className="container mx-auto px-6 py-20 max-w-4xl">
+          {/* Image carousel placed above text content */}
+          {imageList.length > 0 && (
+            <div className="mb-12">
+              <div className="relative w-full overflow-hidden rounded-2xl shadow-2xl">
+                <button
+                  onClick={prevImage}
+                  className={`absolute left-4 top-1/2 -translate-y-1/2 z-20 p-3 bg-black/40 hover:bg-black/60 backdrop-blur-sm rounded-full transition-all ${
+                    imageList.length > 1
+                      ? "opacity-100"
+                      : "opacity-0 pointer-events-none"
+                  }`}
+                  aria-label="Previous image"
+                >
+                  <ChevronLeft className="w-6 h-6 text-white" />
+                </button>
+
+                <div className="relative">
+                  <Image
+                    src={imageList[currentImageIndex].url}
+                    alt={imageList[currentImageIndex].alt || article.title}
+                    width={1200}
+                    height={700}
+                    className="w-full h-auto object-cover rounded-2xl cursor-zoom-in"
+                    onClick={() =>
+                      openLightbox(imageList[currentImageIndex].url)
+                    }
+                    priority
+                  />
+
+                  {imageList[currentImageIndex].caption && (
+                    <div className="absolute bottom-4 left-6 right-6 text-center text-white/90">
+                      <p className="text-sm italic drop-shadow">
+                        {imageList[currentImageIndex].caption}
+                      </p>
+                    </div>
+                  )}
+                </div>
+
+                <button
+                  onClick={nextImage}
+                  className={`absolute right-4 top-1/2 -translate-y-1/2 z-20 p-3 bg-black/40 hover:bg-black/60 backdrop-blur-sm rounded-full transition-all ${
+                    imageList.length > 1
+                      ? "opacity-100"
+                      : "opacity-0 pointer-events-none"
+                  }`}
+                  aria-label="Next image"
+                >
+                  <ChevronRight className="w-6 h-6 text-white" />
+                </button>
+
+                {/* Dots */}
+                {imageList.length > 1 && (
+                  <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex gap-2 px-4 py-2 bg-black/40 backdrop-blur-sm rounded-full">
+                    {imageList.map((_, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() => setCurrentImageIndex(idx)}
+                        className={`w-2 h-2 rounded-full transition-all duration-200 ${
+                          idx === currentImageIndex
+                            ? "bg-white w-8"
+                            : "bg-white/40 hover:bg-white/60"
+                        }`}
+                        aria-label={`Go to image ${idx + 1}`}
+                      />
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
           <div className="prose prose-lg max-w-none">
             {renderContent(article.content)}
           </div>

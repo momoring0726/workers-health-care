@@ -1,4 +1,4 @@
-import { client } from "@/sanity/lib/client";
+import { publicClient } from "@/sanity/lib/client-public";
 
 export async function GET() {
   try {
@@ -7,7 +7,7 @@ export async function GET() {
       title
     }`;
 
-    const data = await client.fetch(query);
+    const data = await publicClient.fetch(query);
     return Response.json(data);
   } catch (error) {
     console.error("Error fetching categories:", error);

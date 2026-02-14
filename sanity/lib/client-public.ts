@@ -2,9 +2,9 @@ import { createClient } from "next-sanity";
 
 import { apiVersion, dataset, projectId } from "../env";
 
-export const client = createClient({
+export const publicClient = createClient({
   projectId,
   dataset,
   apiVersion,
-  useCdn: false, // Disable CDN for Studio access to drafts
+  useCdn: true, // Use CDN for fast public content delivery
 });
