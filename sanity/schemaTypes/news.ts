@@ -57,9 +57,6 @@ export const news = defineType({
         { type: "block" },
         {
           type: "image",
-          options: {
-            hotspot: true,
-          },
           fields: [
             {
               name: "alt",

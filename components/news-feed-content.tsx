@@ -30,6 +30,7 @@ async function getNews(): Promise<NewsItem[]> {
       {},
       {
         next: {
+          revalidate: 0, // Always fresh - change to 3600 when using webhooks
           tags: ["news"],
         },
       },

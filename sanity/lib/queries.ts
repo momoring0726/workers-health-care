@@ -1,4 +1,5 @@
 import { defineQuery } from "next-sanity";
+import { SINGLETON_IDS } from "../constants";
 
 // Image fragment for reuse
 export const imageFragment = `{
@@ -10,7 +11,8 @@ export const imageFragment = `{
       dimensions { width, height }
     }
   },
-  alt
+  alt,
+  caption
 }`;
 
 // Featured news query
@@ -34,17 +36,15 @@ export const NEWS_BY_SLUG_QUERY = defineQuery(`
     _id,
     title,
     slug,
-    excerpt,
+    shortDescription,
     category->{
       title
     },
-    publishedAt,
-    featuredImage ${imageFragment},
+    date,
     content[] {
       ...,
       _type == "image" => {
-        ...${imageFragment},
-        caption
+        ...${imageFragment}
       }
     }
   }
@@ -52,17 +52,17 @@ export const NEWS_BY_SLUG_QUERY = defineQuery(`
 
 // All news articles
 export const ALL_NEWS_QUERY = defineQuery(`
-  *[_type == "news"] | order(publishedAt desc) {
+  *[_type == "news"] | order(date desc) {
     _id,
     title,
     slug,
-    excerpt,
+    shortDescription,
     category->{
       title
     },
-    publishedAt,
+    date,
     featured,
-    featuredImage ${imageFragment}
+    "cardImage": content[_type == "image"][0] ${imageFragment}
   }
 `);
 
@@ -75,7 +75,7 @@ export const NEWS_SLUGS_QUERY = defineQuery(`
 
 // Contact information
 export const CONTACT_QUERY = defineQuery(`
-  *[_type == "contact" && _id == "d74f0679-a2c2-454f-b4f5-e1ad553393a2"][0] {
+  *[_type == "contact" && _id == "${SINGLETON_IDS.CONTACT}"][0] {
     email,
     phones,
     address

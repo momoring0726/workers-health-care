@@ -1,6 +1,7 @@
 import React from "react";
 import { Mail, Phone, MapPin } from "lucide-react";
 import { publicClient } from "@/sanity/lib/client-public";
+import { CONTACT_QUERY } from "@/sanity/lib/queries";
 
 interface ContactData {
   _id: string;
@@ -12,7 +13,7 @@ interface ContactData {
 async function getContactData(): Promise<ContactData | null> {
   try {
     const data = await publicClient.fetch(
-      `*[_id == "d74f0679-a2c2-454f-b4f5-e1ad553393a2"][0]`,
+      CONTACT_QUERY,
       {},
       {
         next: {

@@ -15,7 +15,7 @@ export async function GET(request: Request) {
     }
 
     if (search) {
-      query += ` && (title match $search || shortDescription match $search)`;
+      query += ` && [title, shortDescription] match $search`;
       params.search = `${search}*`;
     }
 
@@ -38,7 +38,8 @@ export async function GET(request: Request) {
             dimensions { width, height }
           }
         },
-        alt
+        alt,
+        caption
       }
     }`;
 
