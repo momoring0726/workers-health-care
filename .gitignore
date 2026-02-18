@@ -42,3 +42,7 @@ next-env.d.ts
 
 # ignore docs folder (attachments)
 /docs/
+REFACTORING_GUIDE.md
+.gitignore
+Program Description_Plan 300.docx
+PROGRAM DESCRIPTION_Plan 7000.docx

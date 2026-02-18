@@ -3,45 +3,11 @@
 import { Search, Filter, ChevronLeft, ChevronRight } from "lucide-react";
 import { useState, useEffect } from "react";
 import { NewsContent } from "./NewsContent";
-
-interface NewsItem {
-  _id: string;
-  title: string;
-  slug: { current: string };
-  shortDescription: string;
-  category: { title: string };
-  date: string;
-  featured: boolean;
-  cardImage?: {
-    asset: {
-      _id: string;
-      url: string;
-      metadata?: {
-        lqip?: string;
-        dimensions?: { width: number; height: number };
-      };
-    };
-    alt?: string;
-  };
-}
-
-interface Category {
-  _id: string;
-  title: string;
-}
-
-interface NewsClientInteractionsProps {
-  initialNews: NewsItem[];
-  initialCategories: Category[];
-  onFilteredNewsChange?: (filteredNews: NewsItem[]) => void;
-}
-
-interface NewsContentProps {
-  filteredNews: NewsItem[];
-  featuredPage: number;
-  handlePrevious: () => void;
-  handleNext: () => void;
-}
+import type {
+  NewsArticle,
+  NewsCategory,
+  NewsClientInteractionsProps,
+} from "@/types";
 
 const FEATURED_ITEMS_PER_PAGE = 3;
 

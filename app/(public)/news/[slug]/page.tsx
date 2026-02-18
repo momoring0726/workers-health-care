@@ -1,37 +1,12 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Calendar, ArrowLeft } from "lucide-react";
+import type { Metadata } from "next";
+import type { NewsArticleDetail } from "@/types";
 import { urlFor } from "@/sanity/lib/image";
 import { publicClient } from "@/sanity/lib/client-public";
 import { NEWS_BY_SLUG_QUERY, NEWS_SLUGS_QUERY } from "@/sanity/lib/queries";
 import { NewsImageCarousel, ContentRenderer } from "./NewsDetailClient";
-
-interface ContentBlock {
-  _type: string;
-  _key: string;
-  children?: Array<{
-    _type: string;
-    text: string;
-    marks?: string[];
-  }>;
-  style?: string;
-  listItem?: string;
-  asset?: {
-    _ref: string;
-  };
-  alt?: string;
-  caption?: string;
-}
-
-interface NewsArticle {
-  _id: string;
-  title: string;
-  slug: { current: string };
-  shortDescription: string;
-  category: { title: string };
-  date: string;
-  content: ContentBlock[];
-}
 
 // Generate static params for all news articles
 export async function generateStaticParams() {
@@ -42,14 +17,14 @@ export async function generateStaticParams() {
 }
 
 // Fetch article data server-side
-async function getArticle(slug: string): Promise<NewsArticle | null> {
+async function getArticle(slug: string): Promise<NewsArticleDetail | null> {
   try {
     const article = await publicClient.fetch(
       NEWS_BY_SLUG_QUERY,
       { slug },
       {
         next: {
-          revalidate: 0, // Always fresh - change to 3600 when using webhooks
+          revalidate: 3600, // Revalidate every hour for fresh content
           tags: ["news"],
         },
       },
@@ -59,6 +34,46 @@ async function getArticle(slug: string): Promise<NewsArticle | null> {
     console.error("Error fetching article:", error);
     return null;
   }
+}
+
+// Dynamic metadata generation for SEO
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const article = await getArticle(slug);
+
+  if (!article) {
+    return {
+      title: "Article Not Found | Workers Health Care",
+      description: "The requested article could not be found.",
+    };
+  }
+
+  const ogImage = article.cardImage
+    ? urlFor(article.cardImage).width(1200).height(630).url()
+    : null;
+
+  return {
+    title: `${article.title} | Workers Health Care`,
+    description: article.shortDescription,
+    openGraph: {
+      title: article.title,
+      description: article.shortDescription,
+      type: "article",
+      publishedTime: article.date,
+      url: `/news/${article.slug.current}`,
+      images: ogImage ? [{ url: ogImage, width: 1200, height: 630 }] : [],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: article.title,
+      description: article.shortDescription,
+      images: ogImage ? [ogImage] : [],
+    },
+  };
 }
 
 export default async function NewsDetailPage({

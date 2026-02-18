@@ -1,37 +1,24 @@
 import { TrendingUp } from "lucide-react";
+import type { Metadata } from "next";
 import { NewsClientInteractions } from "@/components/NewsClientInteractions";
-import { NewsContent } from "@/components/NewsContent";
 import { publicClient } from "@/sanity/lib/client-public";
 import { ALL_NEWS_QUERY, NEWS_CATEGORIES_QUERY } from "@/sanity/lib/queries";
+import type { NewsArticle, NewsCategory } from "@/types";
 
-interface NewsItem {
-  _id: string;
-  title: string;
-  slug: { current: string };
-  shortDescription: string;
-  category: { title: string };
-  date: string;
-  featured: boolean;
-  cardImage?: {
-    asset: {
-      _id: string;
-      url: string;
-      metadata?: {
-        lqip?: string;
-        dimensions?: { width: number; height: number };
-      };
-    };
-    alt?: string;
-  };
-}
-
-interface Category {
-  _id: string;
-  title: string;
-}
+export const metadata: Metadata = {
+  title: "News & Announcements | Workers Health Care",
+  description:
+    "Stay informed about the latest developments and updates in workers' health care coverage and programs.",
+  openGraph: {
+    title: "News & Announcements | Workers Health Care",
+    description:
+      "Stay informed about the latest developments and updates in workers' health care coverage and programs.",
+    type: "website",
+  },
+};
 
 // Server-side data fetching functions
-async function getNews(): Promise<NewsItem[]> {
+async function getNews(): Promise<NewsArticle[]> {
   try {
     const news = await publicClient.fetch(ALL_NEWS_QUERY);
     return news;
@@ -41,7 +28,7 @@ async function getNews(): Promise<NewsItem[]> {
   }
 }
 
-async function getCategories(): Promise<Category[]> {
+async function getCategories(): Promise<NewsCategory[]> {
   try {
     const categories = await publicClient.fetch(NEWS_CATEGORIES_QUERY);
     return categories;
