@@ -1,98 +1,80 @@
-"use client";
-
 import React from "react";
-import { Button } from "@/components/ui/button";
-import { programs } from "@/lib/content";
+import { publicClient } from "@/sanity/lib/client-public";
+import { PROGRAMS_QUERY } from "@/sanity/lib/queries";
+import type { SanityProgram } from "@/types";
+import { ProgramsGrid } from "@/components/programs-grid";
+import { ComparisonTable } from "@/components/comparison-table";
+import { HelpSection } from "@/components/help-section";
 
-export default function ProgramsPage() {
+export const revalidate = 60; // ISR revalidation for faster updates
+
+async function getPrograms(): Promise<SanityProgram[]> {
+  try {
+    const programs = await publicClient.fetch(PROGRAMS_QUERY);
+    return programs || [];
+  } catch (error) {
+    console.error("Error fetching programs:", error);
+    return [];
+  }
+}
+
+/**
+ * ProgramsPage
+ * Displays all available health care plans
+ * - Server component fetching from Sanity CMS
+ * - Responsive grid layout with program cards
+ * - Side-by-side comparison table
+ * - Support/enrollment information
+ * Context7: Clean composition with extracted sub-components
+ */
+export default async function ProgramsPage() {
+  const programs = await getPrograms();
+
   return (
-    <main className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-white py-12 shadow-sm">
+    <main className="min-h-screen bg-linear-to-br from-slate-50 to-blue-50">
+      {/* Header Section */}
+      <div className="border-b border-blue-100 bg-white py-16 shadow-sm">
         <div className="container mx-auto px-4">
-          <h1 className="mb-2 text-4xl font-bold text-gray-900">
-            Our Health Care Plans
-          </h1>
-          <p className="text-lg text-gray-600">
-            Choose the perfect plan for your health care needs
-          </p>
+          <div className="max-w-3xl">
+            <h1 className="mb-4 text-5xl font-bold text-gray-900">
+              Our Health Care Plans
+            </h1>
+            <p className="text-xl text-gray-600">
+              Choose the perfect plan for your health care needs. All plans
+              include 24/7 customer support and access to our network of
+              accredited hospitals.
+            </p>
+          </div>
         </div>
       </div>
 
-      {/* Programs Grid */}
-      <div className="container mx-auto px-4 py-16">
-        <div className="grid gap-8 md:grid-cols-2">
-          {programs.map((program) => (
-            <div
-              key={program.id}
-              className="flex flex-col rounded-lg border border-gray-200 bg-white p-8 shadow-sm transition-all hover:shadow-lg"
-            >
-              {/* Plan Header */}
-              <div className="mb-6 border-b border-gray-200 pb-6">
-                <h2 className="mb-2 text-3xl font-bold text-gray-900">
-                  {program.title}
-                </h2>
-                <div className="text-lg font-semibold text-blue-600">
-                  {program.id === 1 ? (
-                    <div>
-                      <p>Principal: {program.pricing.principal}</p>
-                      <p className="text-sm text-gray-600">
-                        + Family rates available
-                      </p>
-                    </div>
-                  ) : (
-                    <p>{program.pricing.annual}</p>
-                  )}
-                </div>
-              </div>
-
-              {/* Description */}
-              <p className="mb-6 text-gray-600">{program.description}</p>
-
-              {/* Features List */}
-              <div className="mb-8 flex-grow">
-                <h3 className="mb-4 font-semibold text-gray-900">
-                  What's Included:
-                </h3>
-                <ul className="space-y-2 pl-0 list-none">
-                  {program.features.map((feature, index) => (
-                    <li
-                      key={index}
-                      className="flex items-start gap-3 text-gray-700 leading-6"
-                    >
-                      <span className="flex-shrink-0 mt-2 h-2 w-2 rounded-full bg-blue-600"></span>
-                      <span className="flex-1">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* Button */}
-              <Button
-                asChild
-                className="w-full bg-blue-600 text-white hover:bg-blue-700"
-              >
-                <a href={`/programs/${program.id}`}>View Full Details</a>
-              </Button>
+      {/* Programs Section */}
+      <div className="container mx-auto px-4 py-20">
+        {programs.length === 0 ? (
+          <div className="mx-auto max-w-2xl rounded-lg border border-yellow-200 bg-yellow-50 p-8 text-center">
+            <p className="text-lg text-yellow-800">
+              No programs available at this time. Please check back soon.
+            </p>
+          </div>
+        ) : (
+          <>
+            <div className="mb-8 text-center">
+              <p className="text-lg font-semibold text-blue-600">
+                {programs.length} Plan{programs.length !== 1 ? "s" : ""}{" "}
+                Available
+              </p>
             </div>
-          ))}
-        </div>
-      </div>
 
-      {/* Hospitals Directory CTA */}
-      <div className="container mx-auto px-4 pb-16">
-        <div className="rounded-lg bg-white p-8 shadow-md flex flex-col items-center text-center">
-          <h2 className="mb-2 text-2xl font-bold text-gray-900">
-            Looking for accredited hospitals or clinics?
-          </h2>
-          <p className="mb-6 text-gray-600">
-            View the full directory of our accredited hospitals, clinics, and
-            doctors for your area.
-          </p>
-          <Button asChild className="bg-blue-600 text-white hover:bg-blue-700">
-            <a href="/hospitals">View all our accredited hospitals/clinics</a>
-          </Button>
-        </div>
+            {/* Programs Grid - Responsive */}
+            <ProgramsGrid programs={programs} />
+
+            {/* Comparison Table */}
+            <ComparisonTable programs={programs} />
+
+            {/* Help Section */}
+            <HelpSection />
+          </>
+        )}
       </div>
     </main>
   );

@@ -65,6 +65,51 @@ export interface Hospital {
   email?: string;
 }
 
+export interface Benefit {
+  title: string;
+  description: string;
+}
+
+export interface HospitalizationRate {
+  category: string;
+  monthly?: string;
+  annual?: string;
+}
+
+export interface EligibilitySchedule {
+  period: string;
+  benefit: string;
+}
+
+export interface PricingStructure {
+  principal?: string;
+  spouse?: string;
+  child?: string;
+  parent?: string;
+  sibling?: string;
+  annual?: string;
+}
+
+export interface SanityProgram {
+  _id: string;
+  title: string;
+  slug: { current: string };
+  description: string;
+  features: string[];
+  pricing: PricingStructure;
+  order: number;
+  isActive: boolean;
+  highlighted?: boolean;
+}
+
+export interface SanityProgramDetail extends SanityProgram {
+  benefits?: Benefit[];
+  hospitalizationRates?: HospitalizationRate[];
+  eligibilitySchedule?: EligibilitySchedule[];
+  notes?: string;
+}
+
+// Legacy types (kept for backward compatibility)
 export interface Program {
   id: number;
   title: string;

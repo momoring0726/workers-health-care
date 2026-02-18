@@ -1,0 +1,339 @@
+import React from "react";
+import { notFound } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { publicClient } from "@/sanity/lib/client-public";
+import {
+  PROGRAM_BY_SLUG_QUERY,
+  PROGRAM_SLUGS_QUERY,
+} from "@/sanity/lib/queries";
+import type { SanityProgramDetail } from "@/types";
+import { Check, Shield, Heart, Zap, Users, ChevronDown } from "lucide-react";
+
+// Generate static params for ISR
+export async function generateStaticParams() {
+  try {
+    const slugs = await publicClient.fetch(PROGRAM_SLUGS_QUERY);
+    return slugs.map((item: { slug: string }) => ({
+      slug: item.slug,
+    }));
+  } catch (error) {
+    console.error("Error generating static params:", error);
+    return [];
+  }
+}
+
+async function getProgram(slug: string): Promise<SanityProgramDetail | null> {
+  try {
+    const program = await publicClient.fetch(
+      PROGRAM_BY_SLUG_QUERY,
+      { slug },
+      {
+        next: { revalidate: 3600 }, // Revalidate every hour
+      },
+    );
+    return program;
+  } catch (error) {
+    console.error("Error fetching program:", error);
+    return null;
+  }
+}
+
+// Accordion Item Component
+function AccordionItem({
+  title,
+  children,
+  defaultOpen = false,
+}: {
+  title: string;
+  children: React.ReactNode;
+  defaultOpen?: boolean;
+}) {
+  return (
+    <details
+      open={defaultOpen}
+      className="group rounded-xl border-2 border-gray-200 bg-white shadow-sm hover:shadow-md transition"
+    >
+      <summary className="flex cursor-pointer items-center justify-between px-6 py-5 font-semibold text-gray-900">
+        <span className="text-lg">{title}</span>
+        <ChevronDown className="h-5 w-5 transform transition group-open:rotate-180" />
+      </summary>
+      <div className="border-t border-gray-200 px-6 py-5 text-gray-700">
+        {children}
+      </div>
+    </details>
+  );
+}
+
+export default async function ProgramDetailPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+  const program = await getProgram(slug);
+
+  if (!program) {
+    notFound();
+  }
+
+  return (
+    <main className="min-h-screen bg-gray-50">
+      {/* Hero Header */}
+      <div className="relative overflow-hidden bg-gradient-to-br from-blue-600 via-blue-700 to-blue-900 px-4 py-20">
+        <div className="container relative mx-auto max-w-4xl">
+          <Link href="/programs">
+            <Button
+              variant="ghost"
+              className="mb-6 text-white hover:bg-white/20"
+            >
+              ← Back to Programs
+            </Button>
+          </Link>
+
+          <h1 className="mb-4 text-5xl font-bold text-white">
+            {program.title}
+          </h1>
+          <p className="text-xl text-blue-100">{program.description}</p>
+
+          <div className="mt-8 flex flex-wrap gap-4">
+            <Button
+              asChild
+              className="bg-white text-blue-600 hover:bg-gray-100"
+            >
+              <Link href="/#contact">Enroll Now</Link>
+            </Button>
+            <Button
+              asChild
+              className="bg-white/20 text-white hover:bg-white/30"
+            >
+              <a href="#accordion">View Details</a>
+            </Button>
+          </div>
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <div className="container mx-auto max-w-3xl px-4 py-16">
+        {/* Quick Stats */}
+        <div className="mb-12 grid gap-4 sm:grid-cols-3">
+          {[
+            {
+              icon: Shield,
+              title: "Comprehensive",
+              desc: "Full coverage",
+            },
+            {
+              icon: Check,
+              title: "Easy to Join",
+              desc: "Quick enrollment",
+            },
+            {
+              icon: Heart,
+              title: "Quality Care",
+              desc: "Premium network",
+            },
+          ].map((item, idx) => {
+            const Icon = item.icon;
+            return (
+              <div
+                key={idx}
+                className="rounded-lg bg-white p-4 text-center shadow-sm"
+              >
+                <Icon className="mb-2 h-8 w-8 text-blue-600 mx-auto" />
+                <h3 className="font-bold text-gray-900">{item.title}</h3>
+                <p className="text-sm text-gray-600">{item.desc}</p>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Accordion Sections */}
+        <div id="accordion" className="space-y-4">
+          {/* Overview Section */}
+          <AccordionItem title="✓ What's Included" defaultOpen={true}>
+            <div className="space-y-3">
+              {program.features.map((feature, idx) => (
+                <div key={idx} className="flex gap-3">
+                  <Check className="mt-0.5 h-5 w-5 flex-shrink-0 text-green-600" />
+                  <span>{feature}</span>
+                </div>
+              ))}
+            </div>
+          </AccordionItem>
+
+          {/* Pricing Section */}
+          <AccordionItem title="💰 Membership Rates">
+            {program.hospitalizationRates &&
+            program.hospitalizationRates.length > 0 ? (
+              <div className="grid gap-4 sm:grid-cols-2">
+                {program.hospitalizationRates.map((rate, index) => (
+                  <div
+                    key={index}
+                    className="rounded-lg border border-blue-200 bg-blue-50 p-4"
+                  >
+                    <p className="mb-2 text-sm font-semibold text-gray-600 uppercase">
+                      {rate.category}
+                    </p>
+                    {rate.monthly && (
+                      <p className="text-2xl font-bold text-blue-600">
+                        {rate.monthly}
+                        <span className="text-xs text-gray-600 font-normal">
+                          {" "}
+                          /mo
+                        </span>
+                      </p>
+                    )}
+                    {rate.annual && (
+                      <p className="text-lg font-semibold text-blue-600">
+                        {rate.annual}
+                        <span className="text-xs text-gray-600 font-normal">
+                          {" "}
+                          /yr
+                        </span>
+                      </p>
+                    )}
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="grid gap-4 sm:grid-cols-2">
+                {Object.entries(program.pricing).map(([key, value]) =>
+                  value ? (
+                    <div
+                      key={key}
+                      className="rounded-lg border border-blue-200 bg-blue-50 p-4"
+                    >
+                      <p className="mb-2 text-sm font-semibold text-gray-600 uppercase">
+                        {key.replace(/([A-Z])/g, " $1").trim()}
+                      </p>
+                      <p className="text-2xl font-bold text-blue-600">
+                        {value}
+                      </p>
+                    </div>
+                  ) : null,
+                )}
+              </div>
+            )}
+          </AccordionItem>
+
+          {/* Detailed Benefits Section */}
+          {program.benefits && program.benefits.length > 0 && (
+            <AccordionItem title="⚡ Detailed Benefits">
+              <div className="space-y-4">
+                {program.benefits.map((benefit, index) => (
+                  <div key={index} className="rounded-lg bg-gray-50 p-4">
+                    <h4 className="mb-2 font-bold text-gray-900">
+                      {benefit.title}
+                    </h4>
+                    <p className="text-sm text-gray-700">
+                      {benefit.description}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </AccordionItem>
+          )}
+
+          {/* Hospitalization Rates Section */}
+          {program.hospitalizationRates &&
+            program.hospitalizationRates.length > 0 && (
+              <AccordionItem title="📊 Coverage by Member Type">
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="border-b-2 border-gray-300">
+                        <th className="px-3 py-2 text-left font-bold text-gray-900">
+                          Member
+                        </th>
+                        <th className="px-3 py-2 text-left font-bold text-gray-900">
+                          Monthly
+                        </th>
+                        <th className="px-3 py-2 text-left font-bold text-blue-600">
+                          Annual
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-200">
+                      {program.hospitalizationRates.map((rate, index) => (
+                        <tr key={index}>
+                          <td className="px-3 py-2 font-semibold text-gray-900">
+                            {rate.category}
+                          </td>
+                          <td className="px-3 py-2 text-gray-700">
+                            {rate.monthly || "—"}
+                          </td>
+                          <td className="px-3 py-2 font-semibold text-blue-600">
+                            {rate.annual || "—"}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </AccordionItem>
+            )}
+
+          {/* Eligibility Schedule Section */}
+          {program.eligibilitySchedule &&
+            program.eligibilitySchedule.length > 0 && (
+              <AccordionItem title="📅 Benefit Build-up Schedule">
+                <div className="space-y-3">
+                  {program.eligibilitySchedule.map((schedule, index) => (
+                    <div
+                      key={index}
+                      className="flex gap-3 rounded-lg bg-blue-50 p-3"
+                    >
+                      <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-blue-600 text-sm font-bold text-white">
+                        {index + 1}
+                      </div>
+                      <div className="flex-grow">
+                        <p className="text-sm font-semibold text-gray-900">
+                          {schedule.period}
+                        </p>
+                        <p className="text-sm font-bold text-blue-600">
+                          {schedule.benefit}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </AccordionItem>
+            )}
+
+          {/* Network Section */}
+          <AccordionItem title="🏥 Accredited Network">
+            <div className="space-y-4">
+              <p className="text-gray-700">
+                Access to a wide network of accredited hospitals, clinics, and
+                healthcare professionals nationwide.
+              </p>
+              <Button asChild className="bg-blue-600 hover:bg-blue-700">
+                <Link href="/hospitals">View Our Network</Link>
+              </Button>
+            </div>
+          </AccordionItem>
+        </div>
+
+        {/* CTA Section */}
+        <section className="mt-12 rounded-2xl bg-gradient-to-r from-blue-600 to-blue-800 p-8 text-center text-white">
+          <h2 className="mb-3 text-3xl font-bold">Ready to Join?</h2>
+          <p className="mb-6 text-blue-100">
+            Start your journey to better healthcare with {program.title} today
+          </p>
+          <div className="flex flex-col gap-3 sm:flex-row sm:justify-center">
+            <Button asChild className="bg-white text-blue-600 hover:bg-blue-50">
+              <Link href="/#contact">Enroll Now</Link>
+            </Button>
+            <Button
+              asChild
+              className="bg-blue-700 text-white hover:bg-blue-600 border border-white"
+            >
+              <a href="/programs">Compare Plans</a>
+            </Button>
+          </div>
+        </section>
+      </div>
+    </main>
+  );
+}

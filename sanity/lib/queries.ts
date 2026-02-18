@@ -134,3 +134,60 @@ export const NEWS_CATEGORIES_QUERY = defineQuery(`
     title
   }
 `);
+
+/**
+ * All programs query
+ * Fetches all active insurance programs
+ * Sorted by display order
+ */
+export const PROGRAMS_QUERY = defineQuery(`
+  *[_type == "program" && isActive == true] | order(order asc) {
+    _id,
+    title,
+    slug { current },
+    description,
+    features,
+    pricing,
+    order,
+    highlighted
+  }
+`);
+
+/**
+ * Single program by slug
+ * Fetches complete program details including benefits
+ */
+export const PROGRAM_BY_SLUG_QUERY = defineQuery(`
+  *[_type == "program" && slug.current == $slug && isActive == true][0] {
+    _id,
+    title,
+    slug { current },
+    description,
+    features,
+    pricing,
+    benefits[] {
+      title,
+      description
+    },
+    hospitalizationRates[] {
+      category,
+      monthly,
+      annual
+    },
+    eligibilitySchedule[] {
+      period,
+      benefit
+    },
+    notes
+  }
+`);
+
+/**
+ * Programs for static page generation
+ * Lightweight query just for slugs
+ */
+export const PROGRAM_SLUGS_QUERY = defineQuery(`
+  *[_type == "program" && isActive == true] | order(_createdAt desc) {
+    "slug": slug.current
+  }
+`);

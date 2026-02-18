@@ -140,6 +140,7 @@ export const bulkDeleteAction: Tool = {
             <option value="news">News</option>
             <option value="newsCategory">News Category</option>
             <option value="location">Location</option>
+            <option value="program">Program</option>
           </select>
           <button
             onClick={fetchDocuments}

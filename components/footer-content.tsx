@@ -124,11 +124,6 @@ export async function FooterContent() {
                   Privacy Policy
                 </a>
               </li>
-              <li>
-                <a href="/terms" className="hover:text-blue-600">
-                  Terms &amp; Conditions
-                </a>
-              </li>
             </ul>
           </div>
         </div>
