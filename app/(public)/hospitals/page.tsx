@@ -1,10 +1,35 @@
 import HospitalsList from "@/components/hospitals-list";
+import type { Metadata } from "next";
 import { publicClient } from "@/sanity/lib/client-public";
 import { HOSPITALS_QUERY } from "@/sanity/lib/queries";
+import { REVALIDATION_CONFIG } from "@/lib/cache-config";
+
+// ISR: Revalidate every hour for hospitals
+export const revalidate = 3600;
+
+export const metadata: Metadata = {
+  title: "Healthcare Facilities | Workers Health Care",
+  description:
+    "Find hospitals, clinics, and healthcare providers in our network across the Philippines.",
+  openGraph: {
+    title: "Healthcare Facilities | Workers Health Care",
+    description:
+      "Find hospitals, clinics, and healthcare providers in our network across the Philippines.",
+    type: "website",
+  },
+};
 
 async function fetchHospitals() {
   try {
-    const res = await publicClient.fetch(HOSPITALS_QUERY);
+    const res = await publicClient.fetch(
+      HOSPITALS_QUERY,
+      {},
+      {
+        next: {
+          tags: REVALIDATION_CONFIG.hospitals.tags,
+        },
+      },
+    );
     return res.map(
       (item: {
         _id: string;

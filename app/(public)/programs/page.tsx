@@ -5,12 +5,22 @@ import type { SanityProgram } from "@/types";
 import { ProgramsGrid } from "@/components/programs-grid";
 import { ComparisonTable } from "@/components/comparison-table";
 import { HelpSection } from "@/components/help-section";
+import { REVALIDATION_CONFIG } from "@/lib/cache-config";
 
-export const revalidate = 60; // ISR revalidation for faster updates
+// ISR: Revalidate every 60 seconds for programs
+export const revalidate = 60;
 
 async function getPrograms(): Promise<SanityProgram[]> {
   try {
-    const programs = await publicClient.fetch(PROGRAMS_QUERY);
+    const programs = await publicClient.fetch(
+      PROGRAMS_QUERY,
+      {},
+      {
+        next: {
+          tags: REVALIDATION_CONFIG.programs.tags,
+        },
+      },
+    );
     return programs || [];
   } catch (error) {
     console.error("Error fetching programs:", error);

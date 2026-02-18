@@ -7,10 +7,22 @@ import { urlFor } from "@/sanity/lib/image";
 import { publicClient } from "@/sanity/lib/client-public";
 import { NEWS_BY_SLUG_QUERY, NEWS_SLUGS_QUERY } from "@/sanity/lib/queries";
 import { NewsImageCarousel, ContentRenderer } from "./NewsDetailClient";
+import { REVALIDATION_CONFIG } from "@/lib/cache-config";
+
+// ISR: Revalidate every hour for news details
+export const revalidate = 3600;
 
 // Generate static params for all news articles
 export async function generateStaticParams() {
-  const slugs = await publicClient.fetch(NEWS_SLUGS_QUERY);
+  const slugs = await publicClient.fetch(
+    NEWS_SLUGS_QUERY,
+    {},
+    {
+      next: {
+        tags: REVALIDATION_CONFIG.news.tags,
+      },
+    },
+  );
   return slugs.map((item: { slug: string }) => ({
     slug: item.slug,
   }));
@@ -24,8 +36,8 @@ async function getArticle(slug: string): Promise<NewsArticleDetail | null> {
       { slug },
       {
         next: {
-          revalidate: 3600, // Revalidate every hour for fresh content
-          tags: ["news"],
+          revalidate: 3600, // Use webhook for instant updates
+          tags: REVALIDATION_CONFIG.newsDetail.tags,
         },
       },
     );

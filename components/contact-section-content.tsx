@@ -2,6 +2,7 @@ import React from "react";
 import { Mail, Phone, MapPin } from "lucide-react";
 import { publicClient } from "@/sanity/lib/client-public";
 import { CONTACT_QUERY } from "@/sanity/lib/queries";
+import { REVALIDATION_CONFIG } from "@/lib/cache-config";
 
 interface ContactData {
   _id: string;
@@ -17,8 +18,8 @@ async function getContactData(): Promise<ContactData | null> {
       {},
       {
         next: {
-          revalidate: 0, // Revalidate instantly
-          tags: ["contact"],
+          revalidate: 86400, // Daily updates for contact info
+          tags: REVALIDATION_CONFIG.contact.tags,
         },
       },
     );

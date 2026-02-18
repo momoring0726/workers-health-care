@@ -1,12 +1,13 @@
-import { revalidatePath } from "next/cache";
+import { revalidateTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
+import { CACHE_TAGS } from "@/lib/cache-config";
 
 /**
  * On-demand Revalidation API Endpoint
  * Context7: Production-grade cache invalidation for Sanity webhooks
  *
  * Triggered by Sanity Studio webhooks when documents are published/updated
- * Revalidates specific paths based on document type
+ * Uses tag-based revalidation for efficient, targeted cache invalidation
  */
 
 const REVALIDATE_SECRET = process.env.SANITY_REVALIDATE_SECRET;
@@ -23,35 +24,37 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { _type } = body;
 
-    // Revalidate based on document type
+    // Revalidate based on document type using cache tags
     switch (_type) {
       case "program":
-        revalidatePath("/programs");
-        revalidatePath("/");
-        console.log("[Revalidation] Programs updated");
+        revalidateTag(CACHE_TAGS.PROGRAMS, "default");
+        revalidateTag(CACHE_TAGS.PROGRAM_DETAIL, "default");
+        console.log("[Revalidation] Programs cache tags invalidated");
         break;
 
       case "news":
-        revalidatePath("/news");
-        revalidatePath("/");
-        console.log("[Revalidation] News updated");
+        revalidateTag(CACHE_TAGS.NEWS, "default");
+        revalidateTag(CACHE_TAGS.NEWS_DETAIL, "default");
+        console.log("[Revalidation] News cache tags invalidated");
         break;
 
       case "contact":
-        revalidatePath("/");
-        console.log("[Revalidation] Contact information updated");
+        revalidateTag(CACHE_TAGS.CONTACT, "default");
+        console.log("[Revalidation] Contact cache tags invalidated");
         break;
 
       case "hospital":
       case "location":
-        revalidatePath("/hospitals");
-        console.log("[Revalidation] Hospitals/Locations updated");
+        revalidateTag(CACHE_TAGS.HOSPITALS, "default");
+        console.log("[Revalidation] Hospitals cache tags invalidated");
         break;
 
       default:
-        // Revalidate all pages if unknown type
-        revalidatePath("/");
-        console.log(`[Revalidation] Unknown type: ${_type}, revalidated all`);
+        // Revalidate all content if unknown type
+        revalidateTag(CACHE_TAGS.CONTENT, "default");
+        console.log(
+          `[Revalidation] Unknown type: ${_type}, revalidated all content`,
+        );
     }
 
     return NextResponse.json(

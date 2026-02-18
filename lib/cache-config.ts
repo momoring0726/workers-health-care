@@ -49,29 +49,29 @@ export const REVALIDATE_INTERVALS = {
 export const REVALIDATION_CONFIG = {
   programs: {
     interval: REVALIDATE_INTERVALS.FAST,
-    tags: [CACHE_TAGS.PROGRAMS],
+    tags: [CACHE_TAGS.PROGRAMS] as string[],
   },
   programDetail: {
     interval: REVALIDATE_INTERVALS.FAST,
-    tags: [CACHE_TAGS.PROGRAM_DETAIL],
+    tags: [CACHE_TAGS.PROGRAM_DETAIL] as string[],
   },
   news: {
     interval: REVALIDATE_INTERVALS.NORMAL,
-    tags: [CACHE_TAGS.NEWS],
+    tags: [CACHE_TAGS.NEWS] as string[],
   },
   newsDetail: {
     interval: REVALIDATE_INTERVALS.NORMAL,
-    tags: [CACHE_TAGS.NEWS_DETAIL],
+    tags: [CACHE_TAGS.NEWS_DETAIL] as string[],
   },
   hospitals: {
     interval: REVALIDATE_INTERVALS.NORMAL,
-    tags: [CACHE_TAGS.HOSPITALS],
+    tags: [CACHE_TAGS.HOSPITALS] as string[],
   },
   contact: {
     interval: REVALIDATE_INTERVALS.SLOW,
-    tags: [CACHE_TAGS.CONTACT],
+    tags: [CACHE_TAGS.CONTACT] as string[],
   },
-} as const;
+};
 
 /**
  * Generate revalidation options for fetch requests

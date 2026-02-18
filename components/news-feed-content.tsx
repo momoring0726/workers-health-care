@@ -23,6 +23,8 @@ interface NewsItem {
   };
 }
 
+import { REVALIDATION_CONFIG } from "@/lib/cache-config";
+
 async function getNews(): Promise<NewsItem[]> {
   try {
     const data = await publicClient.fetch(
@@ -30,8 +32,8 @@ async function getNews(): Promise<NewsItem[]> {
       {},
       {
         next: {
-          revalidate: 0, // Always fresh - change to 3600 when using webhooks
-          tags: ["news"],
+          revalidate: 3600, // Use webhook for instant updates
+          tags: REVALIDATION_CONFIG.news.tags,
         },
       },
     );

@@ -5,12 +5,22 @@ import { PROGRAMS_QUERY } from "@/sanity/lib/queries";
 import type { SanityProgram } from "@/types";
 import Link from "next/link";
 import { Check, ArrowRight } from "lucide-react";
+import { REVALIDATION_CONFIG } from "@/lib/cache-config";
 
-export const revalidate = 60; // Revalidate every 60 seconds
+// ISR: Revalidate every 60 seconds for programs
+export const revalidate = 60;
 
 async function getPrograms(): Promise<SanityProgram[]> {
   try {
-    const programs = await publicClient.fetch(PROGRAMS_QUERY);
+    const programs = await publicClient.fetch(
+      PROGRAMS_QUERY,
+      {},
+      {
+        next: {
+          tags: REVALIDATION_CONFIG.programs.tags,
+        },
+      },
+    );
     return programs || [];
   } catch (error) {
     console.error("Error fetching programs:", error);

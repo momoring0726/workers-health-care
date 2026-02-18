@@ -5,6 +5,9 @@ import { PptCarousel } from "@/components/ppt-carousel";
 import { ContactSection } from "@/components/contact-section";
 import { NewsFeed } from "@/components/news-feed";
 
+// ISR: Revalidate every hour for homepage
+export const revalidate = 3600;
+
 export default function Home() {
   return (
     <main>

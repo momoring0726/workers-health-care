@@ -4,6 +4,10 @@ import { NewsClientInteractions } from "@/components/NewsClientInteractions";
 import { publicClient } from "@/sanity/lib/client-public";
 import { ALL_NEWS_QUERY, NEWS_CATEGORIES_QUERY } from "@/sanity/lib/queries";
 import type { NewsArticle, NewsCategory } from "@/types";
+import { REVALIDATION_CONFIG } from "@/lib/cache-config";
+
+// ISR: Revalidate every hour for news listing
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: "News & Announcements | Workers Health Care",
@@ -20,7 +24,15 @@ export const metadata: Metadata = {
 // Server-side data fetching functions
 async function getNews(): Promise<NewsArticle[]> {
   try {
-    const news = await publicClient.fetch(ALL_NEWS_QUERY);
+    const news = await publicClient.fetch(
+      ALL_NEWS_QUERY,
+      {},
+      {
+        next: {
+          tags: REVALIDATION_CONFIG.news.tags,
+        },
+      },
+    );
     return news;
   } catch (error) {
     console.error("Error fetching news:", error);
@@ -30,7 +42,15 @@ async function getNews(): Promise<NewsArticle[]> {
 
 async function getCategories(): Promise<NewsCategory[]> {
   try {
-    const categories = await publicClient.fetch(NEWS_CATEGORIES_QUERY);
+    const categories = await publicClient.fetch(
+      NEWS_CATEGORIES_QUERY,
+      {},
+      {
+        next: {
+          tags: REVALIDATION_CONFIG.news.tags,
+        },
+      },
+    );
     return categories;
   } catch (error) {
     console.error("Error fetching categories:", error);

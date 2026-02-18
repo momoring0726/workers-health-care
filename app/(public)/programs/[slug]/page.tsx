@@ -2,6 +2,7 @@ import React from "react";
 import { notFound } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import type { Metadata } from "next";
 import { publicClient } from "@/sanity/lib/client-public";
 import {
   PROGRAM_BY_SLUG_QUERY,
@@ -9,11 +10,23 @@ import {
 } from "@/sanity/lib/queries";
 import type { SanityProgramDetail } from "@/types";
 import { Check, Shield, Heart, Zap, Users, ChevronDown } from "lucide-react";
+import { REVALIDATION_CONFIG } from "@/lib/cache-config";
+
+// ISR: Revalidate every 60 seconds for program details
+export const revalidate = 60;
 
 // Generate static params for ISR
 export async function generateStaticParams() {
   try {
-    const slugs = await publicClient.fetch(PROGRAM_SLUGS_QUERY);
+    const slugs = await publicClient.fetch(
+      PROGRAM_SLUGS_QUERY,
+      {},
+      {
+        next: {
+          tags: REVALIDATION_CONFIG.programs.tags,
+        },
+      },
+    );
     return slugs.map((item: { slug: string }) => ({
       slug: item.slug,
     }));
@@ -29,7 +42,9 @@ async function getProgram(slug: string): Promise<SanityProgramDetail | null> {
       PROGRAM_BY_SLUG_QUERY,
       { slug },
       {
-        next: { revalidate: 3600 }, // Revalidate every hour
+        next: {
+          tags: REVALIDATION_CONFIG.programDetail.tags,
+        },
       },
     );
     return program;
@@ -37,6 +52,32 @@ async function getProgram(slug: string): Promise<SanityProgramDetail | null> {
     console.error("Error fetching program:", error);
     return null;
   }
+}
+
+// Dynamic metadata generation for SEO
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const program = await getProgram(slug);
+
+  if (!program) {
+    return {
+      title: "Program Not Found | Workers Health Care",
+    };
+  }
+
+  return {
+    title: `${program.title} | Workers Health Care`,
+    description: program.description,
+    openGraph: {
+      title: `${program.title} | Workers Health Care`,
+      description: program.description,
+      type: "website",
+    },
+  };
 }
 
 // Accordion Item Component
