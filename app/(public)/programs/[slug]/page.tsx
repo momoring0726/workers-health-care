@@ -13,7 +13,7 @@ import { Check, Shield, Heart, Zap, Users, ChevronDown } from "lucide-react";
 import { REVALIDATION_CONFIG } from "@/lib/cache-config";
 
 // ISR: Revalidate every 60 seconds for program details
-export const revalidate = 60;
+export const revalidate = 0;
 
 // Generate static params for ISR
 export async function generateStaticParams() {
@@ -43,7 +43,7 @@ async function getProgram(slug: string): Promise<SanityProgramDetail | null> {
       { slug },
       {
         next: {
-          tags: REVALIDATION_CONFIG.programDetail.tags,
+          tags: REVALIDATION_CONFIG.programs.tags,
         },
       },
     );

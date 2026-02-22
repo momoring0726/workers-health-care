@@ -39,6 +39,7 @@ export interface NewsArticle {
 
 export interface NewsArticleDetail extends NewsArticle {
   content: ContentBlock[];
+  images?: SanityImage[];
 }
 
 export interface ContentBlock {

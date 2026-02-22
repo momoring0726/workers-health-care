@@ -1,9 +1,16 @@
 "use client";
 
-import { Calendar, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  ArrowRight,
+  ChevronLeft,
+  ChevronRight,
+  Calendar,
+  Sparkles,
+  X,
+} from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { urlFor } from "@/sanity/lib/image";
 
 interface NewsItem {
@@ -26,166 +33,284 @@ interface NewsItem {
   };
 }
 
-const ITEMS_PER_PAGE = 3;
-
 export function NewsFeedCarousel({ items }: { items: NewsItem[] }) {
-  const [currentPage, setCurrentPage] = useState(0);
-
-  const totalPages = Math.ceil(items.length / ITEMS_PER_PAGE);
-  const currentItems = items.slice(
-    currentPage * ITEMS_PER_PAGE,
-    (currentPage + 1) * ITEMS_PER_PAGE,
-  );
-
-  const handlePrevious = () => {
-    setCurrentPage((prev) => (prev - 1 + totalPages) % totalPages);
-  };
-
-  const handleNext = () => {
-    setCurrentPage((prev) => (prev + 1) % totalPages);
-  };
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [touchStart, setTouchStart] = useState(0);
+  const [touchEnd, setTouchEnd] = useState(0);
+  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
 
   if (items.length === 0) {
     return (
-      <div className="text-center py-12">
-        <p className="text-gray-600 text-lg">No featured news yet.</p>
-        <p className="text-gray-500">Check back soon for the latest updates.</p>
+      <div className="text-center py-24">
+        <p className="text-gray-600 text-lg">No featured news available.</p>
+        <p className="text-gray-500 mt-2">Check back soon for updates.</p>
       </div>
     );
   }
 
+  const currentItem = items[currentIndex];
+  const cardImageUrl = currentItem.cardImage
+    ? urlFor(currentItem.cardImage).width(1600).height(900).url()
+    : "/news-placeholder.svg";
+  const fullImageUrl = currentItem.cardImage
+    ? urlFor(currentItem.cardImage).url()
+    : "/news-placeholder.svg";
+  const cardImageAlt = currentItem.cardImage?.alt || currentItem.title;
+
+  const handlePrevious = () => {
+    setIsTransitioning(true);
+    setCurrentIndex((prev) => (prev - 1 + items.length) % items.length);
+  };
+
+  const handleNext = () => {
+    setIsTransitioning(true);
+    setCurrentIndex((prev) => (prev + 1) % items.length);
+  };
+
+  const handleDotClick = (index: number) => {
+    setIsTransitioning(true);
+    setCurrentIndex(index);
+  };
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    setTouchEnd(e.changedTouches[0].clientX);
+    handleSwipe();
+  };
+
+  const handleSwipe = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > 50;
+    const isRightSwipe = distance < -50;
+
+    if (isLeftSwipe) {
+      handleNext();
+    } else if (isRightSwipe) {
+      handlePrevious();
+    }
+  };
+
+  useEffect(() => {
+    if (isTransitioning) {
+      const timer = setTimeout(() => setIsTransitioning(false), 500);
+      return () => clearTimeout(timer);
+    }
+  }, [isTransitioning]);
+
   return (
-    <>
-      {/* Carousel Container */}
-      <div className="relative">
-        {/* News Grid */}
-        <div className="news-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 transition-all duration-700 ease-in-out">
-          {currentItems.map((item, index) => {
-            const cardImageUrl = item.cardImage
-              ? urlFor(item.cardImage).width(600).height(400).url()
-              : "/news-placeholder.svg";
-            const cardImageAlt = item.cardImage?.alt || item.title;
-
-            return (
-              <Link
-                key={item._id}
-                href={`/news/${item.slug.current}`}
-                className="group animate-in fade-in slide-in-from-bottom-4 duration-500"
-                style={{ animationDelay: `${index * 100}ms` }}
+    <div className="w-full">
+      {/* Hero-Style Featured News Section */}
+      <div
+        className="relative w-full overflow-hidden h-auto md:h-[700px] lg:h-[800px] bg-gradient-to-b from-white via-blue-100 to-white"
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+      >
+        {/* Content Container */}
+        <div className="relative z-10 container mx-auto px-4 sm:px-6 max-w-7xl h-full flex items-center pt-8 pb-32 md:py-32 lg:py-40">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-start lg:items-center w-full">
+            {/* Image Preview (Mobile & Desktop) */}
+            <div className="lg:hidden relative w-full aspect-[4/3] sm:aspect-video order-first mb-4">
+              <button
+                onClick={() => setIsLightboxOpen(true)}
+                className="absolute inset-0 rounded-3xl overflow-hidden border-2 border-white/60 shadow-[0_8px_30px_rgb(0,0,0,0.12)] hover:shadow-[0_8px_30px_rgba(37,99,235,0.2)] transition-all duration-300 cursor-pointer group"
               >
-                <article className="relative overflow-hidden rounded-xl bg-white shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-2 flex flex-col h-full border border-blue-100 hover:border-blue-400 bg-gradient-to-br from-white via-white to-blue-50">
-                  {/* Gradient Border Top */}
-                  <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500"></div>
-
-                  {/* Card Image */}
-                  <div className="relative w-full h-48 overflow-hidden">
-                    <Image
-                      src={cardImageUrl}
-                      alt={cardImageAlt}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
+                <Image
+                  src={cardImageUrl}
+                  alt={cardImageAlt}
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-500 will-change-transform"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  priority
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-blue-900/60 via-black/20 to-transparent" />
+                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/10">
+                  <div className="bg-white/20 backdrop-blur-md border border-white/30 text-white text-sm font-semibold px-5 py-2.5 rounded-full shadow-lg transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                    <span className="flex items-center gap-2">
+                      <Sparkles className="w-4 h-4" />
+                      View Image
+                    </span>
                   </div>
+                </div>
+              </button>
+            </div>
 
-                  <div className="p-4 flex-grow flex flex-col gap-2.5">
-                    {/* Header: Category, Date & Badge */}
-                    <div className="flex items-center justify-between gap-2">
-                      <div className="flex items-center gap-2 flex-1 min-w-0">
-                        <span className="inline-block px-2.5 py-0.5 bg-gradient-to-r from-blue-100 to-purple-100 text-blue-700 text-sm font-semibold rounded-md whitespace-nowrap">
-                          {item.category?.title || "Uncategorized"}
-                        </span>
-                        <div className="flex items-center gap-1 text-gray-500 text-sm">
-                          <Calendar className="w-3 h-3" />
-                          <time dateTime={item.date}>
-                            {new Date(item.date).toLocaleDateString("en-US", {
-                              month: "short",
-                              day: "numeric",
-                            })}
-                          </time>
-                        </div>
-                      </div>
-                      <div className="px-2 py-0.5 bg-gradient-to-r from-blue-500 to-purple-500 text-white text-xs font-semibold rounded-md shadow-sm">
-                        Featured
-                      </div>
-                    </div>
+            {/* Left: Content */}
+            <div
+              className={`transition-all duration-500 ${isTransitioning
+                ? "opacity-0 translate-y-4"
+                : "opacity-100 translate-y-0"
+                }`}
+            >
+              {/* Category Badge */}
+              <div className="inline-flex items-center gap-2 mb-4 md:mb-6 px-4 py-1.5 md:py-2 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-full border border-blue-100/50 shadow-sm w-fit">
+                <Sparkles className="w-3.5 h-3.5 md:w-4 md:h-4 text-blue-600" />
+                <span className="text-blue-700 font-bold text-xs md:text-sm uppercase tracking-widest">
+                  {currentItem.category?.title || "Featured"}
+                </span>
+              </div>
 
-                    {/* Title */}
-                    <h3 className="text-lg font-bold text-gray-900 group-hover:text-blue-600 transition-colors duration-300 leading-tight line-clamp-2">
-                      {item.title}
-                    </h3>
+              {/* Title */}
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-gray-900 to-gray-700 mb-4 md:mb-6 leading-[1.15] tracking-tight">
+                {currentItem.title}
+              </h2>
 
-                    {/* Excerpt */}
-                    <p className="text-gray-600 text-sm leading-relaxed line-clamp-2 flex-grow">
-                      {item.shortDescription}
-                    </p>
+              {/* Date */}
+              <div className="flex items-center gap-2.5 text-gray-500 mb-6 md:mb-8">
+                <Calendar className="w-4 h-4 md:w-5 md:h-5 text-blue-500" />
+                <time
+                  dateTime={currentItem.date}
+                  className="text-sm md:text-base lg:text-lg font-medium tracking-wide uppercase"
+                >
+                  {new Date(currentItem.date).toLocaleDateString("en-US", {
+                    month: "long",
+                    day: "numeric",
+                    year: "numeric",
+                  })}
+                </time>
+              </div>
 
-                    {/* Read More Link */}
-                    <div className="inline-flex items-center gap-1.5 text-blue-600 font-semibold text-sm group-hover:text-blue-700 transition-all duration-300 mt-auto">
-                      <span className="group-hover:underline">Read More</span>
-                      <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-300" />
-                    </div>
-                  </div>
-                </article>
+              {/* Description */}
+              <p className="text-gray-600 font-light text-base sm:text-lg lg:text-xl leading-relaxed mb-8 md:mb-10 max-w-2xl">
+                {currentItem.shortDescription}
+              </p>
+
+              {/* CTA Button */}
+              <Link
+                href={`/news/${currentItem.slug.current}`}
+                className="inline-flex items-center justify-center w-full sm:w-auto gap-3 px-6 md:px-8 py-3.5 md:py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold text-sm md:text-base lg:text-lg rounded-2xl hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 shadow-[0_8px_20px_rgba(37,99,235,0.25)] hover:shadow-[0_12px_25px_rgba(37,99,235,0.4)] group hover:-translate-y-1"
+              >
+                <span>Read Full Story</span>
+                <ArrowRight className="w-4 h-4 md:w-5 md:h-5 group-hover:translate-x-1.5 transition-transform" />
               </Link>
-            );
-          })}
+            </div>
+
+            {/* Right: Image Preview (Desktop Only) */}
+            <div className="hidden lg:block relative h-96">
+              <button
+                onClick={() => setIsLightboxOpen(true)}
+                className="absolute inset-0 rounded-2xl overflow-hidden border border-white/20 shadow-2xl hover:shadow-blue-600/50 transition-all duration-300 cursor-pointer group"
+              >
+                <Image
+                  src={cardImageUrl}
+                  alt={cardImageAlt}
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-300"
+                  sizes="50vw"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
+                  <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="text-white text-sm font-semibold bg-black/50 px-4 py-2 rounded-lg backdrop-blur-md">
+                      Click to expand
+                    </div>
+                  </div>
+                </div>
+              </button>
+            </div>
+          </div>
         </div>
 
         {/* Navigation Controls */}
-        {totalPages > 1 && (
+        {items.length > 1 && (
           <>
-            {/* Previous Button */}
-            <button
-              onClick={handlePrevious}
-              className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-16 md:-translate-x-20 p-2 md:p-3 rounded-full bg-blue-600 text-white hover:bg-blue-700 transition-all duration-200 hover:scale-110 hidden sm:flex items-center justify-center"
-              aria-label="Previous news"
-            >
-              <ChevronLeft className="w-5 h-5 md:w-6 md:h-6" />
-            </button>
+            {/* Side Arrows - Desktop only */}
+            <div className="hidden md:flex absolute inset-y-0 left-0 right-0 items-center justify-between px-4 z-20 pointer-events-none">
+              <button
+                onClick={handlePrevious}
+                className="pointer-events-auto p-3 rounded-full bg-blue-600 border border-blue-700 text-white hover:bg-blue-700 transition-all duration-300 hover:scale-110 shadow-lg"
+                aria-label="Previous news"
+              >
+                <ChevronLeft className="w-6 h-6" />
+              </button>
 
-            {/* Next Button */}
-            <button
-              onClick={handleNext}
-              className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-16 md:translate-x-20 p-2 md:p-3 rounded-full bg-blue-600 text-white hover:bg-blue-700 transition-all duration-200 hover:scale-110 hidden sm:flex items-center justify-center"
-              aria-label="Next news"
-            >
-              <ChevronRight className="w-5 h-5 md:w-6 md:h-6" />
-            </button>
+              <button
+                onClick={handleNext}
+                className="pointer-events-auto p-3 rounded-full bg-blue-600 border border-blue-700 text-white hover:bg-blue-700 transition-all duration-300 hover:scale-110 shadow-lg"
+                aria-label="Next news"
+              >
+                <ChevronRight className="w-6 h-6" />
+              </button>
+            </div>
+
+            {/* Bottom Pagination */}
+            <div className="absolute bottom-6 md:bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-4 md:gap-6">
+              {/* Dots */}
+              <div className="flex items-center gap-2 md:gap-3">
+                {items.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => handleDotClick(index)}
+                    className={`transition-all duration-300 rounded-full border ${currentIndex === index
+                      ? "bg-blue-600 border-blue-700 w-8 md:w-10 h-2.5 md:h-3"
+                      : "bg-gray-400 border-gray-500 w-2.5 md:w-3 h-2.5 md:h-3 hover:bg-gray-500"
+                      }`}
+                    aria-label={`Go to news ${index + 1}`}
+                    aria-current={currentIndex === index ? "page" : undefined}
+                  />
+                ))}
+              </div>
+
+              {/* Counter */}
+              <div className="text-gray-700 font-semibold text-center text-xs md:text-sm">
+                <span className="text-blue-600 font-bold">
+                  {currentIndex + 1}
+                </span>
+                <span className="mx-2 text-gray-500">/</span>
+                <span>{items.length}</span>
+              </div>
+            </div>
           </>
         )}
       </div>
 
-      {/* Pagination Dots */}
-      {totalPages > 1 && (
-        <div className="flex items-center justify-center gap-3 mt-12">
-          {Array.from({ length: totalPages }).map((_, index) => (
-            <button
-              key={index}
-              onClick={() => setCurrentPage(index)}
-              className={`transition-all duration-300 ${
-                currentPage === index
-                  ? "bg-blue-600 w-8 h-3 rounded-full"
-                  : "bg-gray-300 w-3 h-3 rounded-full hover:bg-gray-400"
-              }`}
-              aria-label={`Go to page ${index + 1}`}
-              aria-current={currentPage === index ? "page" : undefined}
-            />
-          ))}
-        </div>
-      )}
+      {/* View All Button */}
+      <div className="container mx-auto px-4 max-w-7xl py-12 text-center">
+        <Link
+          href="/news"
+          className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-bold rounded-xl hover:shadow-2xl transition-all duration-300 shadow-lg hover:scale-105 group"
+        >
+          <span>View All News & Announcements</span>
+          <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+        </Link>
+      </div>
 
-      {/* View All Link */}
-      {items.length > 0 && (
-        <div className="text-center mt-12">
-          <Link
-            href="/news"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors"
+      {/* Lightbox Modal */}
+      {isLightboxOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm animate-fade-in p-4"
+          onClick={() => setIsLightboxOpen(false)}
+        >
+          <div
+            className="relative w-full h-full flex items-center justify-center animate-scale-in"
+            onClick={(e) => e.stopPropagation()}
           >
-            View All News
-            <ArrowRight className="w-4 h-4" />
-          </Link>
+            {/* Close Button */}
+            <button
+              onClick={() => setIsLightboxOpen(false)}
+              className="absolute top-6 right-6 p-2 text-white hover:bg-white/10 rounded-full transition-all duration-300 hover:scale-110 z-10"
+              aria-label="Close lightbox"
+            >
+              <X className="w-8 h-8" />
+            </button>
+
+            {/* Image Container */}
+            <div className="relative w-full h-full max-w-6xl max-h-[95vh]">
+              <Image
+                src={fullImageUrl}
+                alt={cardImageAlt}
+                fill
+                className="object-contain"
+                sizes="100vw"
+              />
+            </div>
+          </div>
         </div>
       )}
-    </>
+    </div>
   );
 }

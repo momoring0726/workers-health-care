@@ -20,15 +20,6 @@ export const imageFragment = `{
 }`;
 
 /**
- * Lightweight image fragment for list views
- * Reduces payload by omitting non-essential fields
- */
-export const lightImageFragment = `{
-  asset->{ _id, url },
-  alt
-}`;
-
-/**
  * Featured news query - optimized for homepage carousel
  * Only fetches featured articles with essential fields
  * Sorted by date DESC for latest content first
@@ -41,7 +32,7 @@ export const FEATURED_NEWS_QUERY = defineQuery(`
     shortDescription,
     category->{ title },
     date,
-    "cardImage": content[_type == "image"][0] ${imageFragment}
+    "cardImage": images[0] ${imageFragment}
   }
 `);
 
@@ -58,12 +49,9 @@ export const NEWS_BY_SLUG_QUERY = defineQuery(`
     shortDescription,
     category->{ title },
     date,
-    content[] {
-      ...,
-      _type == "image" => {
-        ...${imageFragment}
-      }
-    }
+    "cardImage": images[0] ${imageFragment},
+    content,
+    images[] ${imageFragment}
   }
 `);
 
@@ -81,7 +69,7 @@ export const ALL_NEWS_QUERY = defineQuery(`
     category->{ title },
     date,
     featured,
-    "cardImage": content[_type == "image"][0] ${imageFragment}
+    "cardImage": images[0] ${imageFragment}
   }
 `);
 

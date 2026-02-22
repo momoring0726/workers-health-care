@@ -10,22 +10,27 @@ import { NewsImageCarousel, ContentRenderer } from "./NewsDetailClient";
 import { REVALIDATION_CONFIG } from "@/lib/cache-config";
 
 // ISR: Revalidate every hour for news details
-export const revalidate = 3600;
+export const revalidate = 0;
 
 // Generate static params for all news articles
 export async function generateStaticParams() {
-  const slugs = await publicClient.fetch(
-    NEWS_SLUGS_QUERY,
-    {},
-    {
-      next: {
-        tags: REVALIDATION_CONFIG.news.tags,
+  try {
+    const slugs = await publicClient.fetch(
+      NEWS_SLUGS_QUERY,
+      {},
+      {
+        next: {
+          tags: REVALIDATION_CONFIG.news.tags,
+        },
       },
-    },
-  );
-  return slugs.map((item: { slug: string }) => ({
-    slug: item.slug,
-  }));
+    );
+    return slugs.map((item: { slug: string }) => ({
+      slug: item.slug,
+    }));
+  } catch (error) {
+    console.error("Error fetching news slugs:", error);
+    return [];
+  }
 }
 
 // Fetch article data server-side
@@ -36,8 +41,8 @@ async function getArticle(slug: string): Promise<NewsArticleDetail | null> {
       { slug },
       {
         next: {
-          revalidate: 3600, // Use webhook for instant updates
-          tags: REVALIDATION_CONFIG.newsDetail.tags,
+          revalidate: 0, // Use webhook for instant updates
+          tags: REVALIDATION_CONFIG.news.tags,
         },
       },
     );
@@ -98,37 +103,39 @@ export default async function NewsDetailPage({
 
   if (!article) notFound();
 
-  // Extract images from content
-  const images = article.content
-    .filter((block) => block._type === "image" && block.asset)
-    .map((block) => ({
-      url: urlFor(block.asset!).url(),
-      alt: block.alt || "",
-      caption: block.caption || "",
+  // Format images from dedicated images field
+  const images = (article.images || [])
+    .filter((img) => img.asset)
+    .map((img) => ({
+      url: urlFor(img.asset!).url(),
+      alt: img.alt || "",
+      caption: img.caption || "",
     }));
 
   return (
     <article className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-emerald-50">
       {/* Hero Section */}
-      <div className="relative h-[30vh] md:h-[40vh] overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-emerald-700 via-emerald-600 to-slate-900" />
+      <div className="relative bg-gradient-to-b from-emerald-700 via-emerald-600 to-slate-900">
+        <div className="relative pt-6 md:pt-8 px-4 md:px-6">
+          <Link
+            href="/news"
+            className="inline-flex items-center gap-2 px-4 md:px-6 py-2 md:py-3 bg-white/95 text-emerald-700 rounded-full shadow-md hover:shadow-lg transition-all duration-300 hover:gap-3 group"
+          >
+            <ArrowLeft className="w-4 md:w-5 h-4 md:h-5 transition-transform group-hover:-translate-x-1" />
+            <span className="font-medium text-sm md:text-base">
+              Back to News
+            </span>
+          </Link>
+        </div>
 
-        <Link
-          href="/news"
-          className="absolute top-8 left-8 flex items-center gap-2 px-6 py-3 bg-white/95 text-emerald-700 rounded-full shadow-md hover:shadow-lg transition-all duration-300 hover:gap-3 group z-10"
-        >
-          <ArrowLeft className="w-5 h-5 transition-transform group-hover:-translate-x-1" />
-          <span className="font-medium">Back to News</span>
-        </Link>
-
-        <div className="absolute inset-0 flex items-end">
-          <div className="container mx-auto px-6 pb-20 max-w-5xl">
-            <div className="space-y-6 animate-fade-in">
+        <div className="container mx-auto px-4 md:px-6 pb-12 md:pb-20 max-w-5xl">
+          <div className="h-[30vh] md:h-[40vh] flex items-end">
+            <div className="space-y-4 md:space-y-6 animate-fade-in">
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/95 text-emerald-700 rounded-full text-sm font-semibold border border-emerald-200">
                 {article.category.title}
               </div>
 
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight drop-shadow-2xl">
+              <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-white leading-tight drop-shadow-2xl">
                 {article.title}
               </h1>
 
@@ -145,7 +152,7 @@ export default async function NewsDetailPage({
                 </div>
               </div>
 
-              <p className="text-lg text-white/95 max-w-3xl leading-relaxed drop-shadow-lg">
+              <p className="text-base md:text-lg text-white/95 max-w-3xl leading-relaxed drop-shadow-lg">
                 {article.shortDescription}
               </p>
             </div>

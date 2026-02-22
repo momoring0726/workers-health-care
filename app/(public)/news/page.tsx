@@ -1,10 +1,10 @@
 import { TrendingUp } from "lucide-react";
 import type { Metadata } from "next";
-import { NewsClientInteractions } from "@/components/NewsClientInteractions";
 import { publicClient } from "@/sanity/lib/client-public";
 import { ALL_NEWS_QUERY, NEWS_CATEGORIES_QUERY } from "@/sanity/lib/queries";
 import type { NewsArticle, NewsCategory } from "@/types";
 import { REVALIDATION_CONFIG } from "@/lib/cache-config";
+import { NewsPageClient } from "@/components/news-page-client";
 
 // ISR: Revalidate every hour for news listing
 export const revalidate = 3600;
@@ -83,10 +83,17 @@ export default async function NewsPage() {
       </section>
 
       <div className="container mx-auto px-4 max-w-7xl py-12">
-        <NewsClientInteractions
-          initialNews={newsItems}
-          initialCategories={categories}
-        />
+        {newsItems.length > 0 ? (
+          <NewsPageClient
+            initialNews={newsItems}
+            initialCategories={categories}
+          />
+        ) : (
+          <div className="text-center py-20">
+            <p className="text-gray-600 text-lg">No news articles available.</p>
+            <p className="text-gray-500 mt-2">Check back soon for updates.</p>
+          </div>
+        )}
       </div>
     </main>
   );

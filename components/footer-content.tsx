@@ -18,7 +18,7 @@ async function getContactData(): Promise<ContactData | null> {
       {},
       {
         next: {
-          revalidate: 86400, // Daily updates for contact info
+          revalidate: 0, // Daily updates for contact info
           tags: REVALIDATION_CONFIG.contact.tags,
         },
       },

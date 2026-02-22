@@ -53,8 +53,14 @@ export const news = defineType({
       name: "content",
       title: "Content",
       type: "array",
+      of: [{ type: "block" }],
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: "images",
+      title: "Article Images",
+      type: "array",
       of: [
-        { type: "block" },
         {
           type: "image",
           fields: [
@@ -72,7 +78,7 @@ export const news = defineType({
           ],
         },
       ],
-      validation: (Rule) => Rule.required(),
+      description: "Upload images for the article gallery",
     }),
   ],
   preview: {

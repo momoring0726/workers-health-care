@@ -14,9 +14,7 @@
 export const CACHE_TAGS = {
   // Content types
   PROGRAMS: "programs",
-  PROGRAM_DETAIL: "program-detail",
   NEWS: "news",
-  NEWS_DETAIL: "news-detail",
   HOSPITALS: "hospitals",
   CONTACT: "contact",
 
@@ -51,17 +49,9 @@ export const REVALIDATION_CONFIG = {
     interval: REVALIDATE_INTERVALS.FAST,
     tags: [CACHE_TAGS.PROGRAMS] as string[],
   },
-  programDetail: {
-    interval: REVALIDATE_INTERVALS.FAST,
-    tags: [CACHE_TAGS.PROGRAM_DETAIL] as string[],
-  },
   news: {
     interval: REVALIDATE_INTERVALS.NORMAL,
     tags: [CACHE_TAGS.NEWS] as string[],
-  },
-  newsDetail: {
-    interval: REVALIDATE_INTERVALS.NORMAL,
-    tags: [CACHE_TAGS.NEWS_DETAIL] as string[],
   },
   hospitals: {
     interval: REVALIDATE_INTERVALS.NORMAL,

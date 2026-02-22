@@ -41,25 +41,35 @@ export default async function ProgramsPage() {
   const programs = await getPrograms();
 
   return (
-    <main className="min-h-screen bg-linear-to-br from-slate-50 to-blue-50">
-      {/* Header Section */}
-      <div className="border-b border-blue-100 bg-white py-16 shadow-sm">
-        <div className="container mx-auto px-4">
-          <div className="max-w-3xl">
-            <h1 className="mb-4 text-5xl font-bold text-gray-900">
-              Our Health Care Plans
+    <main className="min-h-screen bg-slate-50">
+      {/* Hero Section - Premium Dark Aesthetic */}
+      <div className="relative overflow-hidden bg-slate-950 py-24 pb-32 lg:py-32 lg:pb-40">
+        {/* Abstract Background Gradients */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-indigo-900/40 via-slate-950 to-slate-950"></div>
+        <div className="absolute -left-1/4 -top-1/4 h-[800px] w-[800px] rounded-full bg-cyan-900/20 blur-[120px]"></div>
+        <div className="absolute -right-1/4 bottom-0 h-[600px] w-[600px] rounded-full bg-blue-900/20 blur-[100px]"></div>
+
+        {/* Subtle Grid Overlay */}
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wNSkiLz48L3N2Zz4=')] opacity-50"></div>
+
+        <div className="container relative z-10 mx-auto px-4">
+          <div className="mx-auto max-w-4xl text-center">
+            <span className="mb-6 inline-flex items-center rounded-full border border-indigo-500/30 bg-indigo-500/10 px-4 py-1.5 text-sm font-medium text-indigo-300 backdrop-blur-sm">
+              <span className="mr-2 h-1.5 w-1.5 rounded-full bg-indigo-400"></span>
+              2026 Health coverage options
+            </span>
+            <h1 className="mb-6 bg-linear-to-b from-white to-slate-400 bg-clip-text text-5xl font-extrabold tracking-tight text-transparent sm:text-6xl lg:text-7xl">
+              Elevate Your Healthcare
             </h1>
-            <p className="text-xl text-gray-600">
-              Choose the perfect plan for your health care needs. All plans
-              include 24/7 customer support and access to our network of
-              accredited hospitals.
+            <p className="mx-auto max-w-2xl text-lg text-slate-400 sm:text-xl">
+              Discover unparalleled protection with our expertly crafted health plans. Premium coverage, 24/7 concierge support, and access to world-class medical networks.
             </p>
           </div>
         </div>
       </div>
 
       {/* Programs Section */}
-      <div className="container mx-auto px-4 py-20">
+      <div className="container relative z-20 mx-auto px-4 py-16">
         {programs.length === 0 ? (
           <div className="mx-auto max-w-2xl rounded-lg border border-yellow-200 bg-yellow-50 p-8 text-center">
             <p className="text-lg text-yellow-800">
