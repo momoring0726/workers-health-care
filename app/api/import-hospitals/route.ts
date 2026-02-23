@@ -1,6 +1,5 @@
 import { createClient } from "next-sanity";
 import { NextRequest, NextResponse } from "next/server";
-import * as readline from "readline";
 
 const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "";
 const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET || "";
