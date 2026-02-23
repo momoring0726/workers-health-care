@@ -13,7 +13,7 @@ import { Check, Shield, Heart, Zap, Users, ChevronDown } from "lucide-react";
 import { REVALIDATION_CONFIG } from "@/lib/cache-config";
 
 // ISR: Revalidate every 60 seconds for program details
-export const revalidate = 0;
+export const revalidate = 604800;
 
 // Generate static params for ISR
 export async function generateStaticParams() {
@@ -206,7 +206,7 @@ export default async function ProgramDetailPage({
           {/* Pricing Section */}
           <AccordionItem title="💰 Membership Rates">
             {program.hospitalizationRates &&
-            program.hospitalizationRates.length > 0 ? (
+              program.hospitalizationRates.length > 0 ? (
               <div className="grid gap-4 sm:grid-cols-2">
                 {program.hospitalizationRates.map((rate, index) => (
                   <div

@@ -5,7 +5,7 @@ import { HOSPITALS_QUERY } from "@/sanity/lib/queries";
 import { REVALIDATION_CONFIG } from "@/lib/cache-config";
 
 // ISR: Revalidate every hour for hospitals
-export const revalidate = 0;
+export const revalidate = 604800;
 
 export const metadata: Metadata = {
   title: "Healthcare Facilities | Workers Health Care",

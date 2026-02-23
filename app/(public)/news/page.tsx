@@ -7,7 +7,7 @@ import { REVALIDATION_CONFIG } from "@/lib/cache-config";
 import { NewsPageClient } from "@/components/news-page-client";
 
 // ISR: Revalidate every hour for news listing
-export const revalidate = 3600;
+export const revalidate = 604800;
 
 export const metadata: Metadata = {
   title: "News & Announcements | Workers Health Care",

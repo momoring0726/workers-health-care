@@ -8,7 +8,7 @@ import { Check, ArrowRight } from "lucide-react";
 import { REVALIDATION_CONFIG } from "@/lib/cache-config";
 
 // ISR: Revalidate every 60 seconds for programs
-export const revalidate = 0;
+export const revalidate = 604800;
 
 async function getPrograms(): Promise<SanityProgram[]> {
   try {

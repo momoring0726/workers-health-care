@@ -6,7 +6,7 @@ import { ContactSection } from "@/components/contact-section";
 import { NewsFeed } from "@/components/news-feed";
 
 // ISR: Revalidate every hour for homepage
-export const revalidate = 3600;
+export const revalidate = 604800;
 
 export default function Home() {
   return (

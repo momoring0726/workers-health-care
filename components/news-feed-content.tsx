@@ -32,7 +32,7 @@ async function getNews(): Promise<NewsItem[]> {
       {},
       {
         next: {
-          revalidate: 0, // Use webhook for instant updates
+          revalidate: 604800, // Use webhook for instant updates
           tags: REVALIDATION_CONFIG.news.tags,
         },
       },

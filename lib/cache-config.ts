@@ -14,7 +14,9 @@
 export const CACHE_TAGS = {
   // Content types
   PROGRAMS: "programs",
+  PROGRAM_DETAIL: "program-detail",
   NEWS: "news",
+  NEWS_DETAIL: "news-detail",
   HOSPITALS: "hospitals",
   CONTACT: "contact",
 
@@ -29,13 +31,13 @@ export const CACHE_TAGS = {
  */
 export const REVALIDATE_INTERVALS = {
   // Fast updates - user-managed content
-  FAST: 60, // 1 minute
+  FAST: 604800, // 7 days
 
   // Normal updates - semi-regular content
-  NORMAL: 3600, // 1 hour
+  NORMAL: 604800, // 7 days
 
   // Slow updates - rarely changing content
-  SLOW: 86400, // 24 hours
+  SLOW: 604800, // 7 days
 
   // Never - static content
   NEVER: false,

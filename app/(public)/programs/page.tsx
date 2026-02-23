@@ -8,7 +8,7 @@ import { HelpSection } from "@/components/help-section";
 import { REVALIDATION_CONFIG } from "@/lib/cache-config";
 
 // ISR: Revalidate every 60 seconds for programs
-export const revalidate = 60;
+export const revalidate = 604800;
 
 async function getPrograms(): Promise<SanityProgram[]> {
   try {

@@ -9,8 +9,8 @@ import { NEWS_BY_SLUG_QUERY, NEWS_SLUGS_QUERY } from "@/sanity/lib/queries";
 import { NewsImageCarousel, ContentRenderer } from "./NewsDetailClient";
 import { REVALIDATION_CONFIG } from "@/lib/cache-config";
 
-// ISR: Revalidate every hour for news details
-export const revalidate = 0;
+// ISR: Revalidate every 7 days for news details
+export const revalidate = 604800;
 
 // Generate static params for all news articles
 export async function generateStaticParams() {
@@ -41,7 +41,7 @@ async function getArticle(slug: string): Promise<NewsArticleDetail | null> {
       { slug },
       {
         next: {
-          revalidate: 0, // Use webhook for instant updates
+          revalidate: 604800, // 7 days
           tags: REVALIDATION_CONFIG.news.tags,
         },
       },
