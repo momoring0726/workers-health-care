@@ -1,23 +1,6 @@
 import { createClient } from "next-sanity";
 import { NextRequest, NextResponse } from "next/server";
 
-const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "";
-const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET || "";
-const apiVersion = process.env.NEXT_PUBLIC_SANITY_API_VERSION || "2026-02-08";
-const writeToken = process.env.SANITY_API_WRITE_TOKEN || "";
-
-if (!projectId || !dataset || !writeToken) {
-  console.error("Missing Sanity env vars");
-}
-
-const client = createClient({
-  projectId,
-  dataset,
-  apiVersion,
-  useCdn: false,
-  token: writeToken,
-});
-
 interface HospitalRow {
   name: string;
   type: "Hospital" | "Clinic" | "Doctor";
@@ -27,6 +10,34 @@ interface HospitalRow {
 
 interface LocationMap {
   [name: string]: string;
+}
+
+// Create client lazily inside the handler to ensure env vars are available
+function getSanityClient() {
+  const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
+  const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET;
+  const apiVersion = process.env.NEXT_PUBLIC_SANITY_API_VERSION || "2026-02-08";
+  const token = process.env.SANITY_API_WRITE_TOKEN;
+
+  if (!projectId || !dataset || !token) {
+    throw new Error(
+      `Missing Sanity env vars: ${[
+        !projectId && "NEXT_PUBLIC_SANITY_PROJECT_ID",
+        !dataset && "NEXT_PUBLIC_SANITY_DATASET",
+        !token && "SANITY_API_WRITE_TOKEN",
+      ]
+        .filter(Boolean)
+        .join(", ")}`
+    );
+  }
+
+  return createClient({
+    projectId,
+    dataset,
+    apiVersion,
+    useCdn: false,
+    token,
+  });
 }
 
 // Parse CSV from text
@@ -59,8 +70,9 @@ function parseCSV(csvText: string): HospitalRow[] {
 }
 
 async function upsertLocation(
+  client: ReturnType<typeof createClient>,
   locationName: string,
-  locationMap: LocationMap,
+  locationMap: LocationMap
 ): Promise<string> {
   if (locationMap[locationName]) {
     return locationMap[locationName];
@@ -68,7 +80,7 @@ async function upsertLocation(
 
   const existing = await client.fetch<{ _id: string }>(
     `*[_type == "location" && name == $name][0]`,
-    { name: locationName },
+    { name: locationName }
   );
 
   if (existing && existing._id) {
@@ -86,8 +98,9 @@ async function upsertLocation(
 }
 
 async function createHospital(
+  client: ReturnType<typeof createClient>,
   hospital: HospitalRow,
-  locationId: string,
+  locationId: string
 ): Promise<void> {
   const doc = {
     _type: "hospital",
@@ -105,6 +118,9 @@ async function createHospital(
 
 export async function POST(request: NextRequest) {
   try {
+    // Create client inside handler so env vars are resolved at runtime
+    const client = getSanityClient();
+
     const formData = await request.formData();
     const file = formData.get("file") as File | null;
 
@@ -115,7 +131,7 @@ export async function POST(request: NextRequest) {
     if (!file.name.endsWith(".csv")) {
       return NextResponse.json(
         { error: "File must be CSV format" },
-        { status: 400 },
+        { status: 400 }
       );
     }
 
@@ -125,22 +141,36 @@ export async function POST(request: NextRequest) {
     if (hospitals.length === 0) {
       return NextResponse.json(
         { error: "CSV file is empty or has invalid format" },
-        { status: 400 },
+        { status: 400 }
       );
     }
 
     const locationMap: LocationMap = {};
 
-    // Create/get locations
+    // Use batched transactions for better performance and to avoid timeouts
+    const transaction = client.transaction();
+
+    // First pass: collect unique locations and upsert them
     for (const hospital of hospitals) {
-      await upsertLocation(hospital.location, locationMap);
+      await upsertLocation(client, hospital.location, locationMap);
     }
 
-    // Create hospitals
+    // Second pass: batch create all hospitals in a single transaction
     for (const hospital of hospitals) {
       const locationId = locationMap[hospital.location];
-      await createHospital(hospital, locationId);
+      transaction.create({
+        _type: "hospital",
+        name: hospital.name,
+        type: hospital.type,
+        location: {
+          _type: "reference",
+          _ref: locationId,
+        },
+        ...(hospital.url && { url: hospital.url }),
+      });
     }
+
+    await transaction.commit();
 
     return NextResponse.json({
       success: true,
@@ -153,7 +183,7 @@ export async function POST(request: NextRequest) {
       {
         error: `Import failed: ${error instanceof Error ? error.message : "Unknown error"}`,
       },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }
