@@ -1,6 +1,5 @@
-"use client";
-
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export function Hero() {
   return (
@@ -23,7 +22,7 @@ export function Hero() {
                   asChild
                   className="bg-blue-600 hover:bg-blue-700 text-white w-auto"
                 >
-                  <a href="/programs">View Plans</a>
+                  <Link href="/programs">View Plans</Link>
                 </Button>
               </div>
               <div className="inline-block">
@@ -32,7 +31,7 @@ export function Hero() {
                   asChild
                   className="border-blue-600 text-blue-600 hover:bg-blue-50 w-auto"
                 >
-                  <a href="/#contact">Contact Us</a>
+                  <Link href="/#contact">Contact Us</Link>
                 </Button>
               </div>
             </div>

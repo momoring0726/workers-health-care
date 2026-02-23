@@ -1,35 +1,8 @@
-"use client";
-
 import React from "react";
-import { CheckCircle2, Users, Heart, Target } from "lucide-react";
+import { aboutValues } from "@/lib/content";
 
 export function AboutSection() {
-  const values = [
-    {
-      icon: Heart,
-      title: "Comprehensive Care",
-      description:
-        "We provide coverage that protects you and your family with comprehensive health and wellness benefits.",
-    },
-    {
-      icon: Users,
-      title: "Worker Focused",
-      description:
-        "Our plans are designed with workers in mind, understanding the unique healthcare needs of the workforce.",
-    },
-    {
-      icon: Target,
-      title: "Affordable Plans",
-      description:
-        "Quality healthcare shouldn't break the bank. We offer competitive rates and flexible payment options.",
-    },
-    {
-      icon: CheckCircle2,
-      title: "Trusted Partner",
-      description:
-        "With years of experience, we've earned the trust of thousands of workers across the country.",
-    },
-  ];
+  const values = aboutValues;
 
   return (
     <section id="about" className="bg-blue-50 py-20">

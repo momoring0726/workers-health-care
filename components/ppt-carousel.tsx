@@ -2,30 +2,9 @@
 
 import React, { useCallback, useEffect, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
+import { pptSlides as slides } from "@/lib/content";
 
 export function PptCarousel() {
-  const slides = [
-    "Slide1.JPG",
-    "Slide2.JPG",
-    "Slide3.JPG",
-    "Slide4.JPG",
-    "Slide5.JPG",
-    "Slide6.JPG",
-    "Slide7.JPG",
-    "Slide8.JPG",
-    "Slide9.JPG",
-    "Slide10.JPG",
-    "Slide11.JPG",
-    "Slide12.JPG",
-    "Slide13.JPG",
-    "Slide14.JPG",
-    "Slide15.JPG",
-    "Slide16.JPG",
-    "Slide17.JPG",
-    "Slide18.JPG",
-    "Slide19.JPG",
-  ];
-
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false });
   const [selectedIndex, setSelectedIndex] = useState(0);
 
