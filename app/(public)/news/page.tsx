@@ -10,13 +10,13 @@ import { NewsPageClient } from "@/components/news-page-client";
 export const revalidate = 604800;
 
 export const metadata: Metadata = {
-  title: "News & Announcements | Workers Health Care",
+  title: "News & Announcements | Workers Health Care Gensan",
   description:
-    "Stay informed about the latest developments and updates in workers' health care coverage and programs.",
+    "Stay informed about the latest developments, program updates, and health care news for workers in General Santos City and South Cotabato.",
   openGraph: {
-    title: "News & Announcements | Workers Health Care",
+    title: "News & Announcements | Workers Health Care Gensan",
     description:
-      "Stay informed about the latest developments and updates in workers' health care coverage and programs.",
+      "Stay informed about the latest developments, program updates, and health care news for workers in General Santos City and South Cotabato.",
     type: "website",
   },
 };

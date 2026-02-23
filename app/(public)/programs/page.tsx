@@ -7,6 +7,13 @@ import { ComparisonTable } from "@/components/comparison-table";
 import { HelpSection } from "@/components/help-section";
 import { REVALIDATION_CONFIG } from "@/lib/cache-config";
 
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Health Insurance Programs | South Cotabato & Gensan Coverage",
+  description: "Explore comprehensive health insurance programs and plans for workers in General Santos City and South Cotabato.",
+};
+
 // ISR: Revalidate every 60 seconds for programs
 export const revalidate = 604800;
 

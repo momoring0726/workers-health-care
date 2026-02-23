@@ -2,8 +2,43 @@ import type { Metadata } from "next";
 import { Heart, Users, Target, CheckCircle2 } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Workers Health Care",
-  description: "Workers Health Care Insurance Plans",
+  metadataBase: new URL("https://workershealthcare.org"),
+  title: {
+    template: "%s | Workers Health Care Gensan",
+    default: "Workers Health Care Gensan | Best Health Insurance South Cotabato",
+  },
+  description: "Comprehensive health insurance and healthcare plans for workers in General Santos City (Gensan) and South Cotabato. Affordable, reliable, and trusted.",
+  keywords: [
+    "health care gensan",
+    "health insurance gensan",
+    "health insurance south cotabato",
+    "workers health care",
+    "medical insurance gensan",
+    "affordable health plans",
+    "healthcare provider general santos",
+  ],
+  openGraph: {
+    title: "Workers Health Care Gensan",
+    description: "Comprehensive health insurance plans specifically designed for workers in Gensan and South Cotabato.",
+    url: "https://workershealthcare.org", // Replace with actual domain later
+    siteName: "Workers Health Care Gensan",
+    images: [
+      {
+        url: "/icon.png", // Will be resolved to absolute URL in Next.js automatically
+        width: 800,
+        height: 600,
+        alt: "Workers Health Care Logo",
+      },
+    ],
+    locale: "en_PH",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Workers Health Care Gensan",
+    description: "Comprehensive health insurance plans for workers in Gensan and South Cotabato.",
+    images: ["/icon.png"],
+  },
 };
 
 export const aboutValues = [

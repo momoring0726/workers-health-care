@@ -8,13 +8,13 @@ import { REVALIDATION_CONFIG } from "@/lib/cache-config";
 export const revalidate = 604800;
 
 export const metadata: Metadata = {
-  title: "Healthcare Facilities | Workers Health Care",
+  title: "Healthcare Facilities & Hospitals | Gensan Network",
   description:
-    "Find hospitals, clinics, and healthcare providers in our network across the Philippines.",
+    "Find accredited hospitals, clinics, and healthcare providers in General Santos City (Gensan) and South Cotabato for your Workers Health Care plan.",
   openGraph: {
-    title: "Healthcare Facilities | Workers Health Care",
+    title: "Healthcare Facilities & Hospitals | Gensan Network",
     description:
-      "Find hospitals, clinics, and healthcare providers in our network across the Philippines.",
+      "Find accredited hospitals, clinics, and healthcare providers in General Santos City (Gensan) and South Cotabato for your Workers Health Care plan.",
     type: "website",
   },
 };

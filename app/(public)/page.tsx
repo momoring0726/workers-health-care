@@ -5,6 +5,13 @@ import { PptCarousel } from "@/components/ppt-carousel";
 import { ContactSection } from "@/components/contact-section";
 import { NewsFeed } from "@/components/news-feed";
 
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Workers Health Care Gensan | Best Health Insurance",
+  description: "Protect your health and future with the best health insurance plans for workers in General Santos City (Gensan) and South Cotabato.",
+};
+
 // ISR: Revalidate every hour for homepage
 export const revalidate = 604800;
 
