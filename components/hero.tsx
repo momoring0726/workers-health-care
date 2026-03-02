@@ -12,8 +12,7 @@ export function Hero() {
               <span className="block text-blue-600">for all workers</span>
             </h1>
             <p className="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl md:mt-5 md:text-xl">
-              We are committed to providing the best health care plans for
-              workers. Our plans are affordable and flexible to meet your needs.
+              We are committed to providing the best health care plans as your trusted HMO in General Santos City (Gensan), South Cotabato, and Sultan Kudarat. Our plans are affordable and flexible to meet your needs.
             </p>
 
             <div className="mt-5 sm:mt-8 flex flex-col sm:flex-row items-center sm:justify-center md:justify-start gap-3">

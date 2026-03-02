@@ -14,8 +14,8 @@ export function AboutSection() {
           </h2>
           <p className="mx-auto max-w-2xl text-lg text-gray-600">
             We're committed to making quality healthcare accessible and
-            affordable for every worker. For over a decade, we've been helping
-            individuals and families protect what matters most.
+            affordable for every worker. As a leading HMO serving General Santos City, South Cotabato, and Sultan Kudarat, we've been helping
+            individuals and families protect what matters most for over a decade.
           </p>
         </div>
 
