@@ -8,8 +8,10 @@ import { NewsFeedContent } from "@/components/news-feed-content";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Workers Health Care | Best HMO in General Santos City & South Cotabato",
-  description: "Protect your health and future with the best HMO and health insurance plans for workers in General Santos City (Gensan), South Cotabato, and Sultan Kudarat.",
+  title:
+    "Workers Health Care | HMO in General Santos City (Gensan), South Cotabato, Sultan Kudarat",
+  description:
+    "Protect your health and future with the best HMO and health insurance plans for workers in General Santos City (Gensan), South Cotabato, and Sultan Kudarat.",
 };
 
 // ISR: Revalidate every hour for homepage

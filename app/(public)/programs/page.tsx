@@ -10,8 +10,10 @@ import { REVALIDATION_CONFIG } from "@/lib/cache-config";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Health Insurance Programs | South Cotabato & Gensan Coverage",
-  description: "Explore comprehensive health insurance programs and plans for workers in General Santos City and South Cotabato.",
+  title:
+    "HMO plans | General Santos City (Gensan), South Cotabato, Sultan Kudarat",
+  description:
+    "Explore comprehensive health insurance programs and plans for workers in General Santos City (Gensan), South Cotabato, and Sultan Kudarat.",
 };
 
 // ISR: Revalidate every 60 seconds for programs
@@ -69,7 +71,9 @@ export default async function ProgramsPage() {
               Elevate Your Healthcare
             </h1>
             <p className="mx-auto max-w-2xl text-lg text-slate-400 sm:text-xl">
-              Discover unparalleled protection with our expertly crafted health plans. Premium coverage, 24/7 concierge support, and access to world-class medical networks.
+              Discover unparalleled protection with our expertly crafted health
+              plans. Premium coverage, 24/7 concierge support, and access to
+              world-class medical networks.
             </p>
           </div>
         </div>
