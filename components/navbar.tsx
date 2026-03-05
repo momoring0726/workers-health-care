@@ -8,7 +8,7 @@ export function Navbar() {
   return (
     <nav className="sticky top-0 z-50 w-full bg-white shadow-md border-b border-gray-200">
       <div className="relative container mx-auto px-4">
-        <div className="flex items-center justify-between py-6">
+        <div className="flex items-center justify-between py-4 lg:py-3">
           <Link href="/" className="hover:text-blue-600 transition-colors">
             <div className="flex items-center">
               <Image
@@ -16,14 +16,14 @@ export function Navbar() {
                 alt="WHC Banner"
                 width={1200}
                 height={300}
-                className="h-6 sm:h-8 md:h-10 w-auto object-contain"
+                className="h-6 sm:h-8 md:h-8 lg:h-9 w-auto object-contain"
                 priority
               />
             </div>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-8">
+          <div className="hidden lg:flex items-center gap-6">
             <Link
               href="/"
               className="text-lg font-semibold text-gray-700 hover:text-blue-600 transition-colors"
@@ -65,7 +65,9 @@ export function Navbar() {
           </div>
 
           {/* Mobile Menu & Navigation */}
-          <MobileMenu />
+          <div className="lg:hidden">
+            <MobileMenu />
+          </div>
         </div>
       </div>
     </nav>
