@@ -1,5 +1,6 @@
 import Link from "next/link";
 import React from "react";
+import Image from "next/image";
 import { publicClient } from "@/sanity/lib/client-public";
 import { CONTACT_QUERY } from "@/sanity/lib/queries";
 import { REVALIDATION_CONFIG } from "@/lib/cache-config";
@@ -44,10 +45,13 @@ export async function FooterContent() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
             <Link href="/" className="flex items-center gap-3">
-              <img src="/WHC%20LOGO.png" alt="WHC" className="h-10 w-auto" />
-              <span className="text-xl font-bold text-gray-900">
-                Workers Health Care
-              </span>
+              <Image
+                src="/whc-banner.png"
+                alt="WHC Banner"
+                width={1200}
+                height={300}
+                className="h-10 w-auto"
+              />
             </Link>
             <p className="mt-4 text-sm text-gray-600 max-w-sm">
               We provide affordable HMO plans and clear guidance to help workers

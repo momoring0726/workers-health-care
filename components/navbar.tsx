@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 
@@ -14,14 +15,13 @@ export function Navbar() {
         <div className="flex items-center justify-between py-6">
           <Link href="/" className="hover:text-blue-600 transition-colors">
             <div className="flex items-center">
-              <img
-                src="/WHC%20LOGO.png"
-                alt="WHC Logo"
-                className="h-8 md:h-10 w-auto mr-3"
+              <Image
+                src="/whc-banner.png"
+                alt="WHC Banner"
+                width={1200}
+                height={300}
+                className="h-8 md:h-10 w-auto"
               />
-              <span className="text-2xl md:text-3xl font-bold text-gray-900">
-                Workers Health Care
-              </span>
             </div>
           </Link>
 
