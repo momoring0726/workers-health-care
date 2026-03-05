@@ -58,12 +58,15 @@ export interface ContentBlock {
 }
 
 export interface Hospital {
-  _id: string;
+  _id?: string;
   name: string;
-  location: string;
-  region: string;
+  type?: "Hospital" | "Clinic" | "Doctor";
+  location?: string;
+  region?: string;
   contact?: string;
   email?: string;
+  notes?: string;
+  url?: string;
 }
 
 export interface Benefit {
@@ -110,24 +113,7 @@ export interface SanityProgramDetail extends SanityProgram {
   notes?: string;
 }
 
-// Legacy types (kept for backward compatibility)
-export interface Program {
-  id: number;
-  title: string;
-  description: string;
-  features: string[];
-  pricing: Record<string, string>;
-}
 
-export interface ProgramDetails {
-  hospitalRates: Record<string, { monthly: string; annual: string }>;
-  benefits: Array<{
-    title: string;
-    description: string;
-  }>;
-}
-
-// Component-specific props types
 export interface NewsContentProps {
   filteredNews: NewsArticle[];
   featuredPage: number;

@@ -1,37 +1,8 @@
-import React from "react";
 import { Mail, Phone, MapPin } from "lucide-react";
-import { publicClient } from "@/sanity/lib/client-public";
-import { CONTACT_QUERY } from "@/sanity/lib/queries";
-import { REVALIDATION_CONFIG } from "@/lib/cache-config";
-
-interface ContactData {
-  _id: string;
-  email: string;
-  phones: string[];
-  address: string;
-}
-
-async function getContactData(): Promise<ContactData | null> {
-  try {
-    const data = await publicClient.fetch(
-      CONTACT_QUERY,
-      {},
-      {
-        next: {
-          revalidate: 604800, // Daily updates for contact info
-          tags: REVALIDATION_CONFIG.contact.tags,
-        },
-      },
-    );
-    return data || null;
-  } catch (error) {
-    console.error("Error fetching contact data:", error);
-    return null;
-  }
-}
+import { fetchContactData } from "@/lib/data-fetching";
 
 export async function ContactSectionContent() {
-  const contact = await getContactData();
+  const contact = await fetchContactData();
 
   // Fallback values if no data from Sanity
   const email = contact?.email || "info@workershealthcare.org";
@@ -82,9 +53,9 @@ export async function ContactSectionContent() {
                   Phone
                 </h3>
                 <div className="space-y-2">
-                  {phones.map((phoneNumber, index) => (
+                  {phones.map((phoneNumber) => (
                     <a
-                      key={index}
+                      key={phoneNumber}
                       href={`tel:${phoneNumber}`}
                       className="block text-blue-600 hover:text-blue-700 transition-colors"
                     >

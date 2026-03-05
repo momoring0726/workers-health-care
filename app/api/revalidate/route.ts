@@ -70,7 +70,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       {
         message: "Error revalidating",
-        error: String(err),
+        error: "Internal Server Error",
       },
       { status: 500 },
     );

@@ -181,7 +181,7 @@ export async function POST(request: NextRequest) {
     console.error("Import error:", error);
     return NextResponse.json(
       {
-        error: `Import failed: ${error instanceof Error ? error.message : "Unknown error"}`,
+        error: "Import failed. Check server logs for details.",
       },
       { status: 500 }
     );

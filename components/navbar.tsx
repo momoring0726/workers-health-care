@@ -1,13 +1,9 @@
-"use client";
-
-import * as React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
+import { MobileMenu } from "./mobile-menu";
 
 export function Navbar() {
-  const [isOpen, setIsOpen] = React.useState(false);
 
   return (
     <nav className="sticky top-0 z-50 bg-white shadow-md border-b border-gray-200">
@@ -20,7 +16,8 @@ export function Navbar() {
                 alt="WHC Banner"
                 width={1200}
                 height={300}
-                className="h-8 md:h-10 w-auto"
+                className="h-6 sm:h-8 md:h-10 w-auto object-contain"
+                priority
               />
             </div>
           </Link>
@@ -67,66 +64,9 @@ export function Navbar() {
             </Button>
           </div>
 
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden p-2 rounded-md text-gray-700 hover:bg-gray-100 transition-colors"
-            aria-label="Toggle menu"
-          >
-            {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-          </button>
+          {/* Mobile Menu & Navigation */}
+          <MobileMenu />
         </div>
-
-        {/* Mobile Navigation */}
-        {isOpen && (
-          <div className="md:hidden border-t border-gray-200 bg-white">
-            <div className="flex flex-col gap-4 px-4 py-4">
-              <Link
-                href="/"
-                onClick={() => setIsOpen(false)}
-                className="text-lg font-semibold text-gray-700 hover:text-blue-600 transition-colors py-2"
-              >
-                Home
-              </Link>
-              <a
-                href="/#about"
-                onClick={() => setIsOpen(false)}
-                className="text-lg font-semibold text-gray-700 hover:text-blue-600 transition-colors py-2"
-              >
-                About
-              </a>
-              <Link
-                href="/programs"
-                onClick={() => setIsOpen(false)}
-                className="text-lg font-semibold text-gray-700 hover:text-blue-600 transition-colors py-2"
-              >
-                Programs
-              </Link>
-              <Link
-                href="/news"
-                onClick={() => setIsOpen(false)}
-                className="text-lg font-semibold text-gray-700 hover:text-blue-600 transition-colors py-2"
-              >
-                News
-              </Link>
-              <Link
-                href="/hospitals"
-                onClick={() => setIsOpen(false)}
-                className="text-lg font-semibold text-gray-700 hover:text-blue-600 transition-colors py-2"
-              >
-                Hospitals/Clinics
-              </Link>
-              <Button
-                asChild
-                className="bg-blue-600 hover:bg-blue-700 text-white text-base font-semibold w-full"
-              >
-                <a href="/#contact" onClick={() => setIsOpen(false)}>
-                  Contact
-                </a>
-              </Button>
-            </div>
-          </div>
-        )}
       </div>
     </nav>
   );

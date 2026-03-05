@@ -2,8 +2,8 @@ import { Hero } from "@/components/hero";
 import { AboutSection } from "@/components/about-section";
 import { ProgramsSection } from "@/components/programs-section";
 import { PptCarousel } from "@/components/ppt-carousel";
-import { ContactSection } from "@/components/contact-section";
-import { NewsFeed } from "@/components/news-feed";
+import { ContactSectionContent } from "@/components/contact-section-content";
+import { NewsFeedContent } from "@/components/news-feed-content";
 
 import { Metadata } from "next";
 
@@ -19,11 +19,11 @@ export default function Home() {
   return (
     <main>
       <Hero />
-      <NewsFeed />
+      <NewsFeedContent />
       <AboutSection />
       <ProgramsSection />
       <PptCarousel />
-      <ContactSection />
+      <ContactSectionContent />
     </main>
   );
 }

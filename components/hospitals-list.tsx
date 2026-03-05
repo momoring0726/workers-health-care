@@ -11,21 +11,15 @@ import {
   ChevronRight
 } from "lucide-react";
 
-type Entry = {
-  _id?: string;
-  name: string;
-  type?: "Hospital" | "Clinic" | "Doctor";
-  location?: string;
-  notes?: string;
-};
+import { Hospital } from "@/types";
 
 export default function HospitalsList({
   initialData,
 }: {
-  initialData: Entry[];
+  initialData: Hospital[];
 }) {
   const [query, setQuery] = useState("");
-  const [typeFilter, setTypeFilter] = useState<"All" | Entry["type"]>("All");
+  const [typeFilter, setTypeFilter] = useState<"All" | Hospital["type"]>("All");
   const [locationFilter, setLocationFilter] = useState<"All" | string>("All");
 
   const locations = useMemo(() => {
@@ -214,16 +208,19 @@ export default function HospitalsList({
                   )}
                 </div>
 
-                <div className="bg-gray-50 px-6 py-4 border-t border-gray-100 group-hover:bg-blue-50/50 transition-colors">
-                  <Link
-                    href="#"
-                    className="flex justify-between items-center text-sm font-medium text-blue-700 w-full"
-                    onClick={(e) => e.preventDefault()}
-                  >
-                    <span>View Provider Details</span>
-                    <ChevronRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
-                  </Link>
-                </div>
+                {r.url && (
+                  <div className="bg-gray-50 px-6 py-4 border-t border-gray-100 group-hover:bg-blue-50/50 transition-colors">
+                    <Link
+                      href={r.url}
+                      className="flex justify-between items-center text-sm font-medium text-blue-700 w-full"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <span>View Provider Details</span>
+                      <ChevronRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
+                    </Link>
+                  </div>
+                )}
               </div>
             ))}
           </div>

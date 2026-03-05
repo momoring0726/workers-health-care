@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import Image from "next/image";
 
 export function Hero() {
   return (
@@ -38,10 +39,13 @@ export function Hero() {
 
           <div className="flex items-center justify-center order-first md:order-last">
             <div className="inline-flex items-center mb-4 md:mb-0">
-              <img
+              <Image
                 src="/WHC%20LOGO.png"
                 alt="WHC logo"
+                width={320}
+                height={320}
                 className="w-56 h-auto md:w-72 lg:w-80"
+                priority
               />
             </div>
           </div>

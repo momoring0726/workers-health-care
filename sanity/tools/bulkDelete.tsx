@@ -9,6 +9,14 @@ interface DeleteResult {
   error?: string;
 }
 
+interface SanityDocument {
+  _id: string;
+  _type: string;
+  name?: string;
+  title?: string;
+  _createdAt: string;
+}
+
 export const bulkDeleteAction: Tool = {
   name: "bulk-delete",
   title: "Bulk Delete",
@@ -16,7 +24,7 @@ export const bulkDeleteAction: Tool = {
   component: () => {
     const client = useClient({ apiVersion: "2026-02-08" });
     const [documentType, setDocumentType] = useState("hospital");
-    const [documents, setDocuments] = useState<any[]>([]);
+    const [documents, setDocuments] = useState<SanityDocument[]>([]);
     const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
     const [loading, setLoading] = useState(false);
     const [result, setResult] = useState<DeleteResult | null>(null);

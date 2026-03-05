@@ -6,42 +6,38 @@ export async function GET(request: Request) {
   const search = searchParams.get("search");
 
   try {
-    let query = `*[_type == "news"`;
     const params: Record<string, string | undefined> = {};
+    if (category) params.category = category;
+    if (search) params.search = `${search}*`;
 
-    if (category) {
-      query += ` && category->title == $category`;
-      params.category = category;
-    }
-
-    if (search) {
-      query += ` && [title, shortDescription] match $search`;
-      params.search = `${search}*`;
-    }
-
-    query += `] | order(date desc) {
-      _id,
-      title,
-      slug,
-      shortDescription,
-      category->{
-        title
-      },
-      date,
-      featured,
-      "cardImage": content[_type == "image"][0] {
-        asset->{
-          _id,
-          url,
-          metadata {
-            lqip,
-            dimensions { width, height }
-          }
+    const query = `
+      *[_type == "news" && 
+        (!defined($category) || category->title == $category) && 
+        (!defined($search) || [title, shortDescription] match $search)
+      ] | order(date desc) {
+        _id,
+        title,
+        slug,
+        shortDescription,
+        category->{
+          title
         },
-        alt,
-        caption
+        date,
+        featured,
+        "cardImage": content[_type == "image"][0] {
+          asset->{
+            _id,
+            url,
+            metadata {
+              lqip,
+              dimensions { width, height }
+            }
+          },
+          alt,
+          caption
+        }
       }
-    }`;
+    `;
 
     const data = await publicClient.fetch(query, params);
     return Response.json(data);
