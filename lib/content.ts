@@ -5,9 +5,11 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://workershealthcare.org"),
   title: {
     template: "%s | Workers Health Care",
-    default: "Workers Health Care | Best HMO in General Santos City & South Cotabato",
+    default:
+      "Workers Health Care | HMO in General Santos City (Gensan), South Cotabato, Sultan Kudarat",
   },
-  description: "Comprehensive health insurance and HMO plans for workers in General Santos City (Gensan), South Cotabato, and Sultan Kudarat. Affordable, reliable, and trusted.",
+  description:
+    "Protect your health and future with the best HMO and health insurance plans for workers in General Santos City (Gensan), South Cotabato, and Sultan Kudarat.",
   keywords: [
     "health care gensan",
     "health insurance gensan",
@@ -23,7 +25,8 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     title: "Workers Health Care | Leading HMO",
-    description: "Comprehensive health insurance plans specifically designed for workers in General Santos City, South Cotabato, and Sultan Kudarat.",
+    description:
+      "Comprehensive health insurance plans specifically designed for workers in General Santos City, South Cotabato, and Sultan Kudarat.",
     url: "https://workershealthcare.org", // Replace with actual domain later
     siteName: "Workers Health Care Gensan",
     images: [
@@ -40,7 +43,8 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Workers Health Care | Best HMO in Gensan",
-    description: "Comprehensive health insurance plans for workers in General Santos City, South Cotabato, and Sultan Kudarat.",
+    description:
+      "Comprehensive health insurance plans for workers in General Santos City, South Cotabato, and Sultan Kudarat.",
     images: ["/icon.png"],
   },
 };

@@ -16,43 +16,43 @@ export function Navbar() {
                 alt="WHC Banner"
                 width={1200}
                 height={300}
-                className="h-6 sm:h-8 md:h-8 lg:h-9 w-auto object-contain"
+                className="h-5 sm:h-6 md:h-7 lg:h-8 xl:h-9 w-auto object-contain"
                 priority
               />
             </div>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center gap-6">
+          <div className="hidden lg:flex items-center gap-4 xl:gap-6">
             <Link
               href="/"
-              className="text-lg font-semibold text-gray-700 hover:text-blue-600 transition-colors"
+              className="text-base font-semibold text-gray-700 hover:text-blue-600 transition-colors"
             >
               Home
             </Link>
             <a
               href="/#about"
-              className="text-lg font-semibold text-gray-700 hover:text-blue-600 transition-colors"
+              className="text-base font-semibold text-gray-700 hover:text-blue-600 transition-colors"
             >
               About
             </a>
             <Link
               href="/programs"
-              className="text-lg font-semibold text-gray-700 hover:text-blue-600 transition-colors"
+              className="text-base font-semibold text-gray-700 hover:text-blue-600 transition-colors"
             >
               Plans
             </Link>
 
             <Link
               href="/news"
-              className="text-lg font-semibold text-gray-700 hover:text-blue-600 transition-colors"
+              className="text-base font-semibold text-gray-700 hover:text-blue-600 transition-colors"
             >
               News
             </Link>
 
             <Link
               href="/hospitals"
-              className="text-lg font-semibold text-gray-700 hover:text-blue-600 transition-colors"
+              className="text-base font-semibold text-gray-700 hover:text-blue-600 transition-colors"
             >
               Hospitals/Clinics
             </Link>
