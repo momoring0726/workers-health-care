@@ -93,13 +93,13 @@ function AccordionItem({
   return (
     <details
       open={defaultOpen}
-      className="group rounded-xl border-2 border-gray-200 bg-white shadow-sm hover:shadow-md transition"
+      className="group rounded-xl border-2 border-gray-100 bg-white shadow-sm hover:shadow-md transition duration-200"
     >
-      <summary className="flex cursor-pointer items-center justify-between px-6 py-5 font-semibold text-gray-900">
-        <span className="text-lg">{title}</span>
-        <ChevronDown className="h-5 w-5 transform transition group-open:rotate-180" />
+      <summary className="flex cursor-pointer items-center justify-between px-5 py-4 md:px-6 md:py-5 font-semibold text-gray-900 list-none">
+        <span className="text-base md:text-lg pr-4">{title}</span>
+        <ChevronDown className="h-5 w-5 transform flex-shrink-0 text-gray-400 group-open:rotate-180 transition-transform duration-200" />
       </summary>
-      <div className="border-t border-gray-200 px-6 py-5 text-gray-700">
+      <div className="border-t border-gray-100 px-5 py-4 md:px-6 md:py-5 text-gray-700">
         {children}
       </div>
     </details>
@@ -121,43 +121,49 @@ export default async function ProgramDetailPage({
   return (
     <main className="min-h-screen bg-gray-50">
       {/* Hero Header */}
-      <div className="relative overflow-hidden bg-gradient-to-br from-blue-600 via-blue-700 to-blue-900 px-4 py-20">
+      <div className="relative overflow-hidden bg-gradient-to-br from-blue-600 via-blue-700 to-blue-900 px-4 py-12 md:py-20">
+        {/* Pattern overlay */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '32px 32px' }} />
+        </div>
+        
         <div className="container relative mx-auto max-w-4xl">
-          <Link href="/programs">
-            <Button
-              variant="ghost"
-              className="mb-6 text-white hover:bg-white/20"
-            >
-              ← Back to Programs
-            </Button>
+          <Link href="/programs" className="inline-flex items-center gap-2 text-white/80 hover:text-white transition-colors mb-6">
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+            <span className="text-sm font-medium">Back to Programs</span>
           </Link>
 
-          <h1 className="mb-4 text-5xl font-bold text-white">
+          <h1 className="mb-3 text-3xl md:text-5xl font-bold text-white leading-tight">
             {program.title}
           </h1>
-          <p className="text-xl text-blue-100">{program.description}</p>
+          <p className="text-lg md:text-xl text-blue-100 max-w-2xl">
+            {program.description}
+          </p>
 
-          <div className="mt-8 flex flex-wrap gap-4">
+          <div className="mt-6 md:mt-8 flex flex-col sm:flex-row gap-3">
             <Button
               asChild
-              className="bg-white text-blue-600 hover:bg-gray-100"
+              className="bg-white text-blue-600 hover:bg-gray-100 px-6 py-3 text-base font-semibold"
             >
               <Link href="/#contact">Enroll Now</Link>
             </Button>
             <Button
               asChild
-              className="bg-white/20 text-white hover:bg-white/30"
+              variant="outline"
+              className="bg-transparent border-2 border-white/30 text-white hover:bg-white/10 px-6 py-3 text-base font-semibold"
             >
-              <a href="#accordion">View Details</a>
+              <a href="#details">View Details</a>
             </Button>
           </div>
         </div>
       </div>
 
       {/* Main Content */}
-      <div className="container mx-auto max-w-3xl px-4 py-16">
+      <div className="container mx-auto max-w-4xl px-4 py-8 md:py-12 pb-24 md:pb-12">
         {/* Quick Stats */}
-        <div className="mb-12 grid gap-4 sm:grid-cols-3">
+        <div className="mb-10 grid gap-3 sm:grid-cols-3 -mx-4 px-4 sm:mx-0 sm:px-0 sm:grid-cols-3">
           {[
             {
               icon: Shield,
@@ -179,25 +185,25 @@ export default async function ProgramDetailPage({
             return (
               <div
                 key={idx}
-                className="rounded-lg bg-white p-4 text-center shadow-sm"
+                className="rounded-xl bg-white p-5 text-center shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-200"
               >
-                <Icon className="mb-2 h-8 w-8 text-blue-600 mx-auto" />
+                <Icon className="mb-3 h-9 w-9 text-blue-600 mx-auto" />
                 <h3 className="font-bold text-gray-900">{item.title}</h3>
-                <p className="text-sm text-gray-600">{item.desc}</p>
+                <p className="text-sm text-gray-500 mt-1">{item.desc}</p>
               </div>
             );
           })}
         </div>
 
         {/* Accordion Sections */}
-        <div id="accordion" className="space-y-4">
+        <div id="details" className="space-y-4">
           {/* Overview Section */}
           <AccordionItem title="✓ What's Included" defaultOpen={true}>
-            <div className="space-y-3">
+            <div className="grid gap-3 sm:grid-cols-2">
               {program.features.map((feature, idx) => (
-                <div key={idx} className="flex gap-3">
+                <div key={idx} className="flex gap-3 items-start">
                   <Check className="mt-0.5 h-5 w-5 flex-shrink-0 text-green-600" />
-                  <span>{feature}</span>
+                  <span className="text-gray-700">{feature}</span>
                 </div>
               ))}
             </div>
@@ -280,31 +286,31 @@ export default async function ProgramDetailPage({
           {program.hospitalizationRates &&
             program.hospitalizationRates.length > 0 && (
               <AccordionItem title="📊 Coverage by Member Type">
-                <div className="overflow-x-auto">
-                  <table className="w-full text-sm">
+                <div className="overflow-x-auto -mx-5 px-5 md:mx-0 md:px-0">
+                  <table className="w-full text-sm min-w-[280px]">
                     <thead>
-                      <tr className="border-b-2 border-gray-300">
-                        <th className="px-3 py-2 text-left font-bold text-gray-900">
-                          Member
+                      <tr className="border-b-2 border-gray-200">
+                        <th className="px-3 py-3 text-left font-bold text-gray-900">
+                          Member Type
                         </th>
-                        <th className="px-3 py-2 text-left font-bold text-gray-900">
+                        <th className="px-3 py-3 text-left font-bold text-gray-900">
                           Monthly
                         </th>
-                        <th className="px-3 py-2 text-left font-bold text-blue-600">
+                        <th className="px-3 py-3 text-left font-bold text-blue-600">
                           Annual
                         </th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-gray-200">
+                    <tbody className="divide-y divide-gray-100">
                       {program.hospitalizationRates.map((rate, index) => (
-                        <tr key={index}>
-                          <td className="px-3 py-2 font-semibold text-gray-900">
+                        <tr key={index} className="hover:bg-gray-50 transition-colors">
+                          <td className="px-3 py-3 font-semibold text-gray-900">
                             {rate.category}
                           </td>
-                          <td className="px-3 py-2 text-gray-700">
+                          <td className="px-3 py-3 text-gray-700">
                             {rate.monthly || "—"}
                           </td>
-                          <td className="px-3 py-2 font-semibold text-blue-600">
+                          <td className="px-3 py-3 font-semibold text-blue-600">
                             {rate.annual || "—"}
                           </td>
                         </tr>
@@ -357,23 +363,40 @@ export default async function ProgramDetailPage({
         </div>
 
         {/* CTA Section */}
-        <section className="mt-12 rounded-2xl bg-gradient-to-r from-blue-600 to-blue-800 p-8 text-center text-white">
-          <h2 className="mb-3 text-3xl font-bold">Ready to Join?</h2>
-          <p className="mb-6 text-blue-100">
-            Start your journey to better healthcare with {program.title} today
-          </p>
-          <div className="flex flex-col gap-3 sm:flex-row sm:justify-center">
-            <Button asChild className="bg-white text-blue-600 hover:bg-blue-50">
-              <Link href="/#contact">Enroll Now</Link>
-            </Button>
-            <Button
-              asChild
-              className="bg-blue-700 text-white hover:bg-blue-600 border border-white"
-            >
-              <a href="/programs">Compare Plans</a>
-            </Button>
+        <section className="mt-10 md:mt-12 rounded-2xl bg-gradient-to-r from-blue-600 to-blue-800 p-6 md:p-10 text-center text-white relative overflow-hidden">
+          {/* Glow effect */}
+          <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+          <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/10 rounded-full blur-2xl translate-y-1/2 -translate-x-1/2" />
+          
+          <div className="relative">
+            <h2 className="mb-3 text-2xl md:text-3xl font-bold">Ready to Join?</h2>
+            <p className="mb-6 text-blue-100 max-w-md mx-auto">
+              Start your journey to better healthcare with {program.title} today
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+              <Button asChild className="bg-white text-blue-600 hover:bg-blue-50 px-8 py-3 text-base font-semibold">
+                <Link href="/#contact">Enroll Now</Link>
+              </Button>
+              <Button
+                asChild
+                variant="outline"
+                className="bg-transparent border-2 border-white/40 text-white hover:bg-white/10 px-8 py-3 text-base font-semibold"
+              >
+                <Link href="/programs">Compare Plans</Link>
+              </Button>
+            </div>
           </div>
         </section>
+      </div>
+
+      {/* Mobile Sticky CTA */}
+      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-3 md:hidden z-40 flex gap-3 shadow-lg">
+        <Button asChild className="flex-1 bg-blue-600 hover:bg-blue-700 py-3">
+          <Link href="/#contact">Enroll Now</Link>
+        </Button>
+        <Button asChild variant="outline" className="px-4 py-3 border-gray-300">
+          <Link href="/programs">All Plans</Link>
+        </Button>
       </div>
     </main>
   );
