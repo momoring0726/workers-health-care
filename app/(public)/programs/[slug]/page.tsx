@@ -147,7 +147,7 @@ export default async function ProgramDetailPage({
               asChild
               className="bg-white text-blue-600 hover:bg-gray-100 px-6 py-3 text-base font-semibold"
             >
-              <Link href="/#contact" scroll={false}>Contact Now</Link>
+              <Link href="/#contact">Contact Now</Link>
             </Button>
             <Button
               asChild
@@ -375,7 +375,7 @@ export default async function ProgramDetailPage({
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <Button asChild className="bg-white text-blue-600 hover:bg-blue-50 px-8 py-3 text-base font-semibold">
-                <Link href="/#contact" scroll={false}>Contact Now</Link>
+                <Link href="/#contact">Contact Now</Link>
               </Button>
               <Button
                 asChild
@@ -392,7 +392,7 @@ export default async function ProgramDetailPage({
       {/* Mobile Sticky CTA */}
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-3 md:hidden z-40 flex gap-3 shadow-lg">
         <Button asChild className="flex-1 bg-blue-600 hover:bg-blue-700 py-3">
-          <Link href="/#contact" scroll={false}>Contact Now</Link>
+          <Link href="/#contact">Contact Now</Link>
         </Button>
         <Button asChild variant="outline" className="px-4 py-3 border-gray-300">
           <Link href="/programs">All Plans</Link>
