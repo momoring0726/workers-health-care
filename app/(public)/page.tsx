@@ -18,6 +18,8 @@ export const metadata: Metadata = {
     "Protect your health and future with the best HMO and health insurance plans for workers in General Santos City (Gensan), South Cotabato, and Sultan Kudarat.",
 };
 
+export const revalidate = 604800;
+
 async function getPrograms(): Promise<SanityProgram[]> {
   try {
     const programs = await publicClient.fetch(
