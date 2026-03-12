@@ -11,7 +11,7 @@ export async function ContactSectionContent() {
     contact?.address || "123 Worker Ave, Suite 100\nGeneral Santos City, PH";
 
   return (
-    <section id="contact" className="py-20 bg-blue-50">
+    <section id="contact" className="py-20 bg-blue-50 scroll-mt-20">
       <div className="container mx-auto px-4">
         <div className="mx-auto max-w-6xl">
           {/* Section Header */}
