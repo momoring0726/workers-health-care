@@ -40,10 +40,16 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# build output
+/dist/
+
+# editor & agent config
+/.vscode/
+/.agents/
+
 # ignore docs folder (attachments)
 /docs/
 REFACTORING_GUIDE.md
-.gitignore
 Program Description_Plan 300.docx
 PROGRAM DESCRIPTION_Plan 7000.docx
 PROGRAMS_IMPLEMENTATION.md

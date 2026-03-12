@@ -1,37 +1,10 @@
 import Link from "next/link";
 import React from "react";
-import { publicClient } from "@/sanity/lib/client-public";
-import { CONTACT_QUERY } from "@/sanity/lib/queries";
-import { REVALIDATION_CONFIG } from "@/lib/cache-config";
-
-interface ContactData {
-  _id: string;
-  email: string;
-  phones: string[];
-  address: string;
-}
-
-async function getContactData(): Promise<ContactData | null> {
-  try {
-    const data = await publicClient.fetch(
-      CONTACT_QUERY,
-      {},
-      {
-        next: {
-          revalidate: 604800, // Daily updates for contact info
-          tags: REVALIDATION_CONFIG.contact.tags,
-        },
-      },
-    );
-    return data || null;
-  } catch (error) {
-    console.error("Error fetching contact data:", error);
-    return null;
-  }
-}
+import Image from "next/image";
+import { fetchContactData } from "@/lib/data-fetching";
 
 export async function FooterContent() {
-  const contact = await getContactData();
+  const contact = await fetchContactData();
 
   // Fallback values if no data from Sanity
   const email = contact?.email || "info@workershealthcare.example";
@@ -44,10 +17,13 @@ export async function FooterContent() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
             <Link href="/" className="flex items-center gap-3">
-              <img src="/WHC%20LOGO.png" alt="WHC" className="h-10 w-auto" />
-              <span className="text-xl font-bold text-gray-900">
-                Workers Health Care
-              </span>
+              <Image
+                src="/whc-banner.png"
+                alt="WHC Banner"
+                width={1200}
+                height={300}
+                className="h-7 sm:h-8 md:h-10 w-auto object-contain"
+              />
             </Link>
             <p className="mt-4 text-sm text-gray-600 max-w-sm">
               We provide affordable HMO plans and clear guidance to help workers
@@ -98,8 +74,8 @@ export async function FooterContent() {
           <div>
             <h4 className="text-sm font-semibold text-gray-900">Contact</h4>
             <ul className="mt-4 space-y-2 text-gray-600 text-sm">
-              {phones.map((phoneNumber, index) => (
-                <li key={index}>
+              {phones.map((phoneNumber) => (
+                <li key={phoneNumber}>
                   <a
                     href={`tel:${phoneNumber}`}
                     className="hover:text-blue-600"

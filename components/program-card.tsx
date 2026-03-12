@@ -8,95 +8,105 @@ interface ProgramCardProps {
   isHighlighted: boolean;
 }
 
-/**
- * ProgramCard Component
- * Displays a single program as a card in the grid
- * - Shows program title, pricing, description
- * - Features 4 sample benefits with expand option
- * - Highlights popular plans with badge and styling
- * - Context7: Focused, single-responsibility component
- */
+interface PricingTier {
+  label: string;
+  key: keyof SanityProgram["pricing"];
+}
+
+const PRICING_TIERS: PricingTier[] = [
+  { label: "Principal", key: "principal" },
+  { label: "Spouse", key: "spouse" },
+  { label: "Child", key: "child" },
+  { label: "Parent", key: "parent" },
+  { label: "Sibling", key: "sibling" },
+];
+
 export function ProgramCard({ program, isHighlighted }: ProgramCardProps) {
   return (
     <div
-      className={`group relative flex h-full flex-col overflow-hidden rounded-2xl transition-all duration-500 hover:-translate-y-2 ${isHighlighted
-          ? "border-0 bg-slate-900 shadow-2xl shadow-indigo-900/20 ring-1 ring-indigo-500/30"
-          : "border border-slate-200 bg-white shadow-xl shadow-slate-200/50 hover:shadow-2xl hover:shadow-slate-300/50"
-        }`}
+      className={`group relative overflow-hidden rounded-2xl border-2 transition-all duration-300 hover:shadow-xl ${
+        isHighlighted
+          ? "border-blue-500 bg-white shadow-lg shadow-blue-900/10"
+          : "border-slate-200 bg-white shadow-sm hover:border-slate-300"
+      }`}
     >
-      {/* Background glow effects for highlighted card */}
-      {isHighlighted && (
-        <>
-          <div className="absolute -right-32 -top-32 h-64 w-64 rounded-full bg-indigo-500/20 blur-[80px] transition-opacity duration-500 group-hover:bg-indigo-500/30"></div>
-          <div className="absolute -bottom-32 -left-32 h-64 w-64 rounded-full bg-cyan-500/10 blur-[60px]"></div>
-        </>
-      )}
+      {/* Top accent bar */}
+      <div className={`h-1.5 ${isHighlighted ? "bg-blue-500" : "bg-slate-200"}`} />
 
-      {/* Popular Badge */}
-      {isHighlighted && (
-        <div className="absolute left-0 top-0 z-10 w-full px-6 pt-6">
-          <div className="inline-flex items-center rounded-full border border-indigo-400/30 bg-indigo-500/10 px-3 py-1 backdrop-blur-md">
-            <span className="mr-1.5 h-1.5 w-1.5 rounded-full bg-indigo-400 shadow-[0_0_8px_rgba(129,140,248,0.8)]"></span>
-            <span className="text-xs font-bold tracking-wide text-indigo-300 uppercase">Most Popular</span>
-          </div>
-        </div>
-      )}
+      <div className="flex flex-col lg:flex-row">
+        {/* Left Section - Plan Info */}
+        <div className="flex-1 p-6 lg:p-8 lg:border-r lg:border-slate-100">
+          {/* Popular Badge */}
+          {isHighlighted && (
+            <div className="mb-4 inline-flex items-center gap-1.5 rounded-full bg-blue-50 px-3 py-1">
+              <span className="h-2 w-2 rounded-full bg-blue-500 animate-pulse"></span>
+              <span className="text-xs font-bold text-blue-700">Most Popular</span>
+            </div>
+          )}
 
-      {/* Plan Header */}
-      <div className={`relative z-10 px-8 pb-6 ${isHighlighted ? "pt-16" : "pt-8"}`}>
-        <h2 className={`text-2xl font-bold tracking-tight ${isHighlighted ? "text-white" : "text-slate-900"}`}>
-          {program.title}
-        </h2>
-        <div className="mt-4 flex items-baseline gap-2">
-          <div className={`text-3xl font-extrabold tracking-tight ${isHighlighted ? "text-indigo-300" : "text-indigo-600"}`}>
-            {program.pricing.principal || program.pricing.annual || "Custom"}
-          </div>
-          <div className={`text-sm font-medium ${isHighlighted ? "text-slate-400" : "text-slate-500"}`}>
-            / starting
-          </div>
-        </div>
-      </div>
+          <h2 className={`text-2xl font-bold ${isHighlighted ? "text-blue-900" : "text-slate-900"}`}>
+            {program.title}
+          </h2>
+          <p className="mt-2 text-slate-600">{program.description}</p>
 
-      {/* Description */}
-      <div className={` relative z-10 flex flex-grow flex-col px-8 pb-8 ${isHighlighted ? "text-slate-300" : "text-slate-600"}`}>
-        <p className="mb-8 text-sm leading-relaxed opacity-90">
-          {program.description}
-        </p>
-
-        {/* Features List */}
-        <div className="mb-8 space-y-4">
-          <div className={`text-xs font-semibold uppercase tracking-wider ${isHighlighted ? "text-slate-400" : "text-slate-500"}`}>
-            What's included
-          </div>
-          <ul className="space-y-3">
-            {program.features.slice(0, 4).map((feature, index) => (
-              <li key={index} className="flex items-start gap-3">
-                <div className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full ${isHighlighted ? "bg-indigo-500/20 text-indigo-300" : "bg-indigo-50 text-indigo-600"}`}>
-                  <Check className="h-3 w-3 stroke-[3]" />
-                </div>
-                <span className={`text-sm ${isHighlighted ? "text-slate-300" : "text-slate-700"}`}>{feature}</span>
-              </li>
+          {/* Key Features Preview */}
+          <div className="mt-6 space-y-2">
+            {program.features.slice(0, 3).map((feature, index) => (
+              <div key={index} className="flex items-start gap-2">
+                <Check className={`mt-0.5 h-4 w-4 ${isHighlighted ? "text-blue-500" : "text-slate-400"}`} />
+                <span className="text-sm text-slate-700">{feature}</span>
+              </div>
             ))}
-            {program.features.length > 4 && (
-              <li className={`text-sm font-medium ${isHighlighted ? "text-indigo-400" : "text-indigo-600"}`}>
-                + {program.features.length - 4} additional benefits
-              </li>
+            {program.features.length > 3 && (
+              <p className={`text-sm font-medium ${isHighlighted ? "text-blue-600" : "text-slate-500"}`}>
+                + {program.features.length - 3} more benefits
+              </p>
             )}
-          </ul>
+          </div>
         </div>
 
-        {/* CTA Button */}
-        <div className="mt-auto pt-2">
+        {/* Center Section - Family Pricing */}
+        <div className="flex-1 border-t border-slate-100 bg-slate-50/50 p-6 lg:border-t-0 lg:p-8">
+          <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-slate-500">
+            Monthly Pricing
+          </h3>
+          <div className="space-y-3">
+            {PRICING_TIERS.map((tier) => {
+              const price = program.pricing[tier.key];
+              return (
+                <div key={tier.key} className="flex items-center justify-between">
+                  <span className="text-sm text-slate-600">{tier.label}</span>
+                  <span className={`font-semibold ${isHighlighted ? "text-blue-700" : "text-slate-900"}`}>
+                    {price || "—"}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+          
+          {program.pricing.annual && (
+            <div className="mt-6 pt-4 border-t border-slate-200">
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-slate-600">Annual (Principal)</span>
+                <span className={`font-bold ${isHighlighted ? "text-blue-700" : "text-slate-900"}`}>
+                  {program.pricing.annual}
+                </span>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Right Section - CTA */}
+        <div className="flex flex-col justify-center border-t border-slate-100 p-6 lg:border-t-0 lg:border-l lg:p-8 lg:text-center">
           <Button
             asChild
-            className={`w-full group/btn relative overflow-hidden rounded-xl font-semibold transition-all duration-300 ${isHighlighted
-                ? "bg-indigo-500 text-white hover:bg-indigo-600 shadow-lg shadow-indigo-500/25"
-                : "bg-slate-100 text-slate-900 hover:bg-slate-200"
+            className={`w-full lg:w-auto ${isHighlighted
+                ? "bg-blue-600 text-white hover:bg-blue-700"
+                : "bg-slate-900 text-white hover:bg-slate-800"
               }`}
           >
-            <Link href={`/programs/${program.slug.current}`} className="flex items-center justify-center gap-2">
-              <span>View Full Details</span>
-              <span className="transition-transform duration-300 group-hover/btn:translate-x-1">→</span>
+            <Link href={`/programs/${program.slug.current}`}>
+              View Plan Details
             </Link>
           </Button>
         </div>
