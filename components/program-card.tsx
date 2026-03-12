@@ -109,9 +109,6 @@ export function ProgramCard({ program, isHighlighted }: ProgramCardProps) {
               View Plan Details
             </Link>
           </Button>
-          <p className="mt-3 text-xs text-slate-500">
-            30-day money-back guarantee
-          </p>
         </div>
       </div>
     </div>

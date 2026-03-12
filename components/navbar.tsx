@@ -6,7 +6,7 @@ import { MobileMenu } from "./mobile-menu";
 export function Navbar() {
 
   return (
-    <nav className="sticky top-0 z-50 w-full bg-white shadow-md border-b border-gray-200">
+    <nav className="fixed top-0 z-50 w-full bg-white shadow-md border-b border-gray-200">
       <div className="relative container mx-auto px-4">
         <div className="flex items-center justify-between py-4 lg:py-3">
           <Link href="/" className="hover:text-blue-600 transition-colors">

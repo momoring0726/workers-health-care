@@ -56,7 +56,7 @@ export default async function ProgramsPage() {
         <div className="absolute inset-0 opacity-30">
           <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIwLjEiLz48L3N2Zz4=')]"></div>
         </div>
-        
+
         {/* Decorative Elements */}
         <div className="absolute -right-20 top-10 h-80 w-80 rounded-full bg-blue-500/10 blur-3xl"></div>
         <div className="absolute -left-20 bottom-10 h-60 w-60 rounded-full bg-cyan-500/10 blur-3xl"></div>
@@ -72,21 +72,52 @@ export default async function ProgramsPage() {
               <span className="text-blue-400">Every Budget</span>
             </h1>
             <p className="mx-auto max-w-xl text-lg text-blue-100/80">
-              Comprehensive HMO coverage for you and your family. Choose from flexible plans designed to protect what matters most.
+              Comprehensive HMO coverage for you and your family. Choose from
+              flexible plans designed to protect what matters most.
             </p>
-            
+
             {/* Trust Badges */}
             <div className="mt-10 flex flex-wrap items-center justify-center gap-8 text-sm text-blue-200/70">
               <div className="flex items-center gap-2">
-                <svg className="h-5 w-5 text-blue-400" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/></svg>
+                <svg
+                  className="h-5 w-5 text-blue-400"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                    clipRule="evenodd"
+                  />
+                </svg>
                 <span>24/7 Support</span>
               </div>
               <div className="flex items-center gap-2">
-                <svg className="h-5 w-5 text-blue-400" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/></svg>
-                <span>100+ Network Hospitals</span>
+                <svg
+                  className="h-5 w-5 text-blue-400"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+                <span>50+ Network Hospitals</span>
               </div>
               <div className="flex items-center gap-2">
-                <svg className="h-5 w-5 text-blue-400" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/></svg>
+                <svg
+                  className="h-5 w-5 text-blue-400"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                    clipRule="evenodd"
+                  />
+                </svg>
                 <span>Instant Coverage</span>
               </div>
             </div>
@@ -106,9 +137,12 @@ export default async function ProgramsPage() {
           <>
             <div className="mb-10 text-center">
               <p className="text-lg font-semibold text-blue-600">
-                {programs.length} Plan{programs.length !== 1 ? "s" : ""} Available
+                {programs.length} Plan{programs.length !== 1 ? "s" : ""}{" "}
+                Available
               </p>
-              <p className="mt-2 text-slate-600">Select a plan that fits your family's needs</p>
+              <p className="mt-2 text-slate-600">
+                Select a plan that fits your family's needs
+              </p>
             </div>
 
             {/* Programs Grid - Stacked Horizontal Cards */}

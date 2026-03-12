@@ -1,12 +1,14 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
 
 export function Hero() {
   return (
-    <section className="bg-gradient-to-r from-white via-blue-50 to-white py-24">
+    <section className="relative min-h-[calc(100vh-56px)] flex items-center bg-gradient-to-r from-white via-blue-50 to-white overflow-hidden">
       <div className="container mx-auto px-4">
-        <div className="flex flex-col md:flex-row items-center justify-center gap-6">
+        <div className="flex flex-col md:flex-row items-center justify-center gap-8">
           <div className="text-center md:text-left md:max-w-xl order-last md:order-first">
             <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl md:text-6xl">
               <span className="block">Quality Health Care</span>

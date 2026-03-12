@@ -19,7 +19,7 @@ export function MobileMenu() {
             </button>
 
             {isOpen && (
-                <div className="absolute top-full left-0 right-0 w-full lg:hidden border-t border-gray-200 bg-white shadow-md z-50">
+                <div className="fixed left-0 right-0 w-full lg:hidden border-t border-gray-200 bg-white shadow-md z-40">
                     <div className="flex flex-col gap-4 px-4 py-4">
                         <Link
                             href="/"
