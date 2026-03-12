@@ -2,6 +2,7 @@
 
 import React, { useCallback, useEffect, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
+import Image from "next/image";
 import { pptSlides as slides } from "@/lib/content";
 
 export function PptCarousel() {
@@ -69,9 +70,11 @@ export function PptCarousel() {
                   key={index}
                   className="min-w-full flex-shrink-0 flex items-center justify-center relative"
                 >
-                  <img
+                  <Image
                     src={`/WHC-PPT/${name}`}
                     alt={`Slide ${index + 1}`}
+                    width={800}
+                    height={600}
                     className="w-auto max-w-[640px] sm:max-w-[720px] md:max-w-[800px] h-auto max-h-[40vh] sm:max-h-[60vh] md:max-h-[70vh] object-contain mx-auto"
                     loading="lazy"
                   />

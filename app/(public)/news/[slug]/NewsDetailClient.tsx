@@ -3,23 +3,13 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
+import { PortableText } from "@portabletext/react";
+import { PortableTextComponents } from "@portabletext/react";
 
 interface ImageItem {
   url: string;
   alt?: string;
   caption?: string;
-}
-
-interface ContentBlock {
-  _type: string;
-  _key: string;
-  children?: Array<{
-    _type: string;
-    text: string;
-    marks?: string[];
-  }>;
-  style?: string;
-  listItem?: string;
 }
 
 export function NewsImageCarousel({ images }: { images: ImageItem[] }) {
@@ -74,11 +64,10 @@ export function NewsImageCarousel({ images }: { images: ImageItem[] }) {
         <div className="relative w-full overflow-hidden rounded-2xl shadow-2xl h-[500px]">
           <button
             onClick={prevImage}
-            className={`absolute left-4 top-1/2 -translate-y-1/2 z-20 p-3 bg-black/40 hover:bg-black/60 backdrop-blur-sm rounded-full transition-all ${
-              images.length > 1
+            className={`absolute left-4 top-1/2 -translate-y-1/2 z-20 p-3 bg-black/40 hover:bg-black/60 backdrop-blur-sm rounded-full transition-all ${images.length > 1
                 ? "opacity-100"
                 : "opacity-0 pointer-events-none"
-            }`}
+              }`}
             aria-label="Previous image"
           >
             <ChevronLeft className="w-6 h-6 text-white" />
@@ -106,11 +95,10 @@ export function NewsImageCarousel({ images }: { images: ImageItem[] }) {
 
           <button
             onClick={nextImage}
-            className={`absolute right-4 top-1/2 -translate-y-1/2 z-20 p-3 bg-black/40 hover:bg-black/60 backdrop-blur-sm rounded-full transition-all ${
-              images.length > 1
+            className={`absolute right-4 top-1/2 -translate-y-1/2 z-20 p-3 bg-black/40 hover:bg-black/60 backdrop-blur-sm rounded-full transition-all ${images.length > 1
                 ? "opacity-100"
                 : "opacity-0 pointer-events-none"
-            }`}
+              }`}
             aria-label="Next image"
           >
             <ChevronRight className="w-6 h-6 text-white" />
@@ -122,11 +110,10 @@ export function NewsImageCarousel({ images }: { images: ImageItem[] }) {
                 <button
                   key={idx}
                   onClick={() => setCurrentImageIndex(idx)}
-                  className={`w-2 h-2 rounded-full transition-all duration-200 ${
-                    idx === currentImageIndex
+                  className={`w-2 h-2 rounded-full transition-all duration-200 ${idx === currentImageIndex
                       ? "bg-white w-8"
                       : "bg-white/40 hover:bg-white/60"
-                  }`}
+                    }`}
                   aria-label={`Go to image ${idx + 1}`}
                 />
               ))}
@@ -196,11 +183,10 @@ export function NewsImageCarousel({ images }: { images: ImageItem[] }) {
                 <button
                   key={index}
                   onClick={() => setLightboxIndex(index)}
-                  className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                    index === lightboxIndex
+                  className={`w-2 h-2 rounded-full transition-all duration-300 ${index === lightboxIndex
                       ? "bg-white w-8"
                       : "bg-white/40 hover:bg-white/60"
-                  }`}
+                    }`}
                   aria-label={`Go to image ${index + 1}`}
                 />
               ))}
@@ -212,89 +198,40 @@ export function NewsImageCarousel({ images }: { images: ImageItem[] }) {
   );
 }
 
-export function ContentRenderer({ content }: { content: ContentBlock[] }) {
+const portableTextComponents: PortableTextComponents = {
+  block: {
+    h2: ({ children }) => (
+      <h2 className="text-3xl font-bold mt-12 mb-6 text-slate-900">{children}</h2>
+    ),
+    h3: ({ children }) => (
+      <h3 className="text-2xl font-semibold mt-10 mb-5 text-slate-800">{children}</h3>
+    ),
+    h4: ({ children }) => (
+      <h4 className="text-xl font-semibold mt-8 mb-4 text-slate-800">{children}</h4>
+    ),
+    blockquote: ({ children }) => (
+      <blockquote className="border-l-4 border-emerald-500 pl-6 py-2 my-8 italic text-lg text-slate-700 bg-emerald-50/50">
+        {children}
+      </blockquote>
+    ),
+    normal: ({ children }) => (
+      <p className="mb-6 text-slate-700 leading-relaxed text-lg">{children}</p>
+    ),
+  },
+  list: {
+    bullet: ({ children }) => <ul className="list-disc ml-6 mb-6 space-y-2 text-slate-700 text-lg">{children}</ul>,
+    number: ({ children }) => <ol className="list-decimal ml-6 mb-6 space-y-2 text-slate-700 text-lg">{children}</ol>,
+  },
+  listItem: {
+    bullet: ({ children }) => <li className="leading-relaxed">{children}</li>,
+    number: ({ children }) => <li className="leading-relaxed">{children}</li>,
+  },
+};
+
+export function ContentRenderer({ content }: { content: any[] }) {
   return (
     <div className="prose prose-lg max-w-none">
-      {content.map((block) => {
-        if (block._type === "block") {
-          const text =
-            block.children?.map((child) => child.text).join("") || "";
-
-          switch (block.style) {
-            case "h2":
-              return (
-                <h2
-                  key={block._key}
-                  className="text-3xl font-bold mt-12 mb-6 text-slate-900"
-                >
-                  {text}
-                </h2>
-              );
-            case "h3":
-              return (
-                <h3
-                  key={block._key}
-                  className="text-2xl font-semibold mt-10 mb-5 text-slate-800"
-                >
-                  {text}
-                </h3>
-              );
-            case "h4":
-              return (
-                <h4
-                  key={block._key}
-                  className="text-xl font-semibold mt-8 mb-4 text-slate-800"
-                >
-                  {text}
-                </h4>
-              );
-            case "blockquote":
-              return (
-                <blockquote
-                  key={block._key}
-                  className="border-l-4 border-emerald-500 pl-6 py-2 my-8 italic text-lg text-slate-700 bg-emerald-50/50"
-                >
-                  {text}
-                </blockquote>
-              );
-            default:
-              if (block.listItem === "bullet") {
-                return (
-                  <li
-                    key={block._key}
-                    className="ml-6 mb-2 text-slate-700 leading-relaxed"
-                  >
-                    {text}
-                  </li>
-                );
-              }
-              if (block.listItem === "number") {
-                return (
-                  <li
-                    key={block._key}
-                    className="ml-6 mb-2 text-slate-700 leading-relaxed list-decimal"
-                  >
-                    {text}
-                  </li>
-                );
-              }
-              return (
-                <p
-                  key={block._key}
-                  className="mb-6 text-slate-700 leading-relaxed text-lg"
-                >
-                  {text}
-                </p>
-              );
-          }
-        }
-
-        if (block._type === "image") {
-          return null;
-        }
-
-        return null;
-      })}
+      <PortableText value={content} components={portableTextComponents} />
     </div>
   );
 }

@@ -3,15 +3,16 @@ import { publicClient } from "@/sanity/lib/client-public";
 import { PROGRAMS_QUERY } from "@/sanity/lib/queries";
 import type { SanityProgram } from "@/types";
 import { ProgramsGrid } from "@/components/programs-grid";
-import { ComparisonTable } from "@/components/comparison-table";
 import { HelpSection } from "@/components/help-section";
 import { REVALIDATION_CONFIG } from "@/lib/cache-config";
 
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Health Insurance Programs | South Cotabato & Gensan Coverage",
-  description: "Explore comprehensive health insurance programs and plans for workers in General Santos City and South Cotabato.",
+  title:
+    "HMO plans | General Santos City (Gensan), South Cotabato, Sultan Kudarat",
+  description:
+    "Explore comprehensive health insurance programs and plans for workers in General Santos City (Gensan), South Cotabato, and Sultan Kudarat.",
 };
 
 // ISR: Revalidate every 60 seconds for programs
@@ -49,34 +50,83 @@ export default async function ProgramsPage() {
 
   return (
     <main className="min-h-screen bg-slate-50">
-      {/* Hero Section - Premium Dark Aesthetic */}
-      <div className="relative overflow-hidden bg-slate-950 py-24 pb-32 lg:py-32 lg:pb-40">
-        {/* Abstract Background Gradients */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-indigo-900/40 via-slate-950 to-slate-950"></div>
-        <div className="absolute -left-1/4 -top-1/4 h-[800px] w-[800px] rounded-full bg-cyan-900/20 blur-[120px]"></div>
-        <div className="absolute -right-1/4 bottom-0 h-[600px] w-[600px] rounded-full bg-blue-900/20 blur-[100px]"></div>
+      {/* Hero Section - Corporate Professional */}
+      <div className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 py-20 lg:py-28">
+        {/* Background Pattern */}
+        <div className="absolute inset-0 opacity-30">
+          <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIwLjEiLz48L3N2Zz4=')]"></div>
+        </div>
 
-        {/* Subtle Grid Overlay */}
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wNSkiLz48L3N2Zz4=')] opacity-50"></div>
+        {/* Decorative Elements */}
+        <div className="absolute -right-20 top-10 h-80 w-80 rounded-full bg-blue-500/10 blur-3xl"></div>
+        <div className="absolute -left-20 bottom-10 h-60 w-60 rounded-full bg-cyan-500/10 blur-3xl"></div>
 
         <div className="container relative z-10 mx-auto px-4">
-          <div className="mx-auto max-w-4xl text-center">
-            <span className="mb-6 inline-flex items-center rounded-full border border-indigo-500/30 bg-indigo-500/10 px-4 py-1.5 text-sm font-medium text-indigo-300 backdrop-blur-sm">
-              <span className="mr-2 h-1.5 w-1.5 rounded-full bg-indigo-400"></span>
-              2026 Health coverage options
-            </span>
-            <h1 className="mb-6 bg-linear-to-b from-white to-slate-400 bg-clip-text text-5xl font-extrabold tracking-tight text-transparent sm:text-6xl lg:text-7xl">
-              Elevate Your Healthcare
+          <div className="mx-auto max-w-3xl text-center">
+            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-blue-400/30 bg-blue-500/10 px-4 py-1.5 text-sm font-medium text-blue-200">
+              <span className="h-2 w-2 rounded-full bg-green-400 animate-pulse"></span>
+              Trusted by 10,000+ Workers
+            </div>
+            <h1 className="mb-5 text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl">
+              Health Plans Built for{" "}
+              <span className="text-blue-400">Every Budget</span>
             </h1>
-            <p className="mx-auto max-w-2xl text-lg text-slate-400 sm:text-xl">
-              Discover unparalleled protection with our expertly crafted health plans. Premium coverage, 24/7 concierge support, and access to world-class medical networks.
+            <p className="mx-auto max-w-xl text-lg text-blue-100/80">
+              Comprehensive HMO coverage for you and your family. Choose from
+              flexible plans designed to protect what matters most.
             </p>
+
+            {/* Trust Badges */}
+            <div className="mt-10 flex flex-wrap items-center justify-center gap-8 text-sm text-blue-200/70">
+              <div className="flex items-center gap-2">
+                <svg
+                  className="h-5 w-5 text-blue-400"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+                <span>24/7 Support</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <svg
+                  className="h-5 w-5 text-blue-400"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+                <span>50+ Network Hospitals</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <svg
+                  className="h-5 w-5 text-blue-400"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+                <span>Instant Coverage</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
       {/* Programs Section */}
-      <div className="container relative z-20 mx-auto px-4 py-16">
+      <div className="container relative z-20 mx-auto px-4 py-12 lg:py-16">
         {programs.length === 0 ? (
           <div className="mx-auto max-w-2xl rounded-lg border border-yellow-200 bg-yellow-50 p-8 text-center">
             <p className="text-lg text-yellow-800">
@@ -85,18 +135,18 @@ export default async function ProgramsPage() {
           </div>
         ) : (
           <>
-            <div className="mb-8 text-center">
+            <div className="mb-10 text-center">
               <p className="text-lg font-semibold text-blue-600">
                 {programs.length} Plan{programs.length !== 1 ? "s" : ""}{" "}
                 Available
               </p>
+              <p className="mt-2 text-slate-600">
+                Select a plan that fits your family's needs
+              </p>
             </div>
 
-            {/* Programs Grid - Responsive */}
+            {/* Programs Grid - Stacked Horizontal Cards */}
             <ProgramsGrid programs={programs} />
-
-            {/* Comparison Table */}
-            <ComparisonTable programs={programs} />
 
             {/* Help Section */}
             <HelpSection />

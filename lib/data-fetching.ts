@@ -24,6 +24,7 @@ import type {
   NewsArticleDetail,
   Hospital,
 } from "@/types";
+import { REVALIDATION_CONFIG, getRevalidationOptions } from "@/lib/cache-config";
 
 /**
  * Fetch all programs from Sanity
@@ -31,7 +32,11 @@ import type {
  */
 export async function fetchPrograms(): Promise<SanityProgram[]> {
   try {
-    const programs = await publicClient.fetch(PROGRAMS_QUERY);
+    const programs = await publicClient.fetch(
+      PROGRAMS_QUERY,
+      {},
+      getRevalidationOptions(REVALIDATION_CONFIG.programs.tags, REVALIDATION_CONFIG.programs.interval)
+    );
     return programs || [];
   } catch (error) {
     console.error("Failed to fetch programs:", error);
@@ -49,7 +54,11 @@ export async function fetchProgramBySlug(
   slug: string,
 ): Promise<SanityProgram | null> {
   try {
-    const program = await publicClient.fetch(PROGRAM_BY_SLUG_QUERY, { slug });
+    const program = await publicClient.fetch(
+      PROGRAM_BY_SLUG_QUERY,
+      { slug },
+      getRevalidationOptions(REVALIDATION_CONFIG.programs.tags, REVALIDATION_CONFIG.programs.interval)
+    );
     return program || null;
   } catch (error) {
     console.error(`Failed to fetch program with slug ${slug}:`, error);
@@ -63,7 +72,11 @@ export async function fetchProgramBySlug(
  */
 export async function fetchProgramSlugs(): Promise<Array<{ slug: string }>> {
   try {
-    const slugs = await publicClient.fetch(PROGRAM_SLUGS_QUERY);
+    const slugs = await publicClient.fetch(
+      PROGRAM_SLUGS_QUERY,
+      {},
+      getRevalidationOptions(REVALIDATION_CONFIG.programs.tags, REVALIDATION_CONFIG.programs.interval)
+    );
     return slugs || [];
   } catch (error) {
     console.error("Failed to fetch program slugs:", error);
@@ -77,7 +90,11 @@ export async function fetchProgramSlugs(): Promise<Array<{ slug: string }>> {
  */
 export async function fetchFeaturedNews(): Promise<NewsArticle[]> {
   try {
-    const news = await publicClient.fetch(FEATURED_NEWS_QUERY);
+    const news = await publicClient.fetch(
+      FEATURED_NEWS_QUERY,
+      {},
+      getRevalidationOptions(REVALIDATION_CONFIG.news.tags, REVALIDATION_CONFIG.news.interval)
+    );
     return news || [];
   } catch (error) {
     console.error("Failed to fetch featured news:", error);
@@ -91,7 +108,11 @@ export async function fetchFeaturedNews(): Promise<NewsArticle[]> {
  */
 export async function fetchNewsSlugs(): Promise<Array<{ slug: string }>> {
   try {
-    const slugs = await publicClient.fetch(NEWS_SLUGS_QUERY);
+    const slugs = await publicClient.fetch(
+      NEWS_SLUGS_QUERY,
+      {},
+      getRevalidationOptions(REVALIDATION_CONFIG.news.tags, REVALIDATION_CONFIG.news.interval)
+    );
     return slugs || [];
   } catch (error) {
     console.error("Failed to fetch news slugs:", error);
@@ -107,7 +128,11 @@ export async function fetchNewsBySlug(
   slug: string,
 ): Promise<NewsArticleDetail | null> {
   try {
-    const article = await publicClient.fetch(NEWS_BY_SLUG_QUERY, { slug });
+    const article = await publicClient.fetch(
+      NEWS_BY_SLUG_QUERY,
+      { slug },
+      getRevalidationOptions(REVALIDATION_CONFIG.news.tags, REVALIDATION_CONFIG.news.interval)
+    );
     return article || null;
   } catch (error) {
     console.error(`Failed to fetch news article with slug ${slug}:`, error);
@@ -126,7 +151,11 @@ export async function fetchContactData(): Promise<{
   address: string;
 } | null> {
   try {
-    const contact = await publicClient.fetch(CONTACT_QUERY);
+    const contact = await publicClient.fetch(
+      CONTACT_QUERY,
+      {},
+      getRevalidationOptions(REVALIDATION_CONFIG.contact.tags, REVALIDATION_CONFIG.contact.interval)
+    );
     return contact || null;
   } catch (error) {
     console.error("Failed to fetch contact data:", error);
@@ -140,7 +169,11 @@ export async function fetchContactData(): Promise<{
  */
 export async function fetchHospitals(): Promise<Hospital[]> {
   try {
-    const hospitals = await publicClient.fetch(HOSPITALS_QUERY);
+    const hospitals = await publicClient.fetch(
+      HOSPITALS_QUERY,
+      {},
+      getRevalidationOptions(REVALIDATION_CONFIG.hospitals.tags, REVALIDATION_CONFIG.hospitals.interval)
+    );
     return hospitals || [];
   } catch (error) {
     console.error("Failed to fetch hospitals:", error);

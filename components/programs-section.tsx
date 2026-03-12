@@ -7,9 +7,6 @@ import Link from "next/link";
 import { Check, ArrowRight } from "lucide-react";
 import { REVALIDATION_CONFIG } from "@/lib/cache-config";
 
-// ISR: Revalidate every 60 seconds for programs
-export const revalidate = 604800;
-
 async function getPrograms(): Promise<SanityProgram[]> {
   try {
     const programs = await publicClient.fetch(
@@ -85,7 +82,7 @@ export async function ProgramsSection() {
                         {/* Badge */}
                         <div className="mb-8 inline-flex items-center rounded-full border border-indigo-400/30 bg-indigo-500/10 px-4 py-1.5 backdrop-blur-md">
                           <span className="mr-2 h-2 w-2 rounded-full bg-indigo-400 shadow-[0_0_8px_rgba(129,140,248,0.8)]"></span>
-                          <span className="text-xs font-bold tracking-wide text-indigo-300 uppercase">Premium Select</span>
+                          <span className="text-xs font-bold tracking-wide text-indigo-300 uppercase">Recommended Plan</span>
                         </div>
 
                         <div className="grid gap-10 md:grid-cols-2">

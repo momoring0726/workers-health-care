@@ -78,13 +78,14 @@ export function NewsFeedCarousel({ items }: { items: NewsItem[] }) {
   };
 
   const handleTouchEnd = (e: React.TouchEvent) => {
-    setTouchEnd(e.changedTouches[0].clientX);
-    handleSwipe();
+    const endX = e.changedTouches[0].clientX;
+    setTouchEnd(endX);
+    handleSwipe(endX);
   };
 
-  const handleSwipe = () => {
-    if (!touchStart || !touchEnd) return;
-    const distance = touchStart - touchEnd;
+  const handleSwipe = (endX: number) => {
+    if (!touchStart || !endX) return;
+    const distance = touchStart - endX;
     const isLeftSwipe = distance > 50;
     const isRightSwipe = distance < -50;
 

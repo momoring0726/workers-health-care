@@ -39,8 +39,9 @@ export default function HospitalsErrorPage({ error, reset }: ErrorProps) {
                   Error Loading Directory
                 </h2>
                 <p className="text-red-700 text-sm mb-4">
-                  {error?.message ||
-                    "An unexpected error occurred while loading the hospitals page."}
+                  {process.env.NODE_ENV === "development"
+                    ? error?.message || "An unexpected error occurred."
+                    : "An unexpected error occurred while loading the hospitals page."}
                 </p>
                 {error?.digest && (
                   <p className="text-xs text-red-600 font-mono">

@@ -33,6 +33,16 @@ export const importHospitalsAction: Tool = {
             body: formData,
           });
 
+          // Check if response is OK before parsing JSON
+          if (!response.ok) {
+            const contentType = response.headers.get("content-type") || "";
+            if (!contentType.includes("application/json")) {
+              throw new Error(
+                `Server returned ${response.status} ${response.statusText}. The API route may not be available.`
+              );
+            }
+          }
+
           const data: ImportResult = await response.json();
           setResult(data);
         } catch (error) {

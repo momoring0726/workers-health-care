@@ -41,8 +41,9 @@ export default function ProgramsErrorPage({ error, reset }: ErrorProps) {
                   Error Loading Content
                 </h2>
                 <p className="text-red-700 text-sm mb-4">
-                  {error?.message ||
-                    "An unexpected error occurred while loading the plans page."}
+                  {process.env.NODE_ENV === "development"
+                    ? error?.message || "An unexpected error occurred."
+                    : "An unexpected error occurred while loading the plans page."}
                 </p>
                 {error?.digest && (
                   <p className="text-xs text-red-600 font-mono">
