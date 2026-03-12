@@ -263,7 +263,7 @@ export default function HospitalsList({
         {/* Results Count */}
         <div className="mb-4 flex items-center justify-between">
           <p className="text-sm text-gray-600">
-            Showing <span className="font-semibold text-gray-900">{filteredAndSorted.length}</span> facility{filteredAndSorted.length !== 1 ? "s" : ""}
+            Showing <span className="font-semibold text-gray-900">{filteredAndSorted.length}</span> facilit{filteredAndSorted.length !== 1 ? "ies" : "y"}
             {query && <span> for "{query}"</span>}
           </p>
         </div>
